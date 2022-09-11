@@ -19,7 +19,9 @@ const AddTootPost = () => {
             width: {
                 xs: '97%',
                 sm: '90%'
-            }
+            },
+            
+          
         }}>
             <Img
                 className='cursor'

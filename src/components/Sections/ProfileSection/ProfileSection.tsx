@@ -14,7 +14,7 @@ const ProfileSection = () => (
             xs: '0%',
             md: "30%"
         },
-        maxWidth:'350px',
+        maxWidth: '350px',
         justifyContent: 'center'
     }}>
         <Box
@@ -73,7 +73,11 @@ const ProfileSection = () => (
                     asperiores blanditiis dolore necessitatibus!
                 </Typography>
             </Box>
-            <Button sx={{width:'100%'}}>Edit Profile</Button>
+            <Button
+                sx={{
+                color: '#00951c',
+                width: '100%'
+            }}>Edit Profile</Button>
         </Box>
     </Box>
 )

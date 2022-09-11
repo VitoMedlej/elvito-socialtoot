@@ -15,7 +15,7 @@ import {useState} from 'react';
 import AccountCircleSharpIcon from '@mui/icons-material/AccountCircleSharp';
 import Img from '../Img/Img';
 
-const pages = ['Profile', 'About', 'Logout'];
+const pages = [{title:'profile',href:`profile/id241f`}, {title:'About',href:'/about'}, {title:'Login',href:'/account/login'}];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const Navbar = () => {
@@ -64,14 +64,17 @@ const Navbar = () => {
                             mr: 1
                         }}/> */}
                         <Typography
+                        component="a"
+                        href='/'
                             sx={{
+                                textDecorations:'none',
                             display: {
                                 xs: 'none',
                                 md: 'flex'
                             },
                             fontWeight: 700,
                             fontSize: '1.3em',
-                            color: '#a604e9',
+                            color: '#00951c',
                             pb: '.25em',
                             mr:1
                         }}>
@@ -115,8 +118,8 @@ const Navbar = () => {
                                 }
                             }}>
                                 {pages && pages.map((page) => (
-                                    <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                        <Typography color='#000000ab' textAlign="center">{page}</Typography>
+                                    <MenuItem key={page.title} onClick={handleCloseNavMenu}>
+                                        <Typography color='#000000ab' textAlign="center">{page.title}</Typography>
                                     </MenuItem>
                                 ))}
                             </Menu>
@@ -133,9 +136,8 @@ const Navbar = () => {
                             variant="h5"
                             noWrap
                             component="a"
-                            href=""
+                            href="/"
                             sx={{
-                            mr: 2,
                             display: {
                                 xs: 'flex',
                                 md: 'none'
@@ -143,7 +145,7 @@ const Navbar = () => {
                             flexGrow: 1,
                             fontFamily: 'monospace',
                             fontWeight: 700,
-                            color: '#a604e9',
+                            color: '#00951c',
                             textDecoration: 'none'
                         }}>
                             FaceToot
@@ -156,16 +158,16 @@ const Navbar = () => {
                                 md: 'flex'
                             }
                         }}>
-                            {pages.map((page) => (
+                            {pages && pages.map((page) => (
                                 <Button
-                                    key={page}
+                                    key={page.title}
                                     onClick={handleCloseNavMenu}
                                     sx={{
                                     my: 2,
                                     color: '#000000ab',
                                     display: 'block'
                                 }}>
-                                    {page}
+                                    {page.title}
                                 </Button>
                             ))}
                         </Box>
@@ -177,9 +179,10 @@ const Navbar = () => {
                                 sx={{
                                 display: 'flex',
                                 alignItems: 'center',
-                                gap: '.25em'
+                                gap: '.25em',
+                                
                             }}>
-                                <Typography color='gray' fontWeight='400'>
+                                <Typography color='#00951c' fontWeight='400'>
                                     20 toots
                                 </Typography>
                                 <Tooltip title="Open settings">
