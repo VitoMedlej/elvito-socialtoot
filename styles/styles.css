@@ -9,6 +9,11 @@ body {
   background: #fbfbfb;
 }
 
+.bg2 {
+  background: hsl(131deg, 100%, 29%);
+  background: linear-gradient(180deg, hsl(131deg, 100%, 29%) 0%, hsl(131deg, 89%, 32%) 39%, hsl(132deg, 41%, 75%) 72%, hsl(0deg, 0%, 100%) 100%);
+}
+
 .br6 img {
   border-radius: 6px 6px 0 0;
 }
@@ -32,6 +37,11 @@ body {
   -o-object-fit: cover;
      object-fit: cover;
   width: 100%;
+}
+
+.logo {
+  color: #00951c;
+  text-decoration: none;
 }
 
 .rounded {

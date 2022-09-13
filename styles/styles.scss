@@ -7,6 +7,13 @@ body {
 .bg {
     background: #fbfbfb;
 }
+.bg2 {
+    background: hsla(131, 100%, 29%, 1);
+
+    background: linear-gradient(180deg, hsla(131, 100%, 29%, 1) 0%, hsla(131, 89%, 32%, 1) 39%, hsla(132, 41%, 75%, 1) 72%, hsla(0, 0%, 100%, 1) 100%);
+
+
+}
 .br6 {
     img {
         border-radius: 6px 6px 0 0;
@@ -29,6 +36,10 @@ body {
 .cover {
     object-fit: cover;
     width: 100%;
+}
+.logo {
+ color: #00951c;
+ text-decoration: none;
 }
 .rounded {
     border-radius: 50%;

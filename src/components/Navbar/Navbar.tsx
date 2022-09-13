@@ -1,24 +1,62 @@
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
+import {
+    Box,
+    Container,
+    Tooltip,
+    Button,
+    ListItemText,
+    Menu,
+    AppBar,
+    MenuItem,
+    ListItemIcon,
+    MenuList,
+    IconButton
+} from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
-import {useState} from 'react';
-import AccountCircleSharpIcon from '@mui/icons-material/AccountCircleSharp';
+import {useEffect, useState} from 'react';
 import Img from '../Img/Img';
+import {IMenuLinks, INavbar} from '../../Types';
+import {useRouter} from 'next/router';
 
-const pages = [{title:'profile',href:`profile/id241f`}, {title:'About',href:'/about'}, {title:'Login',href:'/account/login'}];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+import Typography from '@mui/material/Typography';
 
-const Navbar = () => {
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import InfoIcon from '@mui/icons-material/Info';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
+import SettingsIcon from '@mui/icons-material/Settings';
+
+let pages : IMenuLinks[] = [
+    {
+        title: 'Profile',
+        href: `/profile/id241f`,
+        Icon : AccountBoxIcon
+    }, {
+        title: 'About',
+        href: '/about',
+        Icon:InfoIcon
+    }, {
+        title: 'Top Tooters',
+        href: '/top-tooters/',
+        Icon : EmojiEventsIcon
+    }, {
+        title: 'Login',
+        href: '/account/login',
+        Icon : VpnKeyIcon
+    }
+];
+let settings = [
+    {
+        title: 'Profile',
+        href: '/profile/id'
+    }, {
+        title: 'logout',
+        href: '/logout'
+    }
+]
+
+const Navbar = ({Links, hideProfile} : INavbar) => {
+    const router = useRouter()
     const [anchorElNav,
         setAnchorElNav] = useState < null | HTMLElement > (null);
     const [anchorElUser,
@@ -40,8 +78,17 @@ const Navbar = () => {
         setAnchorElUser(null);
     };
 
+    useEffect(() => {
+
+        if (Links) {
+            pages = Links
+        }
+
+    }, [])
+
     return (
         <AppBar
+        elevation={0} 
             sx={{
             background: "white",
             py: '.1em'
@@ -55,28 +102,21 @@ const Navbar = () => {
 
                 <Container sx={{}} maxWidth="xl">
                     <Toolbar disableGutters>
-                        {/* <AdbIcon
-                            sx={{
-                            display: {
-                                xs: 'none',
-                                md: 'flex'
-                            },
-                            mr: 1
-                        }}/> */}
+                   
                         <Typography
-                        component="a"
-                        href='/'
+                            className='logo'
+                            component="a"
+                            href='/'
                             sx={{
-                                textDecorations:'none',
+                            textDecorations: 'none',
                             display: {
                                 xs: 'none',
                                 md: 'flex'
                             },
+                            mr: '.25em',
                             fontWeight: 700,
                             fontSize: '1.3em',
-                            color: '#00951c',
-                            pb: '.25em',
-                            mr:1
+                            pb: '.25em'
                         }}>
                             Facetoot
                         </Typography>
@@ -96,6 +136,7 @@ const Navbar = () => {
                                 aria-haspopup="true"
                                 onClick={handleOpenNavMenu}>
                                 <MenuIcon/>
+                               
                             </IconButton>
                             <Menu
                                 id="menu-appbar"
@@ -112,15 +153,30 @@ const Navbar = () => {
                                 open={Boolean(anchorElNav)}
                                 onClose={handleCloseNavMenu}
                                 sx={{
+
                                 display: {
                                     xs: 'block',
                                     md: 'none'
-                                }
+                                },
+                             
                             }}>
-                                {pages && pages.map((page) => (
-                                    <MenuItem key={page.title} onClick={handleCloseNavMenu}>
-                                        <Typography color='#000000ab' textAlign="center">{page.title}</Typography>
-                                    </MenuItem>
+                                {pages && pages.map(({Icon,href,title}) => (
+                                    // <MenuItem
+                                    //     key={page.title}
+                                    //     onClick={() => {
+                                    //     handleCloseUserMenu();
+                                    //     router.push(page.href || '/')
+                                    // }}>
+                                    //     <Typography color='#000000ab' textAlign="center">{page.title}</Typography>
+                                    // </MenuItem>
+                                    <MenuItem sx={{minWidth:'220px'}} onClick={()=>router.push(href || '/')} key={title}>
+                                    <ListItemIcon>
+                                        {Icon ? <Icon fontSize="small"/> : <SettingsIcon fontSize='small'/>} 
+                                    </ListItemIcon>
+                                    <ListItemText>{title}</ListItemText>
+                                  
+                                </MenuItem>
+                              
                                 ))}
                             </Menu>
                         </Box>
@@ -133,20 +189,19 @@ const Navbar = () => {
                             mr: 1
                         }}/> */}
                         <Typography
+                            className='logo'
                             variant="h5"
                             noWrap
                             component="a"
                             href="/"
                             sx={{
+                            textDecorations: 'none',
                             display: {
                                 xs: 'flex',
                                 md: 'none'
                             },
                             flexGrow: 1,
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            color: '#00951c',
-                            textDecoration: 'none'
+                            fontWeight: 700
                         }}>
                             FaceToot
                         </Typography>
@@ -156,34 +211,46 @@ const Navbar = () => {
                             display: {
                                 xs: 'none',
                                 md: 'flex'
-                            }
+                            },
+                            flexDirection:'row',
+                            ml:'1em',
                         }}>
-                            {pages && pages.map((page) => (
-                                <Button
-                                    key={page.title}
-                                    onClick={handleCloseNavMenu}
-                                    sx={{
-                                    my: 2,
-                                    color: '#000000ab',
-                                    display: 'block'
-                                }}>
-                                    {page.title}
-                                </Button>
-                            ))}
+                            <MenuList sx={{display:'flex',py:0}}>
+
+                                {pages && pages.map((page) => (
+
+                                    <Button
+                                        key={page.title}
+                                        onClick={() => {
+                                        handleCloseNavMenu();
+                                        router.push(page.href || '/')
+                                    }}
+                                        sx={{
+                                        my: 2,
+                                        color: '#000000ab',
+                                        display: 'block'
+                                    }}>
+                                        {page.title}
+                                    </Button>
+                                ))}
+                            </MenuList>
+
                         </Box>
 
-                        <Box sx={{
+                        {!hideProfile && <Box sx={{
                             flexGrow: 0
                         }}>
+
                             <Box
                                 sx={{
-                                display: 'flex',
+                                display: hideProfile
+                                    ? 'none'
+                                    : 'flex',
                                 alignItems: 'center',
-                                gap: '.25em',
-                                
+                                gap: '.25em'
                             }}>
                                 <Typography color='#00951c' fontWeight='400'>
-                                    20 toots
+                                    0 toots
                                 </Typography>
                                 <Tooltip title="Open settings">
                                     <IconButton
@@ -192,15 +259,19 @@ const Navbar = () => {
                                         p: 0
                                     }}>
                                         <Img
+                                            sx={{
+                                            border: '1px solid'
+                                        }}
                                             width='40px'
                                             height='40px'
                                             rounded={true}
                                             borderRadius='50%'
-                                            src='https://res.cloudinary.com/dwcu3wcol/image/upload/v1659775761/297320475_725718358722605_8872437478418476290_n_luki7p.jpg'/>
+                                            src={'https://www.svgrepo.com/show/7892/user.svg'}/>
                                     </IconButton>
                                 </Tooltip>
 
                             </Box>
+
                             <Menu
                                 sx={{
                                 mt: '45px'
@@ -218,18 +289,25 @@ const Navbar = () => {
                             }}
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}>
-                                {settings.map((setting) => (
-                                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                        <Typography textAlign="center">{setting}</Typography>
+                                {settings && settings.map((setting) => (
+                                    <MenuItem
+                                        key={setting.title}
+                                        onClick={() => {
+                                        router.push(setting.href);
+                                        handleCloseUserMenu
+                                    }}>
+                                        <Typography textAlign="center">{setting.title}</Typography>
                                     </MenuItem>
+                                    
                                 ))}
                             </Menu>
-                        </Box>
+
+                        </Box>}
                     </Toolbar>
                 </Container>
             </Box>
 
         </AppBar>
-    );
-};
+    )
+}
 export default Navbar

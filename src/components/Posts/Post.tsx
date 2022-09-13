@@ -28,6 +28,7 @@ const Post = ({img}:any) => {
                         alignItems: 'center'
                     }}>
                         <Img
+                        
                             className='cursor'
                             rounded={true}
                             borderRadius={'50%'}

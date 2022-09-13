@@ -21,15 +21,20 @@ const RegisterFrom = () => {
 
     return (
         <ThemeProvider theme={theme}>
-            <Container component="main">
+            <Container sx={{
+                borderRadius:'6px'                
+            }} component="main">
                 <CssBaseline/>
                 <Box
                     sx={{
+                    borderRadius:'6px' ,               
+
                     boxShadow: 'rgb(0 0 0 / 15%) 0px 8px 24px',
                     p: {
                         xs: ' 2em 1em',
                         md: '2em 3em '
                     },
+                    background:'white',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center'
@@ -48,12 +53,14 @@ const RegisterFrom = () => {
 
                         sx={{
                         fontSize: "1em",
-                        textAlign: 'center'
+                        textAlign: 'center',
+                        color:'gray',
                     }}
                         // color={error
                         // ? 'red'
                         // : 'black'}
                         component="h1">
+                      Welcome To Social Toot
                         {/* {error
                             ? `${error}`
                             : 'Sign in'} */}
@@ -118,11 +125,9 @@ const RegisterFrom = () => {
                             sx={{
                             backgroundColor: "#00951c",
                             mt: 3,
-                            border: "1px solid #d42c2a",
                             mb: 2,
                             ":hover": {
                                 background: '#00951c',
-                                border: "1px solid #00951c"
                             }
                         }}>
                             Sign Up

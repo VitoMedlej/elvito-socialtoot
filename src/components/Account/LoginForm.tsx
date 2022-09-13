@@ -27,7 +27,7 @@ export function Copyright(props : any) {
         <Typography
             className='link'
             variant="body2"
-            color="text.secondary"
+            color="text.primary"
             align="center"
             {...props}>
             {'Copyright © '}
@@ -57,12 +57,18 @@ const LoginForm = () => {
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" sx={{
-                width: '100%'
+                width: '100%',
+                borderRadius:'6px'                
+
             }}>
                 <CssBaseline/>
                 <Box
                     sx={{
+                    background:'white',
+                    borderRadius:'6px' ,               
+
                     boxShadow: 'rgb(0 0 0 / 15%) 0px 8px 24px',
+
                     p: {
                         xs: ' 2em 1em',
                         md: '2em 3em '
@@ -81,12 +87,16 @@ const LoginForm = () => {
                     <Typography
                         sx={{
                         fontSize: "1em",
-                        textAlign: 'center'
+                        textAlign: 'center',
+                        color:'gray',
+
                     }}
                         // color={error
                         // ? 'red'
                         // : 'black'}
                         component="h1">
+                      Welcome Back To Social Toot
+
                         {/* {error
                             ? error
                             : 'Sign in'} */}
@@ -158,7 +168,6 @@ const LoginForm = () => {
                             mb: 2,
                             ":hover": {
                                 background: '#00951c',
-                                border: "1px solid #00951c"
                             }
                         }}>
                             Sign In

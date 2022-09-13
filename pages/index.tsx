@@ -6,7 +6,7 @@ import Layout from "../src/Layout/Layout"
 
 const index = () => {
     return (
-        <Layout>
+        <Layout title='' description=''>
             <Box
             className='bg'
             sx={{
