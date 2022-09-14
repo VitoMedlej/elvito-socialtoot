@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material"
 import Img from "../../Img/Img"
 
-const TopTooter = () => {
+const TopTooter = ({width}:{width?:string | {xs:string,sm?:string }}) => {
     return (
         <Box
             sx={{
@@ -9,13 +9,14 @@ const TopTooter = () => {
             gap: '1em',
             alignItems: 'center',
             my: '1em',
+            width : width || 'auto',
             cursor: 'pointer'
         }}>
             <Img
                 className='br'
                 borderRadius='6px'
                 src='https://res.cloudinary.com/dwcu3wcol/image/upload/v1661603093/cld-sample.jpg'
-                width='50px'
+                width= '50px'
                 height='50px'/>
             <Box>
                 

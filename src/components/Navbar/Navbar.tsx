@@ -118,7 +118,7 @@ const Navbar = ({Links, hideProfile} : INavbar) => {
                             fontSize: '1.3em',
                             pb: '.25em'
                         }}>
-                            Facetoot
+                            SocialToot
                         </Typography>
 
                         <Box
@@ -203,7 +203,7 @@ const Navbar = ({Links, hideProfile} : INavbar) => {
                             flexGrow: 1,
                             fontWeight: 700
                         }}>
-                            FaceToot
+                           SocialToot
                         </Typography>
                         <Box
                             sx={{
@@ -260,7 +260,7 @@ const Navbar = ({Links, hideProfile} : INavbar) => {
                                     }}>
                                         <Img
                                             sx={{
-                                            border: '1px solid'
+                                            border: '1px solid #d5d5d5'
                                         }}
                                             width='40px'
                                             height='40px'

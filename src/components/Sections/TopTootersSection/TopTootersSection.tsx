@@ -1,8 +1,11 @@
-import {Box, Divider, Typography} from '@mui/material'
-import Img from '../../Img/Img'
+import {Box, Divider,Button, Typography} from '@mui/material'
+import { useRouter } from 'next/router'
+
 import TopTooter from './TopTooter'
 
-const TopTootersSection = () => (
+const TopTootersSection = () => {
+    const router = useRouter()
+    return (
     <Box
         className='bg'
         sx={{
@@ -34,7 +37,14 @@ const TopTootersSection = () => (
             <TopTooter/>
             <TopTooter/>
         </Box>
+        <Button
+        onClick={()=>router.push('/top-tooters')}
+                sx={{
+                color: '#00951c',
+                width: '100%'
+            }}>View More</Button>
     </Box>
 )
+}
 
 export default TopTootersSection
