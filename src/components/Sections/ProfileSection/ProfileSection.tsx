@@ -6,8 +6,9 @@ import Img from '../../Img/Img'
 
 
 
-const ProfileSection = ({user}:{user:User}) => (
-    <Box
+const ProfileSection = ({user}:{user:User}) => {
+    console.log('user: ', user);
+  return  (<Box
         className='bg'
         sx={{
         display: {
@@ -55,7 +56,7 @@ const ProfileSection = ({user}:{user:User}) => (
                 width='120px'
                 height='120px'
                 rounded={true}
-                src={'https://www.svgrepo.com/show/7892/user.svg' }/>
+                src={user.img || 'https://www.svgrepo.com/show/7892/user.svg' }/>
             <Box
                 sx={{
                 transform: 'translateY(-50%)',
@@ -79,13 +80,13 @@ const ProfileSection = ({user}:{user:User}) => (
                 </Typography>
             </Box>
             <Button
-            disabled={true}
+            disabled={!user || !user?.email}
                 sx={{
                 color: '#00951c',
                 width: '100%'
             }}>Edit Profile</Button>
         </Box>
-    </Box>
-)
+    </Box>)
+}
 
 export default ProfileSection

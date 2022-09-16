@@ -63,6 +63,7 @@ const LoginForm = ({setUser}:IMethod) => {
     }
     const Submit = async(e : FormEvent < HTMLFormElement >) => {
         e.preventDefault()
+      
         if (userData.email && userData.password) {
             const loggedUser = await handleSubmit(e, 'http://localhost:3000/api/auth/login', {
                 email: userData.email,
@@ -127,7 +128,7 @@ const LoginForm = ({setUser}:IMethod) => {
                     </Typography>
                     <Box
                         component="form"
-                        onSubmit={(e) => Submit(e)}
+                        onSubmit={(e:any) => Submit(e)}
                         sx={{
                         mt: 1
                     }}>

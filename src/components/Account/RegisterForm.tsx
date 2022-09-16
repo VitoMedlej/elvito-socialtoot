@@ -111,7 +111,7 @@ const RegisterFrom = ({setUser}:IMethod) => {
                     </Typography>
                     <Box
                         component="form"
-                        onSubmit={(e) => Submit(e) }
+                        onSubmit={(e:any) => Submit(e) }
                         sx={{
                         mt: 3
                     }}>

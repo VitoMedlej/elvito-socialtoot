@@ -6,27 +6,39 @@ import LoginForm from "../../src/components/Account/LoginForm";
 import RegisterForm from "../../src/components/Account/RegisterForm";
 import Image from "next/image";
 import Layout from "../../src/Layout/Layout";
-import { UserContext } from "../_app";
+import {UserContext} from "../_app";
 
-const Links = [{
-    title : 'About',href:'/about'
-},{
-    title : 'Login', href:'/account/login'
-}]
+const Links = [
+    {
+        title: 'About',
+        href: '/about'
+    }, {
+        title: 'Login',
+        href: '/account/login'
+    }
+]
 const Index = () => {
     const router = useRouter()
     const {method} = router.query;
-    const {user,setUser} = useContext(UserContext);
-    console.log('user: ', user);
+    const {user, setUser} = useContext(UserContext);
+ 
     useEffect(() => {
-        if (user && user
-            ?.email) {
+        if (localStorage.getItem('LocalUser') && user && user
+        ?.email) {
+                console.log('localStorage.getItem(): ', localStorage.getItem('LocalUser'));
             router.push('/')
         }
     }, [user])
-    const isLogged = user && user?.email
+    const isLogged = user && user
+        ?.email
     return (
-        <Layout hideProfile={!isLogged} Links={!isLogged ? Links : undefined} title='' description=''>
+        <Layout
+            hideProfile={!isLogged}
+            Links={!isLogged
+            ? Links
+            : undefined}
+            title=''
+            description=''>
             {true && <Box className='bg' sx={{
                 position: 'relative'
             }}>
@@ -54,8 +66,7 @@ const Index = () => {
                     <Grid
                         sx={{
                         my: '5em',
-                zIndex:'111',
-
+                        zIndex: '111'
                     }}
                         item
                         xs={12}

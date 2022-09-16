@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
 import MenuIcon from '@mui/icons-material/Menu';
-import {useEffect, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import Img from '../Img/Img';
 import {IMenuLinks, INavbar} from '../../Types';
 import {useRouter} from 'next/router';
@@ -25,6 +25,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { UserContext } from '../../../pages/_app';
 
 let pages : IMenuLinks[] = [
     {
@@ -77,14 +78,16 @@ const Navbar = ({Links, hideProfile} : INavbar) => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+    const {user} = useContext(UserContext);
 
-    useEffect(() => {
 
-        if (Links && Links?.length > 0) {
-            pages = Links
-        }
+    // useEffect(() => {
 
-    }, [Links])
+    //     if (Links && Links?.length > 0) {
+    //         pages = Links
+    //     }
+
+    // }, [Links])
 
     return (
         <AppBar
@@ -168,16 +171,13 @@ const Navbar = ({Links, hideProfile} : INavbar) => {
                                 },
                              
                             }}>
-                                {pages && pages.map(({Icon,href,title}) => (
-                                    // <MenuItem
-                                    //     key={page.title}
-                                    //     onClick={() => {
-                                    //     handleCloseUserMenu();
-                                    //     router.push(page.href || '/')
-                                    // }}>
-                                    //     <Typography color='#000000ab' textAlign="center">{page.title}</Typography>
-                                    // </MenuItem>
-                                    <MenuItem sx={{minWidth:'220px'}} onClick={()=>router.push(href || '/')} key={title}>
+                                { pages.map(({Icon,href,title}) => {
+                                    
+                                    if (user && user.email && title){
+                                        title = 'Logout';
+                                        href= '/api/auth/account/logout'
+                                    }
+                                    return <MenuItem sx={{minWidth:'220px'}} onClick={()=>router.push(href || '/')} key={title}>
                                     <ListItemIcon>
                                         {Icon ? <Icon fontSize="small"/> : <SettingsIcon fontSize='small'/>} 
                                     </ListItemIcon>
@@ -185,7 +185,7 @@ const Navbar = ({Links, hideProfile} : INavbar) => {
                                   
                                 </MenuItem>
                               
-                                ))}
+                            })}
                             </Menu>
                         </Box>
                         {/* <AdbIcon
