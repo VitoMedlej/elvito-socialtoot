@@ -1,9 +1,12 @@
 import {Box, Typography, Button} from '@mui/material'
 import Link from 'next/link'
 import React from 'react'
+import { User } from '../../../Types'
 import Img from '../../Img/Img'
 
-const ProfileSection = () => (
+
+
+const ProfileSection = ({user}:{user:User}) => (
     <Box
         className='bg'
         sx={{
@@ -60,19 +63,19 @@ const ProfileSection = () => (
                 px: '.5em'
             }}>
                 <Typography fontSize='1.4em' fontWeight='400'>
-                  Guest 
+                  {user?.name}
                 </Typography>
                 <Typography fontSize='1em' fontWeight='300'>
-                    0 TOOTS
+                {user?.toots} toots
                 </Typography>
                 <Typography
                     sx={{
-                    pt: '.5em'
+                    padding: '.5em'
                 }}
                     color='#707070'
                     fontSize='.8em'
                     fontWeight='300'>
-                    Login to earn toots and share them with the world! {' '} <Link href='/account/login'>Login</Link>
+                   {user?.bio || <>Login to earn toots and share them with the world! {' '} <Link href='/account/login'>Login</Link></>}
                 </Typography>
             </Box>
             <Button

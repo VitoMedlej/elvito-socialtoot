@@ -3,8 +3,8 @@ import type {AppProps}
 from 'next/app'
 import {ThemeProvider} from '@emotion/react'
 import {createTheme, CssBaseline} from '@mui/material';
-import {createContext, useState} from 'react';
-import {IMethod} from '../src/Types';
+import {createContext,useEffect, useState} from 'react';
+import {IMethod, User} from '../src/Types';
 
 const theme = createTheme({
     typography: {
@@ -13,14 +13,30 @@ const theme = createTheme({
 
 })
 const defaultUser = {
-    name: 'ane',
+    name: '',
     email: '',
     toots: 0
 }
-export const UserContext = createContext < IMethod > ({user: defaultUser});
+export const UserContext = createContext < any> ({user:null,setUser:null});
 function MyApp({Component, pageProps} : AppProps) {
     const [user,
-        setUser] = useState(defaultUser)
+        setUser] = useState<User | null>(defaultUser)
+
+    useEffect(() => {
+        let LocalUser = localStorage.getItem('LocalUser')
+        if (LocalUser && !user ) {
+            let parsedUser : User | null = JSON.parse(LocalUser);
+            console.log('parsedUser: ', parsedUser);
+            setUser(parsedUser)
+        }
+        if (!LocalUser && user ) {
+            let stringifyUser  = JSON.stringify(user);
+            console.log('stringifyUser: ', stringifyUser);
+            
+            localStorage.setItem('LocalUser', stringifyUser);
+        }
+    },[user])
+
     return <UserContext.Provider value={{
         user,
         setUser

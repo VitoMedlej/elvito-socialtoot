@@ -17,6 +17,7 @@ const Index = () => {
     const router = useRouter()
     const {method} = router.query;
     const {user,setUser} = useContext(UserContext);
+    console.log('user: ', user);
     useEffect(() => {
         if (user && user
             ?.email) {

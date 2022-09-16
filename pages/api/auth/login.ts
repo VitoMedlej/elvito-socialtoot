@@ -8,7 +8,9 @@ const {MongoClient} = require('mongodb');
 type Data = {
     name: string;
     email: string;
-    toots ?:number
+    toots?: number;
+    img ?: string;
+    bio?: string;
 }
 type Error = {
     message: string
@@ -32,9 +34,9 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
         const client = new MongoClient(url);
 
         const user = await client
-        .db("SocialToot")
-        .collection("Users")
-        .findOne({email});
+            .db("SocialToot")
+            .collection("Users")
+            .findOne({email});
         if (!user) {
             throw 'Invalid email or password'
 
@@ -46,7 +48,7 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
 
         return res
             .status(200)
-            .json({email, name: user.name, toots: user.toots})
+            .json({email, name: user.name, img:user.img, toots: user.toots})
 
     } catch (e) {
         console.log(e)
