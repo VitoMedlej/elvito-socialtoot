@@ -6,6 +6,7 @@ const TopTooter = ({width}:{width?:string | {xs:string,sm?:string }}) => {
         <Box
             sx={{
             display: 'flex',
+            
             gap: '1em',
             alignItems: 'center',
             my: '1em',

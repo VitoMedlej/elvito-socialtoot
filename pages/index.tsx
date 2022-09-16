@@ -2,6 +2,7 @@ import {Box} from "@mui/material"
 import MainSection from "../src/components/Sections/MainSection/MainSection"
 import ProfileSection from "../src/components/Sections/ProfileSection/ProfileSection"
 import TopTootersSection from "../src/components/Sections/TopTootersSection/TopTootersSection"
+import TopTootersSectionSkeleton from "../src/components/Sections/TopTootersSection/TopTootersSectionSkeleton"
 import Layout from "../src/Layout/Layout"
 
 const index = () => {
@@ -17,7 +18,8 @@ const index = () => {
 
                 <ProfileSection/>
                 <MainSection/>
-                <TopTootersSection/>
+                {/* <TopTootersSection/> */}
+                <TopTootersSectionSkeleton/>
             </Box>
 
         </Layout>

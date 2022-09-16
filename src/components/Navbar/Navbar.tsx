@@ -80,11 +80,11 @@ const Navbar = ({Links, hideProfile} : INavbar) => {
 
     useEffect(() => {
 
-        if (Links) {
+        if (Links && Links?.length > 0) {
             pages = Links
         }
 
-    }, [])
+    }, [Links])
 
     return (
         <AppBar
@@ -102,8 +102,16 @@ const Navbar = ({Links, hideProfile} : INavbar) => {
 
                 <Container sx={{}} maxWidth="xl">
                     <Toolbar disableGutters>
-                   
-                        <Typography
+                        <Box sx={{
+                               display: {
+                                xs: 'none',
+                                md: 'flex'
+                            }
+                        }}>
+
+                    <Img sx={{cursor:'pointer'}} src='https://res.cloudinary.com/dwcu3wcol/image/upload/v1663270414/logo_t6gtw8.jpg' width='200px' height='45px'/>
+                        </Box>
+                        {/* <Typography
                             className='logo'
                             component="a"
                             href='/'
@@ -119,7 +127,7 @@ const Navbar = ({Links, hideProfile} : INavbar) => {
                             pb: '.25em'
                         }}>
                             SocialToot
-                        </Typography>
+                        </Typography> */}
 
                         <Box
                             sx={{
@@ -188,7 +196,7 @@ const Navbar = ({Links, hideProfile} : INavbar) => {
                             },
                             mr: 1
                         }}/> */}
-                        <Typography
+                        {/* <Typography
                             className='logo'
                             variant="h5"
                             noWrap
@@ -204,7 +212,17 @@ const Navbar = ({Links, hideProfile} : INavbar) => {
                             fontWeight: 700
                         }}>
                            SocialToot
-                        </Typography>
+                        </Typography> */}
+                          <Box sx={{
+                               flexGrow: 1,
+                               display: {
+                                xs: 'flex',
+                                md: 'none'
+                            }
+                        }}>
+
+                    <Img sx={{cursor:'pointer'}} src='https://res.cloudinary.com/dwcu3wcol/image/upload/v1663270414/logo_t6gtw8.jpg' width='200px' height='45px'/>
+                        </Box>
                         <Box
                             sx={{
                             flexGrow: 1,

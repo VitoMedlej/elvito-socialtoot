@@ -45,3 +45,21 @@ body {
     border-radius: 50%;
 
 }
+.sk {
+    background: #e6e6e6;
+    animation: gradient 1.s ease infinite;
+}
+
+@keyframes gradient {
+    0% {
+        background : #e6e6e6
+    }
+    50% {
+       background : #dbdbdb
+
+    }
+    100% {
+        background : #e6e6e6
+
+    }
+}

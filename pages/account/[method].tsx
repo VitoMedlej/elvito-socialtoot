@@ -6,6 +6,7 @@ import LoginForm from "../../src/components/Account/LoginForm";
 import RegisterForm from "../../src/components/Account/RegisterForm";
 import Image from "next/image";
 import Layout from "../../src/Layout/Layout";
+import { UserContext } from "../_app";
 
 const Links = [{
     title : 'About',href:'/about'
@@ -14,10 +15,17 @@ const Links = [{
 }]
 const Index = () => {
     const router = useRouter()
-    const {method} = router.query
-
+    const {method} = router.query;
+    const {user,setUser} = useContext(UserContext);
+    useEffect(() => {
+        if (user && user
+            ?.email) {
+            router.push('/')
+        }
+    }, [user])
+    const isLogged = user && user?.email
     return (
-        <Layout hideProfile={true} Links={Links} title='' description=''>
+        <Layout hideProfile={!isLogged} Links={!isLogged ? Links : undefined} title='' description=''>
             {true && <Box className='bg' sx={{
                 position: 'relative'
             }}>
@@ -55,8 +63,8 @@ const Index = () => {
                         lg={5}>
 
                         {method === 'register'
-                            ? <RegisterForm/>
-                            : <LoginForm/>}
+                            ? <RegisterForm setUser={setUser && setUser}/>
+                            : <LoginForm setUser={setUser && setUser}/>}
 
                     </Grid>
                 </Grid>

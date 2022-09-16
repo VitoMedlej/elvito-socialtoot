@@ -15,12 +15,15 @@ import {
     InputAdornment,
     InputLabel,
     OutlinedInput,
-    FormControl,
+    FormControl
 } from '@mui/material';
 import Link from 'next/link'
-import {useState} from 'react';
-
+import {ChangeEvent, FormEvent, useEffect, useContext, useState} from 'react';
 import {VisibilityOff, Visibility} from '@mui/icons-material';
+import {handleSubmit} from './RegisterForm';
+
+import { IMethod } from '../../Types';
+import Validate from '../../Functions/Validate';
 
 export function Copyright(props : any) {
     return (
@@ -31,7 +34,7 @@ export function Copyright(props : any) {
             align="center"
             {...props}>
             {'Copyright © '}
-            <a target="_black"  rel=" noreferrer"  href="https://vitomedlej.netlify.app/">
+            <a target="_black" rel=" noreferrer" href="https://vitomedlej.netlify.app/">
                 Vito Medlej
             </a>{' '} {new Date().getFullYear()}
             {'.'}
@@ -41,9 +44,12 @@ export function Copyright(props : any) {
 
 const theme = createTheme();
 
-const LoginForm = () => {
+const LoginForm = ({setUser}:IMethod) => {
     const [showPassword,
         setShowPassword] = useState(false)
+    const [userData,
+        setUserData] = useState({email: '', password: ''})
+
 
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword)
@@ -52,23 +58,48 @@ const LoginForm = () => {
     const handleMouseDownPassword = (event : React.MouseEvent < HTMLButtonElement >) => {
         event.preventDefault();
     };
-    // const {error,password, setPassword , handleSubmit, isLoading} = LoginHook()
+    const resetForm = () => {
+        setUserData({email: '', password: ''})
+    }
+    const Submit = async(e : FormEvent < HTMLFormElement >) => {
+        e.preventDefault()
+        if (userData.email && userData.password) {
+            const loggedUser = await handleSubmit(e, 'http://localhost:3000/api/auth/login', {
+                email: userData.email,
+                password: userData.password
+            })
 
+            if (loggedUser && loggedUser
+                ?.email && setUser) {
+                resetForm()
+
+                await setUser(loggedUser) 
+            }
+        }
+
+    }
+ 
+
+    const handleChange = (e : ChangeEvent < HTMLInputElement | HTMLTextAreaElement >) => {
+        setUserData({
+            ...userData,
+            [e.target.name]: e.target.value
+        })
+    }
     return (
         <ThemeProvider theme={theme}>
-            <Container component="main" sx={{
+            <Container
+                component="main"
+                sx={{
                 width: '100%',
-                borderRadius:'6px'                
-
+                borderRadius: '6px'
             }}>
                 <CssBaseline/>
                 <Box
                     sx={{
-                    background:'white',
-                    borderRadius:'6px' ,               
-
+                    background: 'white',
+                    borderRadius: '6px',
                     boxShadow: 'rgb(0 0 0 / 15%) 0px 8px 24px',
-
                     p: {
                         xs: ' 2em 1em',
                         md: '2em 3em '
@@ -88,27 +119,22 @@ const LoginForm = () => {
                         sx={{
                         fontSize: "1em",
                         textAlign: 'center',
-                        color:'gray',
-
+                        color: 'gray'
                     }}
-                        // color={error
-                        // ? 'red'
-                        // : 'black'}
                         component="h1">
-                      Welcome Back To Social Toot
+                        Welcome Back To Social Toot
 
-                        {/* {error
-                            ? error
-                            : 'Sign in'} */}
                     </Typography>
                     <Box
                         component="form"
-                        // onSubmit={handleSubmit}
-                        noValidate
+                        onSubmit={(e) => Submit(e)}
                         sx={{
                         mt: 1
                     }}>
                         <TextField
+                            value={userData.email}
+                            onChange={(e) => handleChange(e)}
+                            error={Validate(userData.email)}
                             margin="normal"
                             required
                             fullWidth
@@ -128,17 +154,19 @@ const LoginForm = () => {
 
                             <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                             <OutlinedInput
+                                value={userData.password}
+                                onChange={(e) => handleChange(e)}
+                                error={Validate(userData.password)}
                                 sx={{
                                 width: '100%'
                             }}
-                            
-                            // value={`${password}`}
-                            // onChange={(e)=>setPassword(`${e.target.value}`)}
+                                name="password"
                                 id="outlined-adornment-password"
                                 type={showPassword
                                 ? 'text'
                                 : 'password'}
-                                endAdornment={< InputAdornment position = "end" > <IconButton
+                                endAdornment={
+                                <InputAdornment position = "end" > <IconButton
                                 aria-label="toggle password visibility"
                                 onClick={handleClickShowPassword}
                                 onMouseDown={handleMouseDownPassword}
@@ -155,19 +183,15 @@ const LoginForm = () => {
                             control={< Checkbox value = "remember" color = "primary" />}
                             label="Remember me"/>
                         <Button
-                            // disabled={isLoading}
                             type="submit"
                             fullWidth
                             variant="contained"
                             sx={{
                             backgroundColor: "#00951c",
                             mt: 3,
-                            // border: !isLoading
-                            //     ? "1px solid #d42c2a"
-                            //     : 'none',
                             mb: 2,
                             ":hover": {
-                                background: '#00951c',
+                                background: '#00951c'
                             }
                         }}>
                             Sign In

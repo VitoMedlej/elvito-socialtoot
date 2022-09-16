@@ -11,30 +11,81 @@ import {
     TextField,
     Button
 } from '@mui/material';
-import { Copyright } from './LoginForm';
-
+import {Copyright} from './LoginForm';
+import {ChangeEvent, FormEvent, useState} from 'react';
+import { IMethod } from '../../Types';
+import Validate from '../../Functions/Validate';
 
 const theme = createTheme();
+export const handleSubmit = async(e : FormEvent < HTMLFormElement >, url : string, body : {
+    name?: string,
+    email: string,
+    password: string
+}) => {
+    e.preventDefault()
+    try {
+        const req = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        })
+        const res = await req.json()
+        if (res) return res
+    } catch (e) {
+        console.log('Error:', e)
+    }
+}
 
-const RegisterFrom = () => {
-    // const {error, isLoading, handleChange,formData ,handleSubmit} = RegisterHook()
 
+const RegisterFrom = ({setUser}:IMethod) => {
+  
+    const [userData,
+        setUserData] = useState({name: '', email: '', password: ''})
+    const handleChange = (e : ChangeEvent < HTMLInputElement | HTMLTextAreaElement >) => {
+        setUserData({
+            ...userData,
+            [e.target.name]: e.target.value
+        })
+    }
+    const resetForm = () => {
+        setUserData({name: '', email: '', password: ''})
+    }
+    const Submit = async (e:FormEvent < HTMLFormElement >) =>{
+        e.preventDefault();
+     const loggedUser = await  handleSubmit(e, 'http://localhost:3000/api/auth/register', {
+            name: userData.name,
+            email: userData.email,
+            password: userData.password
+        });
+        
+        
+        if (loggedUser && loggedUser?.email && setUser ) {
+            await setUser(loggedUser)
+            resetForm()
+
+        }
+       
+    }
     return (
         <ThemeProvider theme={theme}>
-            <Container sx={{
-                borderRadius:'6px'                
-            }} component="main">
+            <Container
+                sx={{
+                borderRadius: '6px'
+            }}
+                component="main">
                 <CssBaseline/>
                 <Box
                     sx={{
-                    borderRadius:'6px' ,               
-
+                    borderRadius: '6px',
                     boxShadow: 'rgb(0 0 0 / 15%) 0px 8px 24px',
                     p: {
                         xs: ' 2em 1em',
                         md: '2em 3em '
                     },
-                    background:'white',
+                    background: 'white',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center'
@@ -49,26 +100,18 @@ const RegisterFrom = () => {
                         <LockOutlinedIcon/>
                     </Avatar>
                     <Typography
-                      data-cy='form-info'
-
+                        data-cy='form-info'
                         sx={{
                         fontSize: "1em",
                         textAlign: 'center',
-                        color:'gray',
+                        color: 'gray'
                     }}
-                        // color={error
-                        // ? 'red'
-                        // : 'black'}
                         component="h1">
-                      Welcome To Social Toot
-                        {/* {error
-                            ? `${error}`
-                            : 'Sign in'} */}
+                        Welcome To Social Toot
                     </Typography>
                     <Box
                         component="form"
-                        noValidate
-                        // onSubmit={handleSubmit}
+                        onSubmit={(e) => Submit(e) }
                         sx={{
                         mt: 3
                     }}>
@@ -76,8 +119,10 @@ const RegisterFrom = () => {
 
                             <Grid item xs={12}>
                                 <TextField
-                                    // value={formData.userName}
-                                    // onChange={(e)=>handleChange(e)}
+                                    value={userData.name}
+                                    onChange={(e) => handleChange(e)}
+                                    error={Validate(userData.name)}
+                                    helperText="Name should be appropriate and over 4 letters"
                                     required
                                     fullWidth
                                     id="username"
@@ -85,30 +130,34 @@ const RegisterFrom = () => {
                                     autoFocus
                                     type='text'
                                     label="Your Name"
-                                    name="userName"
+                                    name="name"
                                     autoComplete="name"/>
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                //   value={formData.userEmail}
-                                //   onChange={(e)=>handleChange(e)}
+                                    value={userData.email}
+                                    onChange={(e) => handleChange(e)}
+                                    error={Validate(userData.email)}
+                                    helperText="Anything that looks like an email"
                                     data-cy='create-email'
                                     required
                                     fullWidth
                                     type='email'
                                     id="email"
                                     label="Email Address"
-                                    name="userEmail"
+                                    name="email"
                                     autoComplete="email"/>
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
+                                    value={userData.password}
+                                    onChange={(e) => handleChange(e)}
+                                    error={Validate(userData.password)}
+                                    helperText="Absolutely not your wifi password"
                                     data-cy='create-password'
-                                    // value={formData.userPassword}
-                                    // onChange={(e)=>handleChange(e)}
                                     required
                                     fullWidth
-                                    name="userPassword"
+                                    name="password"
                                     label="Password"
                                     type="password"
                                     id="password"
@@ -117,7 +166,6 @@ const RegisterFrom = () => {
 
                         </Grid>
                         <Button
-                            // disabled={isLoading}
                             type="submit"
                             fullWidth
                             data-cy='submit-btn'
@@ -127,7 +175,7 @@ const RegisterFrom = () => {
                             mt: 3,
                             mb: 2,
                             ":hover": {
-                                background: '#00951c',
+                                background: '#00951c'
                             }
                         }}>
                             Sign Up

@@ -9,7 +9,7 @@ const Profile = ({User} : {User: {img : string}}) => {
                     borderRadius='6px'
                     className='br6'
                     width='100%'
-                    height='300px'
+                    height='350px'
                     src={User?.img || 'https://res.cloudinary.com/dwcu3wcol/image/upload/v1660988199/pexels-photo-4863968_pjkfbj.jpg'}/>
                 <Box sx={{
                     display: 'flex',

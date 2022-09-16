@@ -1,6 +1,7 @@
 import {Theme} from "@emotion/react";
 import {SvgIconTypeMap, SxProps} from "@mui/material";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
+import { Dispatch, SetStateAction } from "react";
 
 export interface IImg {
     sx?: SxProps < Theme > | undefined;
@@ -27,7 +28,11 @@ export interface IMenuLinks {
         muiName: string;
     }
 }
-
+export type User = {name:string,email:string,toots:number};
+export interface IMethod {
+    user ?:User;
+    setUser ?: Dispatch<SetStateAction<User>>
+}
 export interface INavbar {
     Links?: IMenuLinks[];
     

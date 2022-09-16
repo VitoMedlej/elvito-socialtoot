@@ -2,6 +2,7 @@ import {Box, Button, Divider, Typography} from '@mui/material'
 import React from 'react'
 import AddTootPost from '../../AddTootPost/AddTootPost'
 import Post from '../../Posts/Post'
+import PostSkeleton from '../../Posts/PostSkeleton'
 
 const MainSection = () => {
     return (
@@ -23,13 +24,13 @@ const MainSection = () => {
                 margin: '0 auto',
                 justifyContent: 'center'
             }}>
-              <Post/>
+              {/* <Post/>
               <Post img={true}/>
               <Post img={true}/>
               <Post/>
-              <Post/>
-              <Post/>
-
+            <Post/> */}
+            <PostSkeleton/>
+            <Post/>
             </Box>
 
         </Box>

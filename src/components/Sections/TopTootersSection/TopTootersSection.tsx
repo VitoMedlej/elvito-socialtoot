@@ -9,13 +9,18 @@ const TopTootersSection = () => {
     <Box
         className='bg'
         sx={{
-        background: 'white',
+            boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
+
+            background: 'white',
         display: {
             xs: 'none',
             lg: 'flex'
         },
         maxWidth: '400px',
-        pt: '2em',
+        height: '100%',
+        mt: '2em',
+        padding : '1em',
+        borderRadius: '6px',
         width: {
             xs: '0%',
             lg: "30%"

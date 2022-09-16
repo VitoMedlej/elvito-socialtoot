@@ -27,13 +27,15 @@ const Index = () => {
                 <Divider></Divider>
                 <Box
                     sx={{
+                    margin : '1em auto 0',
                     boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
-
+                    border : '1px solid #00000014',
+                    borderRadius: '6px',
                     padding : '1em',
                     display: 'flex',
                     flexWrap: 'wrap',
                     justifyContent: 'space-between',
-                    pt:'2em',
+                    pt:'1em',
                     background: 'white',
                 }}>
                     <TopTooter width={{xs:'100%',sm:'50%'}}/>

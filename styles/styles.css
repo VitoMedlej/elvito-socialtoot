@@ -46,4 +46,35 @@ body {
 
 .rounded {
   border-radius: 50%;
+}
+
+.sk {
+  background: #e6e6e6;
+  -webkit-animation: gradient 2s ease infinite;
+          animation: gradient 2s ease infinite;
+  transition: all 2s ease;
+}
+
+@-webkit-keyframes gradient {
+  0% {
+    background: #e6e6e6;
+  }
+  50% {
+    background: #e4e4e4;
+  }
+  100% {
+    background: #e6e6e6;
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background: #e6e6e6;
+  }
+  50% {
+    background: #e4e4e4;
+  }
+  100% {
+    background: #e6e6e6;
+  }
 }/*# sourceMappingURL=styles.css.map */
