@@ -58,6 +58,7 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
             .insertOne({
                 name,
                 email,
+
                 bio: '',
                 img: randomImg,
                 password: hashedPassword,
@@ -66,7 +67,7 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
 
         return res
             .status(200)
-            .json({name,img:SavedUser.img,bio:SavedUser.bio, email, toots: 20})
+            .json({name,img:SavedUser.img,_id:SavedUser._id,bio:SavedUser.bio, email, toots: 20})
 
     } catch (e) {
         console.log(e)

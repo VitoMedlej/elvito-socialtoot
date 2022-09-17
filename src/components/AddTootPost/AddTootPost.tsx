@@ -9,8 +9,9 @@ const AddTootPost = () => {
 
     const [post,setPost] = useState({text:'',userId:user?._id,toots:0})
     const onSubmit = async () => {
+  
         if (post.text.length > 1 && user?._id)
-         await handleSubmit(null,'http://localhost:3000/api/posts/send-post',{post})
+         await handleSubmit(null,'http://localhost:3000/api/posts/send-post',{...post})
         
         } 
     return (

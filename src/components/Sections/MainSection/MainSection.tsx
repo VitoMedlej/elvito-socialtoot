@@ -1,33 +1,59 @@
 import {Box, Button, Divider, Typography} from '@mui/material'
-import React, { useContext, useEffect, useState } from 'react'
-import { UserContext } from '../../../../pages/_app'
+import React, {useContext, useEffect, useState} from 'react'
+import {UserContext} from '../../../../pages/_app'
 import AddTootPost from '../../AddTootPost/AddTootPost'
 import Post from '../../Posts/Post'
 import PostSkeleton from '../../Posts/PostSkeleton'
-import {MongoClient }  from 'mongodb'
+import {useSocket} from '../../../Hooks/useSocket'
+
+// export const filterById = (arr : any[], key : string) => {     return [...new
+// Map(arr.map((item, key) => [item[key], item])).values()] }
 const MainSection = () => {
 
-    const {user,setUser} = useContext(UserContext);
-    const [posts,setPosts] = useState([])
-    const [isLoading,setLoading] = useState(false)
-    
-    console.log('posts: ', posts);
-    const GetPosts =async () => {
-        setLoading(true)
-        console.log('true: ', true);
+    const {user} = useContext(UserContext);
+    const [posts,
+        setPosts] = useState < any > ([])
+    const [isLoading,
+        setLoading] = useState(false)
+
+    const GetPosts = async() => {
+        setLoading(true);
         const req = await fetch('http://localhost:3000/api/posts/get-posts')
         const res = await req.json()
-        if (res) setPosts(res)
+        if (res) 
+            setPosts(res)
         setLoading(false)
 
-      
     }
+
+    const socket = useSocket('/api/socket');
+
     useEffect(() => {
-        if (!isLoading) {GetPosts()}
-    
-      return () => {
-        setLoading(false)
-      }
+        if (socket) {
+
+            socket.on('db change', (data : any) => {
+                const b = JSON.parse(JSON.stringify(data))
+                if (data) 
+                    setPosts((oldArray : any) => [
+                        b, ...oldArray
+                    ]);
+
+                }
+            );
+
+        }
+    }, [socket]);
+
+    useEffect(() => {
+        if (!isLoading) {
+
+            setLoading(true)
+            GetPosts()
+        }
+
+        return () => {
+            setLoading(false)
+        }
     }, [])
     return (
         <Box
@@ -37,8 +63,7 @@ const MainSection = () => {
                 xs: "100%",
                 md: '75%'
             },
-            maxWidth: '1200px',
-     
+            maxWidth: '1200px'
         }}>
             <AddTootPost/>
             <Box
@@ -48,23 +73,14 @@ const MainSection = () => {
                 margin: '0 auto',
                 justifyContent: 'center'
             }}>
-              {/* <Post/>
+                {/* <Post/>
               <Post img={true}/>
               <Post img={true}/>
             <Post/> */}
-        <>
-            {isLoading && !posts && [1,2,3,4].map(nb=>{
-
-               return <PostSkeleton key={nb}/>
-            })
-        }
-            
-          {!isLoading && posts?.length > 0 && posts.filter((post:any)=>post?.text).map((post : any,i:number)=>{
-         
-              return <Post text={post?.text || 'FOOOOOOO'} key={i}/>
-          })
-            }
-        </>
+                <>
+                    {isLoading && posts.length === 0 && [1,2,3,4].map(nb=>{ return <PostSkeleton key={nb}/> }) }
+                    {!isLoading && posts?.length > 0 && posts.filter((post:any)=>post.text).map((post : any,i:number)=>{ return <Post text={post?.text || 'FOOOOOOO'} key={i}/> }) }
+                    </>
 
             </Box>
 

@@ -7,31 +7,10 @@ import TopTootersSectionSkeleton from "../src/components/Sections/TopTootersSect
 import Layout from "../src/Layout/Layout"
 import {UserContext} from "./_app"
 import io, { Socket } from 'socket.io-client';
+import { useSocket } from "../src/Hooks/useSocket"
 
 
-function useSocket(url: string) {
-    const [socket, setSocket] = useState<any>(null);
-    useEffect(() => {
-      fetch(url).finally(() => {
-        const socketio = io();
-        socketio.on('connect', () => {
-      
-          socketio.emit('hello','I AM CONNECTED');
-        });
-        socketio.on('disconnect', () => {
-          console.log('disconnected');
-      socket.emit('resele',prompt('res'));
-  
-        });
-        setSocket(socketio);
-      });
-      function cleanup() {
-        socket&&socket.disconnect();
-      }
-      return cleanup;
-    }, []);
-    return socket;
-  }
+
 
 const index = () => {
     const {user, setUser} = useContext(UserContext);
@@ -39,22 +18,24 @@ const index = () => {
     const socket = useSocket('/api/socket');
     const [message, setMessage] = useState('');
     const [newPosts,setNewPosts] = useState<any>(null)
-    console.log('newPosts: ', newPosts);
-    useEffect(() => {
-      if (socket) {
-        socket.on('resele', (data: any) => {
-          console.log('hello', `this is data : ${data}`);
-          setMessage(JSON.stringify(data));
-        });
-        socket.on('db change', (data: any) => {
-            console.log( `this is change : ${data}`);
-            setNewPosts(JSON.stringify(data));
-          });
-        socket.on('a user connected', () => {
-          console.log('connected a user')
-        });
-      }
-    }, [socket]);
+
+
+
+    // useEffect(() => {
+    //   if (socket) {
+    //     socket.on('resele', (data: any) => {
+    //       console.log('hello', `this is data : ${data}`);
+    //       setMessage(JSON.stringify(data));
+    //     });
+    //     socket.on('db change', (data: any) => {
+    //         console.log( `this is change : ${data}`);
+    //         setNewPosts(data);
+    //       });
+    //     socket.on('a user connected', () => {
+    //       console.log('connected a user')
+    //     });
+    //   }
+    // }, [socket]);
  
 
    
@@ -68,7 +49,6 @@ const index = () => {
                 margin: '0 auto',
                 justifyContent: 'center'
             }}>
-               
                 <ProfileSection user={user}/>
                 {message}
                 <MainSection/> {< TopTootersSection />}

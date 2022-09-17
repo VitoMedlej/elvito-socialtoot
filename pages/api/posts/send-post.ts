@@ -27,6 +27,8 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
         }
         
         const {text,userId,toots} = req.body
+        console.log('req.body: ', req.body);
+        
 
         await client
        .db("SocialToot")
@@ -38,6 +40,7 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
        })
       
       res.status(200).json({ message: 'Posted!' })
+      console.log('Posted! ');
  
 
 

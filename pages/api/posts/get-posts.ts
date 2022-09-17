@@ -30,7 +30,7 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
         
         const posts = await client
         .db("SocialToot")
-        .collection("Posts").find().limit(10).toArray()
+        .collection("Posts").find().limit(10).sort({$natural:-1}) .toArray()
         
        return res.status(200).json(posts)
  

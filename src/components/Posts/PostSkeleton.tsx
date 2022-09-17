@@ -7,14 +7,13 @@ const PostSkeleton = () => {
         className='sk'
             sx={{
             borderRadius: '6px',
-           
-            height: '200px',
+            height: '190px',
             width: {
                 xs: '97%',
                 sm: '90%'
             },
             transform: 'translateY(15px)',
-            margin: '0 auto',
+            margin: '1em auto',
             display: 'flex',
             minWidth: '220px'
         }}>
