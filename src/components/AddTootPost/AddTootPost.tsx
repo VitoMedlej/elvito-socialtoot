@@ -1,19 +1,41 @@
 import {Box, TextField, Typography, Tooltip} from "@mui/material"
 import Img from "../Img/Img";
-import { useContext, useState } from "react";
-import { handleSubmit } from "../../Functions/handleSubmit";
-import { UserContext } from "../../../pages/_app";
+import {useContext, useRef, useState} from "react";
+import {handleSubmit} from "../../Functions/handleSubmit";
+import {UserContext} from "../../../pages/_app";
+import SnackBar from "../SnackBar/SnackBar";
+import { Widget } from "@uploadcare/react-widget";
+import AddImage from "../Widget/AddImage";
+
 
 const AddTootPost = () => {
+   
     const {user} = useContext(UserContext);
+    const [open,
+        setOpen] = useState(false);
+    const [post,
+        setPost] = useState({
+        text: '',
+        userId: user
+            ?._id,
+        toots: 0,
+        userImg:'',
+        postImg : '',
 
-    const [post,setPost] = useState({text:'',userId:user?._id,toots:0})
-    const onSubmit = async () => {
-  
-        if (post.text.length > 1 && user?._id)
-         await handleSubmit(null,'http://localhost:3000/api/posts/send-post',{...post})
-        
-        } 
+    })
+
+
+    const onSubmit = async() => {
+        setPost({...post,userImg : user?.img,postImg:''})
+        if (post.text.length > 1 && user
+            ?._id) 
+           { await handleSubmit(null, 'http://localhost:3000/api/posts/send-post', {
+                ...post
+            })
+        setOpen(true)
+        setPost({...post,text:''})}
+    }
+    console.log('process.env.PUBLIC_KEY: ', process.env.PUBLIC_KEY);
     return (
         <Box
             sx={{
@@ -31,9 +53,12 @@ const AddTootPost = () => {
                 xs: '97%',
                 sm: '90%'
             },
-            
-          
         }}>
+            <SnackBar
+                setOpen={setOpen}
+                open={open}
+                severity="success"
+                title='Post Tooted!'/>
             <Img
                 className='cursor'
                 rounded={true}
@@ -42,8 +67,12 @@ const AddTootPost = () => {
                 width='45px'
                 height='45px'/>
             <TextField
+                size='small'
                 value={post.text}
-                onChange={(e) => setPost({...post,text:e.target.value})}
+                onChange={(e) => setPost({
+                ...post,
+                text: e.target.value
+            })}
                 sx={{
                 flex: .9
             }}
@@ -58,26 +87,24 @@ const AddTootPost = () => {
                     sm: '.5em',
                     md: '1em'
                 },
+                justifyContent: 'center',
+                width:'100%',
                 cursor: 'pointer'
             }}>
                 <Tooltip title='Add Image'>
-                    <Box>
+                 {/* <AddImage/> */}
+                    <>
+                    <Widget   publicKey={`${process.env.PUBLIC_KEY}`} />
+                    
+                    </> 
 
-                        <Img
-                            className='cursor'
-                            src={'https://www.svgrepo.com/show/293440/add-image-frame.svg'}
-                            width={{
-                            xs: '25px',
-                            md: '40px'
-                        }}
-                            height={{
-                            xs: '25px',
-                            md: '40px'
-                        }}/>
-                    </Box>
                 </Tooltip>
                 <Tooltip title='Toot this mf (Post)'>
-                    <Box onClick={()=>{console.log('sub');onSubmit()}}>
+                    <Box
+                        onClick={() => {
+                        console.log('sub');
+                        onSubmit()
+                    }}>
 
                         <Img
                             className='cursor'

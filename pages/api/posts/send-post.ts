@@ -27,7 +27,7 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
         }
         
         const {text,userId,toots} = req.body
-        console.log('req.body: ', req.body);
+       
         
 
         await client
@@ -36,11 +36,12 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
        .insertOne({   
         text,
         userId,
-        toots
+        toots,
+
        })
       
       res.status(200).json({ message: 'Posted!' })
-      console.log('Posted! ');
+       
  
 
 
