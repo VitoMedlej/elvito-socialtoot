@@ -29,14 +29,10 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
      
         
         const posts = await client
-       .db("SocialToot")
-       .collection("Posts")
-        const changeStream = posts.watch();
-        changeStream.on('change', (next:any) => {
-            console.log('next: ', next);
-            // process next document
-        });
+        .db("SocialToot")
+        .collection("Posts").find().limit(10).toArray()
         
+       return res.status(200).json(posts)
  
  
 

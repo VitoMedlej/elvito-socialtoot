@@ -2,9 +2,11 @@ import { Box, Typography, Button, Divider } from '@mui/material'
 import React from 'react'
 import Img from '../Img/Img'
 
-const Post = ({img}:any) => {
-  return (
-      <Box
+const Post = ({text,img}:any) => {
+    
+    return (
+     
+    <Box
                     sx={{
                     flexDirection: 'column',
                     display: 'flex',
@@ -71,7 +73,7 @@ const Post = ({img}:any) => {
                             py: "1.5em",
                             px: '.85em'
                         }}>
-                            agas asf asfwq qwrqwr
+                            {text}
                         </Typography>
                     </Box>
 

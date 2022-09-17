@@ -2,14 +2,11 @@
 import type {NextApiRequest, NextApiResponse}
 from 'next'
 import bcrypt from 'bcrypt';
+import { Data } from './login';
 const jwt = require('jsonwebtoken');
 const {MongoClient} = require('mongodb');
 
-type Data = {
-    name: string;
-    email: string;
-    toots?: number
-}
+
 type Error = {
     message: string
 }
@@ -55,7 +52,7 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
                 .json({message: 'User already exsits'})
             
         }
-        client
+        const SavedUser = await client
             .db("SocialToot")
             .collection("Users")
             .insertOne({
@@ -69,7 +66,7 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
 
         return res
             .status(200)
-            .json({name, email, toots: 20})
+            .json({name,img:SavedUser.img,bio:SavedUser.bio, email, toots: 20})
 
     } catch (e) {
         console.log(e)

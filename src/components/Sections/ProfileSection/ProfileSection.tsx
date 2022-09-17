@@ -55,7 +55,7 @@ const ProfileSection = ({user}:{user:User}) => {
                 width='120px'
                 height='120px'
                 rounded={true}
-                src={user.img || 'https://www.svgrepo.com/show/7892/user.svg' }/>
+                src={user?.img || 'https://www.svgrepo.com/show/7892/user.svg' }/>
             <Box
                 sx={{
                 transform: 'translateY(-50%)',
@@ -63,10 +63,10 @@ const ProfileSection = ({user}:{user:User}) => {
                 px: '.5em'
             }}>
                 <Typography fontSize='1.4em' fontWeight='400'>
-                  {user?.name}
+                  {user?.name || 'Default User'}
                 </Typography>
                 <Typography fontSize='1em' fontWeight='300'>
-                {user?.toots} toots
+                {user?.toots || 0} toots
                 </Typography>
                 <Typography
                     sx={{

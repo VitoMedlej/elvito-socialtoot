@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 // const jwt = require('jsonwebtoken');
 const {MongoClient} = require('mongodb');
 
-type Data = {
+export type Data = {
     name: string;
     email: string;
     toots?: number;

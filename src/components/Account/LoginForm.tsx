@@ -73,7 +73,7 @@ const LoginForm = ({setUser}:IMethod) => {
             if (loggedUser && loggedUser
                 ?.email && setUser) {
                 resetForm()
-
+                 localStorage.setItem('LocalUser',JSON.stringify(loggedUser))
                 await setUser(loggedUser) 
             }
         }

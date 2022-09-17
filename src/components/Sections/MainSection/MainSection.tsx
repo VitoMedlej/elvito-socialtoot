@@ -6,24 +6,21 @@ import Post from '../../Posts/Post'
 import PostSkeleton from '../../Posts/PostSkeleton'
 import {MongoClient }  from 'mongodb'
 const MainSection = () => {
-    const url = process.env.URI;
 
     const {user,setUser} = useContext(UserContext);
     const [posts,setPosts] = useState([])
-    const [isLoading,setLoading] = useState(true)
+    const [isLoading,setLoading] = useState(false)
+    
+    console.log('posts: ', posts);
     const GetPosts =async () => {
-        if (!url) return
         setLoading(true)
+        console.log('true: ', true);
         const req = await fetch('http://localhost:3000/api/posts/get-posts')
-        // const client = new MongoClient(url);
-        const posts = await req.json()
-        //  const user = await client
-        // .db("SocialToot")
-        // .collection("Users")
-        // .findOne({email:'fooer@gmail.com'});
-        // setLoading(false)
+        const res = await req.json()
+        if (res) setPosts(res)
+        setLoading(false)
 
-        // consoleer)
+      
     }
     useEffect(() => {
         if (!isLoading) {GetPosts()}
@@ -32,7 +29,6 @@ const MainSection = () => {
         setLoading(false)
       }
     }, [])
-    
     return (
         <Box
             className='bg'
@@ -55,17 +51,17 @@ const MainSection = () => {
               {/* <Post/>
               <Post img={true}/>
               <Post img={true}/>
-              <Post/>
             <Post/> */}
         <>
             {isLoading && !posts && [1,2,3,4].map(nb=>{
 
-                <PostSkeleton key={nb}/>
+               return <PostSkeleton key={nb}/>
             })
         }
-          {!isLoading && posts?.length > 0 && posts.map((post,i:number)=>{
-
-              <Post key={i}/>
+            
+          {!isLoading && posts?.length > 0 && posts.filter((post:any)=>post?.text).map((post : any,i:number)=>{
+         
+              return <Post text={post?.text || 'FOOOOOOO'} key={i}/>
           })
             }
         </>

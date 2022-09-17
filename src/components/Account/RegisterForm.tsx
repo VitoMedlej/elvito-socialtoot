@@ -44,7 +44,8 @@ const RegisterFrom = ({setUser}:IMethod) => {
         
         
         if (loggedUser && loggedUser?.email && setUser ) {
-            console.log('loggedUser: ', loggedUser);
+            localStorage.setItem('LocalUser',JSON.stringify(loggedUser))
+
             await setUser(loggedUser)
             resetForm()
 

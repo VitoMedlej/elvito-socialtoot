@@ -1,12 +1,16 @@
 import {Box, TextField, Typography, Tooltip} from "@mui/material"
 import Img from "../Img/Img";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { handleSubmit } from "../../Functions/handleSubmit";
+import { UserContext } from "../../../pages/_app";
 
 const AddTootPost = () => {
-    const [post,setPost] = useState({text:''})
+    const {user} = useContext(UserContext);
+
+    const [post,setPost] = useState({text:'',userId:user?._id,toots:0})
     const onSubmit = async () => {
-        const req = await handleSubmit(null,'http://localhost:3000/api/posts/send-post',{body:post})
+        if (post.text.length > 1 && user?._id)
+         await handleSubmit(null,'http://localhost:3000/api/posts/send-post',{post})
         
         } 
     return (
