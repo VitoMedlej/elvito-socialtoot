@@ -26,7 +26,6 @@ const randomAvatar = [
 export default async function handler(req : NextApiRequest, res : NextApiResponse < Data | Error >) {
     try {
         const randomImg = randomAvatar[Math.floor(Math.random() * randomAvatar.length)]
-        console.log('randomImg: ', randomImg);
 
         if (req.method !== 'POST') {
             return res

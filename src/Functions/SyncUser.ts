@@ -10,7 +10,7 @@ const SyncUser = ({setUser, user} : {setUser:any,user:User | null}) => {
     if (!LocalUser && user) {
         let stringifyUser = JSON.stringify(user);
         localStorage.setItem('LocalUser', stringifyUser);
-        console.log('localStorage: ', localStorage);
+      
         return
     }
 }

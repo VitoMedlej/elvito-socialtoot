@@ -7,7 +7,6 @@ import Img from '../../Img/Img'
 
 
 const ProfileSection = ({user}:{user:User}) => {
-    console.log('user: ', user);
   return  (<Box
         className='bg'
         sx={{

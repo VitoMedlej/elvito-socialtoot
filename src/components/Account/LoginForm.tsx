@@ -18,12 +18,12 @@ import {
     FormControl
 } from '@mui/material';
 import Link from 'next/link'
-import {ChangeEvent, FormEvent, useEffect, useContext, useState} from 'react';
+import {ChangeEvent, FormEvent, useState} from 'react';
 import {VisibilityOff, Visibility} from '@mui/icons-material';
-import {handleSubmit} from './RegisterForm';
 
 import { IMethod } from '../../Types';
 import Validate from '../../Functions/Validate';
+import { handleSubmit } from '../../Functions/handleSubmit';
 
 export function Copyright(props : any) {
     return (
@@ -69,7 +69,7 @@ const LoginForm = ({setUser}:IMethod) => {
                 email: userData.email,
                 password: userData.password
             })
-
+            
             if (loggedUser && loggedUser
                 ?.email && setUser) {
                 resetForm()

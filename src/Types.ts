@@ -23,6 +23,7 @@ export interface IImg {
 }
 export interface IMenuLinks {
     title : string;
+    onClick ?: any;
     href : string;
     Icon?: OverridableComponent < SvgIconTypeMap < {},
     "svg" >> & {

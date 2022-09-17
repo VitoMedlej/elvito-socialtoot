@@ -26,13 +26,10 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { UserContext } from '../../../pages/_app';
+import logout from '../../Functions/logout';
 
 let pages : IMenuLinks[] = [
-    {
-        title: 'Profile',
-        href: `/profile/id241f`,
-        Icon : AccountBoxIcon
-    }, {
+   {
         title: 'About',
         href: '/about',
         Icon:InfoIcon
@@ -40,34 +37,21 @@ let pages : IMenuLinks[] = [
         title: 'Top Tooters',
         href: '/top-tooters/',
         Icon : EmojiEventsIcon
-    }, {
-        title: 'Login',
-        href: '/account/login',
-        Icon : VpnKeyIcon
     }
 ];
-let settings = [
-    {
-        title: 'Profile',
-        href: '/profile/id'
-    }, {
-        title: 'logout',
-        href: '/logout'
-    }
-]
+
 
 const Navbar = ({Links, hideProfile} : INavbar) => {
     const router = useRouter()
     const [anchorElNav,
         setAnchorElNav] = useState < null | HTMLElement > (null);
-    const [anchorElUser,
-        setAnchorElUser] = useState < null | HTMLElement > (null);
+  
 
     const handleOpenNavMenu = (event : React.MouseEvent < HTMLElement >) => {
         setAnchorElNav(event.currentTarget);
     };
-    const handleOpenUserMenu = (event : React.MouseEvent < HTMLElement >) => {
-        setAnchorElUser(event.currentTarget);
+    const handleOpenUserMenu = () => {
+        if (user) router.push(`/profile/${user._id}/${user.name}`)
     };
 
     const handleCloseNavMenu = () => {
@@ -75,19 +59,13 @@ const Navbar = ({Links, hideProfile} : INavbar) => {
 
     };
 
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
-    };
-    const {user} = useContext(UserContext);
+   
+    const {user,setUser} = useContext(UserContext);
+    
+   
 
 
-    // useEffect(() => {
 
-    //     if (Links && Links?.length > 0) {
-    //         pages = Links
-    //     }
-
-    // }, [Links])
 
     return (
         <AppBar
@@ -111,26 +89,13 @@ const Navbar = ({Links, hideProfile} : INavbar) => {
                                 md: 'flex'
                             }
                         }}>
+<Box onClick={()=>router.push('/')}>
 
-                    <Img sx={{cursor:'pointer'}} src='https://res.cloudinary.com/dwcu3wcol/image/upload/v1663270414/logo_t6gtw8.jpg' width='200px' height='45px'/>
+                    <Img
+                     sx={{cursor:'pointer'}} src='https://res.cloudinary.com/dwcu3wcol/image/upload/v1663270414/logo_t6gtw8.jpg' width='200px' height='45px'/>
+                     </Box>
                         </Box>
-                        {/* <Typography
-                            className='logo'
-                            component="a"
-                            href='/'
-                            sx={{
-                            textDecorations: 'none',
-                            display: {
-                                xs: 'none',
-                                md: 'flex'
-                            },
-                            mr: '.25em',
-                            fontWeight: 700,
-                            fontSize: '1.3em',
-                            pb: '.25em'
-                        }}>
-                            SocialToot
-                        </Typography> */}
+              
 
                         <Box
                             sx={{
@@ -171,13 +136,18 @@ const Navbar = ({Links, hideProfile} : INavbar) => {
                                 },
                              
                             }}>
+                               <MenuItem sx={{minWidth:'220px'}} onClick={()=> router.push(`/profile/${user._id}/${user.name}`)} >
+                                    <ListItemIcon>
+                                         <SettingsIcon fontSize='small'/>
+                                    </ListItemIcon>
+                                    <ListItemText>Proflie</ListItemText>
+                                  
+                                </MenuItem>
+                          
                                 { pages.map(({Icon,href,title}) => {
                                     
-                                    if (user && user.email && title){
-                                        title = 'Logout';
-                                        href= '/api/auth/account/logout'
-                                    }
-                                    return <MenuItem sx={{minWidth:'220px'}} onClick={()=>router.push(href || '/')} key={title}>
+                                    
+                                    return <MenuItem sx={{minWidth:'220px'}} onClick={()=>  router.push(href || '/')} key={title}>
                                     <ListItemIcon>
                                         {Icon ? <Icon fontSize="small"/> : <SettingsIcon fontSize='small'/>} 
                                     </ListItemIcon>
@@ -186,33 +156,18 @@ const Navbar = ({Links, hideProfile} : INavbar) => {
                                 </MenuItem>
                               
                             })}
+                                  <MenuItem sx={{minWidth:'220px'}} onClick={()=> user?.email ? logout(setUser) : router.push('/account/login')} >
+                                    <ListItemIcon>
+                                         <SettingsIcon fontSize='small'/>
+                                    </ListItemIcon>
+                                    <ListItemText>{user?.email ? 'Login' : ' Logout'}</ListItemText>
+                                  
+                                </MenuItem>
+                           
+
                             </Menu>
                         </Box>
-                        {/* <AdbIcon
-                            sx={{
-                            display: {
-                                xs: 'flex',
-                                md: 'none'
-                            },
-                            mr: 1
-                        }}/> */}
-                        {/* <Typography
-                            className='logo'
-                            variant="h5"
-                            noWrap
-                            component="a"
-                            href="/"
-                            sx={{
-                            textDecorations: 'none',
-                            display: {
-                                xs: 'flex',
-                                md: 'none'
-                            },
-                            flexGrow: 1,
-                            fontWeight: 700
-                        }}>
-                           SocialToot
-                        </Typography> */}
+                      
                           <Box sx={{
                                flexGrow: 1,
                                display: {
@@ -220,8 +175,10 @@ const Navbar = ({Links, hideProfile} : INavbar) => {
                                 md: 'none'
                             }
                         }}>
+                            <Box onClick={()=>router.push('/')}>
 
-                    <Img sx={{cursor:'pointer'}} src='https://res.cloudinary.com/dwcu3wcol/image/upload/v1663270414/logo_t6gtw8.jpg' width='200px' height='45px'/>
+                    <Img sx={{cursor:'pointer'}} src={ 'https://res.cloudinary.com/dwcu3wcol/image/upload/v1663270414/logo_t6gtw8.jpg'} width='200px' height='45px'/>
+</Box>
                         </Box>
                         <Box
                             sx={{
@@ -235,6 +192,7 @@ const Navbar = ({Links, hideProfile} : INavbar) => {
                         }}>
                             <MenuList sx={{display:'flex',py:0}}>
 
+                     
                                 {pages && pages.map((page) => (
 
                                     <Button
@@ -251,6 +209,34 @@ const Navbar = ({Links, hideProfile} : INavbar) => {
                                         {page.title}
                                     </Button>
                                 ))}
+                                      {user && user.email &&      <Button
+                                        
+                                        onClick={() => {
+                                        handleCloseNavMenu();
+                                       router.push(`/profile/${user._id}/${user.name}`)
+                                    }}
+                                        sx={{
+                                        my: 2,
+                                        color: '#000000ab',
+                                        display: 'block'
+                                    }}>
+                                      Profile
+                                    </Button>}
+                                       <Button
+                                        
+                                        onClick={() => {
+                                        handleCloseNavMenu();
+                                        user ? logout(setUser) : router.push('/account/login')
+                                    }}
+                                        sx={{
+                                        my: 2,
+                                        color: '#000000ab',
+                                        display: 'block'
+                                    }}>
+                                       {user ? 'Logout' : 'Login'}
+                                    </Button>
+                        
+
                             </MenuList>
 
                         </Box>
@@ -268,9 +254,9 @@ const Navbar = ({Links, hideProfile} : INavbar) => {
                                 gap: '.25em'
                             }}>
                                 <Typography color='#00951c' fontWeight='400'>
-                                    0 toots
+                                    {user?.toots || 0} toots
                                 </Typography>
-                                <Tooltip title="Open settings">
+                                <Tooltip title="Open Profile">
                                     <IconButton
                                         onClick={handleOpenUserMenu}
                                         sx={{
@@ -284,41 +270,13 @@ const Navbar = ({Links, hideProfile} : INavbar) => {
                                             height='40px'
                                             rounded={true}
                                             borderRadius='50%'
-                                            src={'https://www.svgrepo.com/show/7892/user.svg'}/>
+                                            src={user?.img || 'https://www.svgrepo.com/show/7892/user.svg'}/>
                                     </IconButton>
                                 </Tooltip>
 
                             </Box>
 
-                            <Menu
-                                sx={{
-                                mt: '45px'
-                            }}
-                                id="menu-appbar"
-                                anchorEl={anchorElUser}
-                                anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right'
-                            }}
-                                keepMounted
-                                transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right'
-                            }}
-                                open={Boolean(anchorElUser)}
-                                onClose={handleCloseUserMenu}>
-                                {settings && settings.map((setting) => (
-                                    <MenuItem
-                                        key={setting.title}
-                                        onClick={() => {
-                                        router.push(setting.href);
-                                        handleCloseUserMenu
-                                    }}>
-                                        <Typography textAlign="center">{setting.title}</Typography>
-                                    </MenuItem>
-                                    
-                                ))}
-                            </Menu>
+                         
 
                         </Box>}
                     </Toolbar>

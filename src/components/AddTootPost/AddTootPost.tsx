@@ -1,8 +1,14 @@
 import {Box, TextField, Typography, Tooltip} from "@mui/material"
-import AddPhotoAlternateSharpIcon from '@mui/icons-material/AddPhotoAlternateSharp';
 import Img from "../Img/Img";
+import { useState } from "react";
+import { handleSubmit } from "../../Functions/handleSubmit";
 
 const AddTootPost = () => {
+    const [post,setPost] = useState({text:''})
+    const onSubmit = async () => {
+        const req = await handleSubmit(null,'http://localhost:3000/api/posts/send-post',{body:post})
+        
+        } 
     return (
         <Box
             sx={{
@@ -31,6 +37,8 @@ const AddTootPost = () => {
                 width='45px'
                 height='45px'/>
             <TextField
+                value={post.text}
+                onChange={(e) => setPost({...post,text:e.target.value})}
                 sx={{
                 flex: .9
             }}
@@ -64,7 +72,7 @@ const AddTootPost = () => {
                     </Box>
                 </Tooltip>
                 <Tooltip title='Toot this mf (Post)'>
-                    <Box>
+                    <Box onClick={()=>{console.log('sub');onSubmit()}}>
 
                         <Img
                             className='cursor'

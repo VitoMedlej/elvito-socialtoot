@@ -15,29 +15,10 @@ import {Copyright} from './LoginForm';
 import {ChangeEvent, FormEvent, useState} from 'react';
 import { IMethod } from '../../Types';
 import Validate from '../../Functions/Validate';
+import { handleSubmit } from '../../Functions/handleSubmit';
 
 const theme = createTheme();
-export const handleSubmit = async(e : FormEvent < HTMLFormElement >, url : string, body : {
-    name?: string,
-    email: string,
-    password: string
-}) => {
-    e.preventDefault()
-    try {
-        const req = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body)
-        })
-        const res = await req.json()
-        if (res) return res
-    } catch (e) {
-        console.log('Error:', e)
-    }
-}
+
 
 
 const RegisterFrom = ({setUser}:IMethod) => {
@@ -63,6 +44,7 @@ const RegisterFrom = ({setUser}:IMethod) => {
         
         
         if (loggedUser && loggedUser?.email && setUser ) {
+            console.log('loggedUser: ', loggedUser);
             await setUser(loggedUser)
             resetForm()
 

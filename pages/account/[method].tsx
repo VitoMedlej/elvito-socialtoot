@@ -25,7 +25,6 @@ const Index = () => {
     useEffect(() => {
         if (localStorage.getItem('LocalUser') && user && user
         ?.email) {
-                console.log('localStorage.getItem(): ', localStorage.getItem('LocalUser'));
             router.push('/')
         }
     }, [user])

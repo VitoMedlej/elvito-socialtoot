@@ -1,8 +1,9 @@
 import { Box, Typography } from '@mui/material'
-import React from 'react'
+import Link from 'next/link'
+import { IMethod } from '../../Types'
 import Img from '../Img/Img'
 
-const Profile = ({User} : {User: {img : string}}) => {
+const Profile = ({user,setUser} :  IMethod) => {
   return (
     <>
        <Img
@@ -10,7 +11,7 @@ const Profile = ({User} : {User: {img : string}}) => {
                     className='br6'
                     width='100%'
                     height='350px'
-                    src={User?.img || 'https://res.cloudinary.com/dwcu3wcol/image/upload/v1660988199/pexels-photo-4863968_pjkfbj.jpg'}/>
+                    src={ 'https://res.cloudinary.com/dwcu3wcol/image/upload/v1660988199/pexels-photo-4863968_pjkfbj.jpg'}/>
                 <Box sx={{
                     display: 'flex',
                     flexWrap:'wrap',
@@ -30,7 +31,7 @@ const Profile = ({User} : {User: {img : string}}) => {
                         width='150px'
                         height='150px'
                         rounded={true}
-                        src={'https://www.svgrepo.com/show/7892/user.svg'}/>
+                        src={user?.img || 'https://www.svgrepo.com/show/7892/user.svg'}/>
                     
                         <Box
                             sx={{
@@ -44,14 +45,15 @@ const Profile = ({User} : {User: {img : string}}) => {
                         }}>
 
                             <Typography fontSize='1.5em' fontWeight='600'>
-                                Vito Medlej
+                               {user?.name || 'Default User'}
                             </Typography>
-                            <Typography fontSize='1.1em'>
+                            {user?.toots && <Typography fontSize='1.1em'>
                                 200 Toots Given!
-                            </Typography>
+                            </Typography>}
                       
                             <Typography sx={{pt:'.25em'}} color='#555555'>
-                                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quam, iusto!
+                            {!user &&  <>Login to earn toots and share them with the world! {' '} <Link href='/account/login'>Login</Link></>}
+                            {user && !user?.bio && `This is my boring bio, Im new and have'nt edited my profile yet!`}
                             </Typography>
                         </Box>
                 </Box>
@@ -60,3 +62,5 @@ const Profile = ({User} : {User: {img : string}}) => {
 }
 
 export default Profile
+
+

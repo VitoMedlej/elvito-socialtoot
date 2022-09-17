@@ -23,7 +23,7 @@ const Index = () => {
                 minWidth: '300px'
             }}
                 maxWidth='lg'>
-                  <Profile User={topTooter}/>
+                  {/* <Profile user={topTooter}/> */}
                 <Divider></Divider>
                 <Box
                     sx={{
