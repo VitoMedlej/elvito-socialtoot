@@ -79,7 +79,17 @@ const MainSection = () => {
             <Post/> */}
                 <>
                     {isLoading && posts.length === 0 && [1,2,3,4].map(nb=>{ return <PostSkeleton key={nb}/> }) }
-                    {!isLoading && posts?.length > 0 && posts.filter((post:any)=>post.text).map((post : any,i:number)=>{ return <Post text={post?.text || 'FOOOOOOO'} key={i}/> }) }
+                    {!isLoading &&
+                     posts?.length > 0 &&
+                     posts.filter((post:any)=>post.text)
+                     .map((post : any,i:number)=>{ return <Post  
+                        userId={post.userId}
+                        userName={post.userName}
+                        userImg={post.userImg} 
+                        postImg={post.postImg} 
+                        toots={post.toots} 
+                        text={post?.text} 
+                        key={i}/> }) }
                     </>
 
             </Box>

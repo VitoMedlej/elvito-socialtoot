@@ -2,11 +2,22 @@ import { Box, Typography, Button, Divider } from '@mui/material'
 import React from 'react'
 import Img from '../Img/Img'
 
-const Post = ({text,img}:any) => {
+interface IPost {
+    text : string;
+    toots : boolean;
+    postImg:string;
+   
+        userId : string;
+        userName : string
+        userImg: string;
+    
+}
+const Post = ({text,toots,postImg,userId,userImg,userName}:IPost) => {
     
     return (
      
     <Box
+        id={userId}
                     sx={{
                     flexDirection: 'column',
                     display: 'flex',
@@ -34,7 +45,7 @@ const Post = ({text,img}:any) => {
                             className='cursor'
                             rounded={true}
                             borderRadius={'50%'}
-                            src={'https://res.cloudinary.com/dwcu3wcol/image/upload/v1661603093/cld-sample-3.jpg'}
+                            src={`${userImg || 'https://res.cloudinary.com/dwcu3wcol/image/upload/v1661603093/cld-sample-3.jpg'}`}
                             width='40px'
                             height='40px'/>
                         <Box
@@ -51,7 +62,7 @@ const Post = ({text,img}:any) => {
                                 pt: '.25em',
                                 color: 'black'
                             }}>
-                                FOOER BOOER
+                                {userName}
                             </Typography>
                        
                             <Typography
@@ -77,9 +88,9 @@ const Post = ({text,img}:any) => {
                         </Typography>
                     </Box>
 
-              {img &&      <img
+              {postImg &&      <img
                         className='img'
-                        src={'https://res.cloudinary.com/dwcu3wcol/image/upload/v1661165870/Stocksy_txp25ffb26beKO300_Medium_2508530_wdzz1m.jpg'}/>}
+                        src={`${postImg}`}/>}
                     <Box
                         sx={{
                         background: 'white',
@@ -93,7 +104,7 @@ const Post = ({text,img}:any) => {
                             py: ".75em",
                             px: '.85em'
                         }}>
-                            0 Toots
+                            {toots} Toots
                         </Typography>
                         <Box
                             sx={{

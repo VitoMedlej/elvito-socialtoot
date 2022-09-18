@@ -24,8 +24,8 @@ const ioHandler = async(req : any, res : any) => {
             changeStream.on('change', (next : any) => {
 
                 const doc = next
-                    ?.fullDocument
-                console.log('doc: ', doc);
+                ?.fullDocument
+                
                 if (doc
                     ?.text) 
                     socket.emit('db change', doc);

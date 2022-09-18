@@ -16,6 +16,8 @@ const Layout = ({children, title, description, Links, hideProfile} : ILayout) =>
                     data-href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap">
                     font-family: 'Roboto', sans-serif;
                 </style>
+       
+{/* <script dangerouslySetInnerHTML={{ __html: `UPLOADCARE_PUBLIC_KEY =  ${process.env.NEXT_PUBLIC_API_KEY}` }} /> */}
             </Head>
             <Navbar Links={Links && Links} hideProfile={hideProfile && hideProfile}/> {children}
 

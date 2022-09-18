@@ -65,9 +65,10 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
                 toots: 20
             })
 
+        if (!SavedUser?.acknowledged) throw 'Failed to create account'
         return res
             .status(200)
-            .json({name,img:SavedUser.img,_id:SavedUser._id,bio:SavedUser.bio, email, toots: 20})
+            .json({name,img:randomImg,_id:SavedUser.insertedId,bio:`Hello, im a new user who has'nt edited his bio yet`, email, toots: 20})
 
     } catch (e) {
         console.log(e)

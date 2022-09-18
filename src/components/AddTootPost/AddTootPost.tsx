@@ -1,41 +1,72 @@
-import {Box, TextField, Typography, Tooltip} from "@mui/material"
+import {Box, TextField, Typography, Tooltip, AlertColor} from "@mui/material"
 import Img from "../Img/Img";
-import {useContext, useRef, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import {handleSubmit} from "../../Functions/handleSubmit";
 import {UserContext} from "../../../pages/_app";
 import SnackBar from "../SnackBar/SnackBar";
-import { Widget } from "@uploadcare/react-widget";
-import AddImage from "../Widget/AddImage";
+import { FileInfo, Widget } from "@uploadcare/react-widget";
+import { handleImgChange } from "../../Functions/handleImgChange";
 
+
+
+type Snack = {
+    severity:AlertColor,
+    title:string
+}
 
 const AddTootPost = () => {
    
     const {user} = useContext(UserContext);
-    const [open,
-        setOpen] = useState(false);
+   
+    const [snack,
+        setSnack] = useState<Snack>({severity:'warning',title:'Hi there, im just a useless warning!'});
+    const [isOpen,setOpen] = useState(false)
     const [post,
         setPost] = useState({
-        text: '',
-        userId: user
-            ?._id,
-        toots: 0,
-        userImg:'',
-        postImg : '',
-
+            text: '',
+            userName : '',
+            userId: '',
+            userImg:'',
+            toots: 0,
+            postImg : '',
+        
     })
 
-
     const onSubmit = async() => {
-        setPost({...post,userImg : user?.img,postImg:''})
-        if (post.text.length > 1 && user
-            ?._id) 
+        if (!user || !user._id) {
+            setOpen(true)
+            setSnack({severity:'error',title:'You must be logged to do that! '})
+            return
+        }
+        if (post.text.length < 2) {
+            setOpen(true)
+            setSnack({severity:'error',title:'Add some text bruh! '})
+            return
+        }
+        if (post
+            ?.userId) 
+           
            { await handleSubmit(null, 'http://localhost:3000/api/posts/send-post', {
                 ...post
             })
-        setOpen(true)
-        setPost({...post,text:''})}
+            
+            setPost({...post,text:'',postImg:''})
+            setOpen(true)
+        setSnack({severity:'success',title:'Tooted successfully! '})
+        return
+
+    } 
+
     }
-    console.log('process.env.PUBLIC_KEY: ', process.env.PUBLIC_KEY);
+    useEffect(() => {
+        setPost({...post, userName : user?.name,
+            userId: user
+                ?._id,
+
+                userImg:user?.img,
+            })
+    }, [user])
+    
     return (
         <Box
             sx={{
@@ -56,14 +87,14 @@ const AddTootPost = () => {
         }}>
             <SnackBar
                 setOpen={setOpen}
-                open={open}
-                severity="success"
-                title='Post Tooted!'/>
+                open={isOpen}
+                severity={snack.severity}
+                title={snack.title}/>
             <Img
                 className='cursor'
                 rounded={true}
                 borderRadius={'50%'}
-                src={'https://res.cloudinary.com/dwcu3wcol/image/upload/v1661603093/cld-sample-3.jpg'}
+                src={`${user?.img || 'https://www.svgrepo.com/show/7892/user.svg'}`}
                 width='45px'
                 height='45px'/>
             <TextField
@@ -91,18 +122,17 @@ const AddTootPost = () => {
                 width:'100%',
                 cursor: 'pointer'
             }}>
-                <Tooltip title='Add Image'>
+            {user &&    <Tooltip title='Add Image'>
                  {/* <AddImage/> */}
                     <>
-                    <Widget   publicKey={`${process.env.PUBLIC_KEY}`} />
+                    <Widget onChange={(fileInfo)=>handleImgChange(fileInfo,post,setPost)}   publicKey={`${process.env.NEXT_PUBLIC_API_KEY}`} />
                     
                     </> 
 
-                </Tooltip>
+                </Tooltip>}
                 <Tooltip title='Toot this mf (Post)'>
                     <Box
                         onClick={() => {
-                        console.log('sub');
                         onSubmit()
                     }}>
 

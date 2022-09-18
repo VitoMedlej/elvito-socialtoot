@@ -13,32 +13,14 @@ import { useSocket } from "../src/Hooks/useSocket"
 
 
 const index = () => {
-    const {user, setUser} = useContext(UserContext);
+    const {user} = useContext(UserContext);
 
     const socket = useSocket('/api/socket');
     const [message, setMessage] = useState('');
     const [newPosts,setNewPosts] = useState<any>(null)
 
+    
 
-
-    // useEffect(() => {
-    //   if (socket) {
-    //     socket.on('resele', (data: any) => {
-    //       console.log('hello', `this is data : ${data}`);
-    //       setMessage(JSON.stringify(data));
-    //     });
-    //     socket.on('db change', (data: any) => {
-    //         console.log( `this is change : ${data}`);
-    //         setNewPosts(data);
-    //       });
-    //     socket.on('a user connected', () => {
-    //       console.log('connected a user')
-    //     });
-    //   }
-    // }, [socket]);
- 
-
-   
 
     return (
         <Layout title='' description=''>

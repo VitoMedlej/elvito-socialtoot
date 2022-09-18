@@ -26,19 +26,14 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
                 .json({message: 'Method Not Allowed'})
         }
         
-        const {text,userId,toots} = req.body
+        const {text,user,postImg,toots} = req.body
        
         
 
         await client
        .db("SocialToot")
        .collection("Posts")
-       .insertOne({   
-        text,
-        userId,
-        toots,
-
-       })
+       .insertOne(req.body)
       
       res.status(200).json({ message: 'Posted!' })
        
