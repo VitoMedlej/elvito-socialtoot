@@ -1,6 +1,5 @@
 import {Grid, Box} from "@mui/material"
 import {useRouter} from "next/router"
-
 import {useContext, useEffect} from 'react';
 import LoginForm from "../../src/components/Account/LoginForm";
 import RegisterForm from "../../src/components/Account/RegisterForm";
@@ -38,7 +37,7 @@ const Index = () => {
             : undefined}
             title=''
             description=''>
-            {true && <Box className='bg' sx={{
+            { <Box className='bg' sx={{
                 position: 'relative'
             }}>
                 <Box

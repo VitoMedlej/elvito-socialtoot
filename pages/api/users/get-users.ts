@@ -1,7 +1,9 @@
 
+
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type {NextApiRequest, NextApiResponse}
 from 'next'
+import fetchTopTooters from '../../../src/Functions/fetchTopTooters';
 const {MongoClient} = require('mongodb');
 
 type Data = {
@@ -17,8 +19,7 @@ type Error = {
 }
 
 export default async function handler(req : NextApiRequest, res : NextApiResponse < Data | Error >) {
-        const url = process.env.URI;
-        const client = new MongoClient(url);
+    
     try {
         if (req.method !== 'GET') {
             return res
@@ -27,11 +28,10 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
         }
 
         
-        const posts = await client
-        .db("SocialToot")
-        .collection("Posts").find().limit(10).sort({$natural:-1}).toArray()
+        const users = await fetchTopTooters(5)
         
-       return res.status(200).json(posts)
+        if (!users) throw 'No users found'
+       return res.status(200).json(users)
  
  
 
@@ -43,9 +43,7 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
             .status(400)
             .json({message: 'Something went wrong'})
     }
-    finally {
-        await client.close()
-    }
+  
     //   res.status(200).json({ name: 'John Doe' })
 }
 

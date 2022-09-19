@@ -2,7 +2,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type {NextApiRequest, NextApiResponse}
 from 'next'
-const {MongoClient} = require('mongodb');
+const {MongoClient ,ObjectId} = require('mongodb')
+
 
 type Data = {
     name: string;
@@ -26,16 +27,18 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
                 .json({message: 'Method Not Allowed'})
         }
         
-        const {text,user,postImg,toots} = req.body
-       
-        
+        const {userId} = req.body
+        if (!userId)   throw 'Invalid Id'
+        const _id = new ObjectId(userId)
 
+        
         await client
-       .db("SocialToot")
-       .collection("Posts")
-       .insertOne(req.body)
+        .db("SocialToot")
+        .collection("Posts")
+        .insertOne(req.body)
+        await  client.db('SocialToot').collection('Users').update({_id},{$inc:{'toots':1}})
       
-      res.status(200).json({ message: 'Posted!' })
+    return  res.status(200).json({ message: 'Posted!' })
        
  
 

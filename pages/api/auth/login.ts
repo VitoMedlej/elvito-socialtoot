@@ -8,6 +8,7 @@ const {MongoClient} = require('mongodb');
 export type Data = {
     name: string;
     email: string;
+    tootsGiven: number;
     toots?: number;
     img?: string;
     bio?: string;
@@ -57,6 +58,7 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
                 name: user.name,
                 bio: user.bio,
                 img: user.img,
+                tootsGiven : user?.tootsGiven || 0,
                 toots: user.toots
             })
 

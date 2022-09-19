@@ -21,6 +21,8 @@ const AddTootPost = () => {
     const [snack,
         setSnack] = useState<Snack>({severity:'warning',title:'Hi there, im just a useless warning!'});
     const [isOpen,setOpen] = useState(false)
+    const [isLoading,setLoading] = useState(false)
+
     const [post,
         setPost] = useState({
             text: '',
@@ -44,15 +46,17 @@ const AddTootPost = () => {
             return
         }
         if (post
-            ?.userId) 
-           
+            ?.userId && !isLoading) 
+            setLoading(true)
            { await handleSubmit(null, 'http://localhost:3000/api/posts/send-post', {
                 ...post
             })
-            
+
             setPost({...post,text:'',postImg:''})
             setOpen(true)
-        setSnack({severity:'success',title:'Tooted successfully! '})
+            setLoading(false)
+
+        setSnack({severity:'success',title:'Post Added! +1 Toot points '})
         return
 
     } 
@@ -125,7 +129,9 @@ const AddTootPost = () => {
             {user &&    <Tooltip title='Add Image'>
                  {/* <AddImage/> */}
                     <>
-                    <Widget onChange={(fileInfo)=>handleImgChange(fileInfo,post,setPost)}   publicKey={`${process.env.NEXT_PUBLIC_API_KEY}`} />
+                    <Widget 
+                    onChange={(fileInfo)=>handleImgChange(fileInfo,post,setPost)} 
+                    publicKey={`${process.env.NEXT_PUBLIC_API_KEY}`} />
                     
                     </> 
 

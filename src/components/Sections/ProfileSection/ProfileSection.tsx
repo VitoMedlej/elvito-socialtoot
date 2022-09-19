@@ -1,12 +1,20 @@
 import {Box, Typography, Button} from '@mui/material'
 import Link from 'next/link'
-import React from 'react'
-import { User } from '../../../Types'
+import { useRouter } from 'next/router'
+import  { useContext } from 'react'
+import { UserContext } from '../../../../pages/_app'
 import Img from '../../Img/Img'
 
 
 
-const ProfileSection = ({user}:{user:User}) => {
+const ProfileSection = () => {
+    const {user} = useContext(UserContext);
+    const router = useRouter()
+    const navigate = () => {
+        if (user && user._id) {
+            router.push(`/profile/${user._id}/${user.name}`)
+        }
+    }
   return  (<Box
         className='bg'
         sx={{
@@ -62,7 +70,7 @@ const ProfileSection = ({user}:{user:User}) => {
                 textAlign: 'center',
                 px: '.5em'
             }}>
-                <Typography fontSize='1.4em' fontWeight='400'>
+                <Typography sx={{cursor:'pointer'}} onClick={()=>navigate()} fontSize='1.4em' fontWeight='400'>
                   {user?.name || 'Default User'}
                 </Typography>
                 <Typography fontSize='1em' fontWeight='300'>
@@ -75,11 +83,13 @@ const ProfileSection = ({user}:{user:User}) => {
                     color='#707070'
                     fontSize='.8em'
                     fontWeight='300'>
-                   {user?.bio || <>Login to earn toots and share them with the world! {' '} <Link href='/account/login'>Login</Link></>}
+                   {!user &&  !user?.bio && <>Login to earn toots and share them with the world! {' '} <Link href='/account/login'>Login</Link></>}
+                    {user && !user?.bio ? `This is my boring bio, Im new and have'nt edited my profile yet!` : user?.bio}
                 </Typography>
             </Box>
             <Button
-            disabled={!user || !user?.email}
+            onClick={()=>navigate()}
+            disabled={!user || !user?._id}
                 sx={{
                 color: '#00951c',
                 width: '100%'

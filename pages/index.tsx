@@ -5,25 +5,36 @@ import ProfileSection from "../src/components/Sections/ProfileSection/ProfileSec
 import TopTootersSection from "../src/components/Sections/TopTootersSection/TopTootersSection"
 import TopTootersSectionSkeleton from "../src/components/Sections/TopTootersSection/TopTootersSectionSkeleton"
 import Layout from "../src/Layout/Layout"
-import {UserContext} from "./_app"
-import io, { Socket } from 'socket.io-client';
-import { useSocket } from "../src/Hooks/useSocket"
+
+import Popup from "../src/components/Popup/Popup"
+import fetchTopTooters from "../src/Functions/fetchTopTooters"
+import { ITooter } from "../src/Types"
 
 
 
 
 const index = () => {
-    const {user} = useContext(UserContext);
+    // const socket = useSocket('/api/socket');
+    const [data,setData] = useState<ITooter[] | null>(null)
 
-    const socket = useSocket('/api/socket');
-    const [message, setMessage] = useState('');
-    const [newPosts,setNewPosts] = useState<any>(null)
-
+    useEffect( () => {
+        const getData = async ()=>{
+            
+            const req = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/users/get-users`)
+            const data = await req.json()
+            if (data) {
+                setData(data)
+                
+            }
+        }
     
-
-
+        getData()
+        
+    },[])
+    
     return (
         <Layout title='' description=''>
+            <Popup/>
             <Box
                 className='bg'
                 sx={{
@@ -31,10 +42,11 @@ const index = () => {
                 margin: '0 auto',
                 justifyContent: 'center'
             }}>
-                <ProfileSection user={user}/>
-                {message}
-                <MainSection/> {< TopTootersSection />}
-                {/* {  <TopTootersSectionSkeleton user/> } */}
+                <ProfileSection />
+              
+                <MainSection/>
+                 {data && data?.length > 0  && < TopTootersSection data={data} />}
+                { !data &&  <TopTootersSectionSkeleton /> }
 
             </Box>
 

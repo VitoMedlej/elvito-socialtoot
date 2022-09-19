@@ -16,6 +16,15 @@ const randomAvatar = [
             '68_pjkfbj.jpg',
     'https://www.svgrepo.com/show/22146/user.svg',
     'https://www.svgrepo.com/show/24604/user.svg',
+    'https://www.svgrepo.com/show/32911/user.svg',
+    'https://www.svgrepo.com/show/134310/user.svg',
+    'https://www.svgrepo.com/show/27826/user.svg',
+    'https://www.svgrepo.com/show/27827/user.svg',
+    'https://www.svgrepo.com/show/138932/user.svg',
+    'https://www.svgrepo.com/show/159303/user.svg',
+    'https://www.svgrepo.com/show/280101/man-user.svg',
+    'https://www.svgrepo.com/show/192247/man-user.svg',
+    'https://www.svgrepo.com/show/275264/woman-user.svg',
     'https://www.svgrepo.com/show/32913/user.svg',
     'https://www.svgrepo.com/show/14840/user.svg',
     'https://www.svgrepo.com/show/55121/user.svg'
@@ -58,7 +67,6 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
             .insertOne({
                 name,
                 email,
-
                 bio: '',
                 img: randomImg,
                 password: hashedPassword,
@@ -68,7 +76,7 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
         if (!SavedUser?.acknowledged) throw 'Failed to create account'
         return res
             .status(200)
-            .json({name,img:randomImg,_id:SavedUser.insertedId,bio:`Hello, im a new user who has'nt edited his bio yet`, email, toots: 20})
+            .json({name,img:randomImg,tootsGiven:0,_id:SavedUser.insertedId,bio:`This is my boring bio, Im new and have'nt edited my profile yet!`, email, toots: 20})
 
     } catch (e) {
         console.log(e)

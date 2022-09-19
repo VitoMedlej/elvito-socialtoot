@@ -8,7 +8,12 @@ const ioHandler = async(req : any, res : any) => {
     const posts = await client
         .db("SocialToot")
         .collection("Posts")
+        const users = await client
+        .db("SocialToot")
+        .collection("Users")
     const changeStream = posts.watch();
+    
+    const usersChangeStream = users.watch();
 
     if (!res.socket.server.io) {
         console.log('*First use, starting socket.io');
@@ -30,6 +35,22 @@ const ioHandler = async(req : any, res : any) => {
                     ?.text) 
                     socket.emit('db change', doc);
                 }
+                
+                
+            );
+            usersChangeStream.on('change', (next : any) => {
+
+                // const doc = next
+                // ?.fullDocument
+                const toots =  next.updateDescription.updatedFields.toots;
+                const _id = next.documentKey._id
+              
+                if (
+                    toots) 
+                    socket.emit('toot change', {toots,_id});
+                }
+                
+                
             );
 
         });

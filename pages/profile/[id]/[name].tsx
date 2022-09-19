@@ -18,7 +18,7 @@ const index = ({currentUser}:any) => {
         <Layout title='' description=''>
             <Container>
 
-                <Profile setUser={setUser} user={user}/>
+                <Profile setUser={setUser} user={currentUser}/>
              {isSameUser &&   <Button
                     sx={{
                     color: '#00951c',
@@ -33,11 +33,11 @@ const index = ({currentUser}:any) => {
                     <Typography fontSize='1.2em'>
                         Your Posts
                     </Typography>
-                    <Box>
+                    {/* <Box>
                         <Post/>
                         <Post/>
                         <Post/>
-                    </Box>
+                    </Box> */}
                 </Box>
             </Container>
         </Layout>
@@ -63,10 +63,10 @@ export const getServerSideProps = async({query} : any) => {
         if (!user) {
             throw 'Invalid Id'
         }
-        const {name,email,bio,toots} = user;
+        const {name,email,bio,img,toots} = user;
         return {
             props: {
-                currentUser : {name,email,id,bio,toots} 
+                currentUser : {name,email,img,id,bio,toots} 
             }
         }
     } catch (err) {

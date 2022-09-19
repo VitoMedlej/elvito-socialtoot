@@ -35,17 +35,33 @@ export type User = {
     email?: string,
     toots: number,
     bio?: string;
+    tootsGive:number;
     img?:string;
 
 };
 export interface IMethod {
     user ?: User | null;
+    topTooter?:boolean;
     setUser ?: Dispatch < SetStateAction < User | null >> | null
 }
 export interface INavbar {
     Links?: IMenuLinks[];
 
     hideProfile?: boolean
+}
+export interface ITooter {
+    name: string,
+    _id: string,
+    toots: number,
+    img: string,
+    bio?: string
+}
+export interface ITopTooter {
+width?: string | {
+    xs: string,
+    sm?: string
+};
+user : ITooter
 }
 
 export interface ILayout extends INavbar {

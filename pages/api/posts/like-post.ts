@@ -2,21 +2,15 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type {NextApiRequest, NextApiResponse}
 from 'next'
-const {MongoClient} = require('mongodb');
+const {MongoClient ,ObjectId} = require('mongodb')
 
-type Data = {
-    name: string;
-    email: string;
-    toots?: number;
-    img?: string;
-    bio?: string;
-    _id ?: string;
-}
+
+
 type Error = {
     message: string
 }
 
-export default async function handler(req : NextApiRequest, res : NextApiResponse < Data | Error >) {
+export default async function handler(req : NextApiRequest, res : NextApiResponse < any | Error >) {
         const url = process.env.URI;
         const client = new MongoClient(url);
     try {
@@ -25,17 +19,22 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
                 .status(405)
                 .json({message: 'Method Not Allowed'})
         }
-
         
-        const posts = await client
-        .db("SocialToot")
-        .collection("Posts").find().limit(10).sort({$natural:-1}).toArray()
+        const {userId,nb ,postId} = req.query
         
-       return res.status(200).json(posts)
- 
+        if (!userId || !nb)   throw 'Invalid Id'
+        const _id = new ObjectId(userId)
+        const post_Id = new ObjectId(postId)
+
+        let num = Number(nb)
+        
+       await  client.db('SocialToot').collection('Users').update({_id},{$inc:{'toots':-num,'tootsGiven':num}})
+        await client.db('SocialToot').collection('Posts').update({post_Id},{$inc:{'toots':num}})
+      
+    return  res.status(200).json({ message: 'Posted!' })
+       
  
 
-    
 
     } catch (e) {
         console.log(e)

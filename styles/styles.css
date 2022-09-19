@@ -50,9 +50,8 @@ body {
 
 .sk {
   background: #e6e6e6;
-  -webkit-animation: gradient 2s ease infinite;
-          animation: gradient 2s ease infinite;
-  transition: all 2s ease;
+  -webkit-animation: gradient 1s ease infinite;
+          animation: gradient 1s ease infinite;
 }
 
 @-webkit-keyframes gradient {
@@ -60,7 +59,7 @@ body {
     background: #e6e6e6;
   }
   50% {
-    background: #e4e4e4;
+    background: #dbdbdb;
   }
   100% {
     background: #e6e6e6;
@@ -72,7 +71,7 @@ body {
     background: #e6e6e6;
   }
   50% {
-    background: #e4e4e4;
+    background: #dbdbdb;
   }
   100% {
     background: #e6e6e6;
