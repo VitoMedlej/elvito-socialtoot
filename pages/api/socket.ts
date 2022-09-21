@@ -2,7 +2,6 @@ import {Server} from 'socket.io';
 const {MongoClient} = require('mongodb');
 
 const ioHandler = async(req : any, res : any) => {
-
     const url = process.env.URI;
     const client = new MongoClient(url);
     const posts = await client
@@ -11,6 +10,7 @@ const ioHandler = async(req : any, res : any) => {
         const users = await client
         .db("SocialToot")
         .collection("Users")
+    // watch both collections for changes
     const changeStream = posts.watch();
     
     const usersChangeStream = users.watch();
@@ -25,34 +25,45 @@ const ioHandler = async(req : any, res : any) => {
             socket
                 .broadcast
                 .emit('a user connected');
-
-            changeStream.on('change', (next : any) => {
-
-                const doc = next
-                ?.fullDocument
                 
-                if (doc
-                    ?.text) 
-                    socket.emit('db change', doc);
-                }
-                
-                
-            );
-            usersChangeStream.on('change', (next : any) => {
-
-                // const doc = next
-                // ?.fullDocument
-                const toots =  next.updateDescription.updatedFields.toots;
-                const _id = next.documentKey._id
-              
-                if (
-                    toots) 
-                    socket.emit('toot change', {toots,_id});
-                }
-                
-                
-            );
-
+                // whenever a change accures, emit the changed data in realtime and update it on client side
+                changeStream.on('change',async (next : any) => {
+                    
+                    if (next?.operationType === 'update') {
+                        // get the new number of toots and the post id
+                        const updatedToots = next.updateDescription.updatedFields.toots;
+                        const documentKey = next.documentKey._id
+                        if (updatedToots && documentKey) {
+                           
+                        socket.emit('toot change',{updatedToots,documentKey });
+    
+                        }
+                    }
+                    const doc = next
+                    ?.fullDocument
+                    
+                    if (doc
+                        ?.text) 
+                        socket.emit('db change', doc);
+                        
+                    }
+                    
+                    
+                );
+                usersChangeStream.on('change', (next : any) => {
+    
+                    // const doc = next
+                    // ?.fullDocument
+                    const toots =  next.updateDescription.updatedFields.toots;
+                    const _id = next.documentKey._id
+                  
+                    if (
+                        toots) 
+                        socket.emit('user toot change', {toots,_id});
+                    }
+                    
+                    
+                );
         });
         io.on('disconnect', (soc) => {
             console.log('soc')
