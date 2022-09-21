@@ -2,9 +2,9 @@ import {Box, Button, Divider, Typography} from '@mui/material'
 import React, {useContext, useEffect, useState} from 'react'
 import {UserContext} from '../../../../pages/_app'
 import AddTootPost from '../../AddTootPost/AddTootPost'
-import Post from '../../Posts/Post'
-import PostSkeleton from '../../Posts/PostSkeleton'
+
 import {useSocket} from '../../../Hooks/useSocket'
+import PostsSection from '../PostsSection/PostsSection'
 
 const MainSection = () => {
 
@@ -13,53 +13,90 @@ const MainSection = () => {
         setPosts] = useState < any > ([])
     const [isLoading,
         setLoading] = useState(false)
-    const TootPost = async (postId:string,nb:number) => {
-        if (user?.toots < nb) {
+    const TootPost = async(postId : string, nb : number) => {
+        try {
+
+       
+        if (user?.toots == 0 ||  user
+            ?.toots < nb) {
             alert('You dont have enough toots!')
             return
-        } 
-        if (!user || !user?._id) return;
-        await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/posts/like-post?nb=${nb}&userId=${user._id}&postId=${postId} ` )
+        }
+        if (!user || !user?._id) 
+                       {
+                console.log('user: ', user);
+                return;
+            }
+        const req = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/posts/like-post?nb=${nb}&userId=${user._id}&postId=${postId} `)
+        const res = await req.json()
+        console.log('res: ', res);
+        const newUser = {
+            ...user,
+            toots : user.toots - nb,
+            tootsGiven: user.tootsGiven + nb,
+        }
+        setUser(newUser)
+        localStorage.setItem('LocalUser', JSON.stringify(newUser))
+    }
+    catch(e){
+        console.log('e: ', e);
+        
+    }
     }
     const GetPosts = async() => {
         setLoading(true);
         const req = await fetch('http://localhost:3000/api/posts/get-posts')
         const res = await req.json()
-        if (res) 
+        if (res) {
             setPosts(res)
+        }
         setLoading(false)
 
     }
-    
 
     const socket = useSocket('/api/socket');
 
     useEffect(() => {
         if (socket) {
+            socket.emit('toot change',null)
+         
 
             socket.on('db change', (data : any) => {
-                const b = JSON.parse(JSON.stringify(data))
-                console.log('b: ', b);
-                let newUniqueArray = []
-                newUniqueArray.push(b) 
-                newUniqueArray =  [...new Map(posts.map((item:any) =>
-                [item['_id'], item])).values()];
-                console.log('newUniqueArray: ', newUniqueArray);
+                if (!data)  return
 
-                if (newUniqueArray && b) 
-                    setPosts(newUniqueArray);
-
-                }
-            );
+                setPosts((oldArray : any) => [
+                    data, ...oldArray
+                ]);
+            });
             socket.on('toot change', (data : any) => {
+               
+                
+                if (!data.updatedToots || !data.documentKey) {
+                    return
+                    }
+              
+                    let newArr = [...posts]
+                    let postIndex = newArr.findIndex((post:any)=>post._id == data.documentKey)  
+                    if (postIndex === -1) return;
+                    newArr[postIndex].toots = data.updatedToots;
+                    setPosts([...newArr])
 
-                const {toots, _id} = JSON.parse(JSON.stringify(data))
-                if (toots && _id && _id === user?._id) {
-                 
-                        const newUser = {...user,toots}
-                        setUser(newUser)
-                        localStorage.setItem('LocalUser',JSON.stringify(newUser))
-                   
+            })
+            socket.on('user toot change', (data : any) => {
+                
+                const {toots, _id} = data
+                console.log('data: ', data);
+                if (toots && _id && _id === user
+                    ?._id) {
+
+                    const newUser = {
+                        ...user,
+                        toots,
+                       
+                    }
+                    setUser(newUser)
+                    localStorage.setItem('LocalUser', JSON.stringify(newUser))
+
                 }
 
             });
@@ -97,21 +134,11 @@ const MainSection = () => {
                 justifyContent: 'center'
             }}>
 
-                <>
-                    {isLoading && posts.length === 0 && [1,2,3,4].map(nb=>{ return <PostSkeleton key={nb}/> }) }
-                    {!isLoading && posts?.length > 0 &&
-                     posts.filter((post:any)=>post.text) 
-                     .map((post : any,i:number)=>{ 
-                        return <Post 
-                        postId={post._id}
-                        currentUserId={user?._id}
-                         userId={post.userId} 
-                         onClick={TootPost}
-                         userName={post.userName} 
-                         userImg={post.userImg} 
-                         postImg={post.postImg} 
-                         toots={post.toots} text={post?.text} key={i}/> }) }
-                    </>
+                <PostsSection
+                    isLoading={isLoading}
+                    TootPost={TootPost}
+                    user={user}
+                    posts={posts}/>
 
             </Box>
 

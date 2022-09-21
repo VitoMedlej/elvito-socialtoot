@@ -74,7 +74,10 @@ const ProfileSection = () => {
                   {user?.name || 'Default User'}
                 </Typography>
                 <Typography fontSize='1em' fontWeight='300'>
-                {user?.toots || 0} toots
+                {user?.toots || 0} toots owned
+                </Typography>
+                <Typography fontSize='1em' fontWeight='300'>
+                {user?.tootsGiven || 0} toots given
                 </Typography>
                 <Typography
                     sx={{

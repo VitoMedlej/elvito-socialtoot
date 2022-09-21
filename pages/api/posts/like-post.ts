@@ -22,16 +22,18 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
         
         const {userId,nb ,postId} = req.query
         
-        if (!userId || !nb)   throw 'Invalid Id'
+        if (!userId || !nb || !postId)   throw 'Invalid Id'
         const _id = new ObjectId(userId)
         const post_Id = new ObjectId(postId)
-
         let num = Number(nb)
+            
+          const a =  await  client.db('SocialToot').collection('Users').update({_id},{$inc:{'toots':-num,'tootsGiven':num}})
+          await  client.db('SocialToot').collection('Posts').update({_id:post_Id},{$inc:{'toots':num}});
+          console.log('a: ', a);
+            
         
-       await  client.db('SocialToot').collection('Users').update({_id},{$inc:{'toots':-num,'tootsGiven':num}})
-        await client.db('SocialToot').collection('Posts').update({post_Id},{$inc:{'toots':num}})
       
-    return  res.status(200).json({ message: 'Posted!' })
+    return  res.status(200).json({ message : 'Success' })
        
  
 

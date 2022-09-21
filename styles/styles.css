@@ -48,6 +48,12 @@ body {
   border-radius: 50%;
 }
 
+.tt {
+  display: flex;
+  justify-content: center;
+  width: 50%;
+}
+
 .sk {
   background: #e6e6e6;
   -webkit-animation: gradient 1s ease infinite;

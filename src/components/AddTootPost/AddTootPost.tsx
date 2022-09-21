@@ -16,7 +16,7 @@ type Snack = {
 
 const AddTootPost = () => {
    
-    const {user} = useContext(UserContext);
+    const {user, setUser} = useContext(UserContext);
    
     const [snack,
         setSnack] = useState<Snack>({severity:'warning',title:'Hi there, im just a useless warning!'});
@@ -51,7 +51,13 @@ const AddTootPost = () => {
            { await handleSubmit(null, 'http://localhost:3000/api/posts/send-post', {
                 ...post
             })
-
+            const newUser = {
+                ...user,
+                toots : user.toots + 1,
+               
+            }
+            setUser(newUser)
+            localStorage.setItem('LocalUser', JSON.stringify(newUser))
             setPost({...post,text:'',postImg:''})
             setOpen(true)
             setLoading(false)

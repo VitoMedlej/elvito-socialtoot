@@ -50,7 +50,8 @@ const Popup= ()=> {
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
           Your goal on this app is to earn "toot" points and donate them. People with
-          most toot donations are featured on the app. What are you waiting for? Give a toot already!
+          most toot donations are featured on the app. First you need an account to do that, so make sure you're logged in.
+          So what are you waiting for? Give a toot already!
           </DialogContentText>
         </DialogContent>
         <DialogActions>

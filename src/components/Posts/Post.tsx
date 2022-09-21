@@ -1,4 +1,4 @@
-import {Box, Typography, Button, Divider} from '@mui/material'
+import {Box, Typography, Button, Divider, Tooltip} from '@mui/material'
 import React from 'react'
 import Img from '../Img/Img'
 
@@ -24,7 +24,7 @@ const Post = ({
     userImg,
     userName
 } : IPost) => {
-
+    
     const isPostOwner = currentUserId === userId
     
     return (
@@ -113,6 +113,7 @@ const Post = ({
                     px: '.85em'
                 }}>
                     {toots}
+                    {' '}
                     Toots
                 </Typography>
                 <Box
@@ -120,11 +121,13 @@ const Post = ({
                     borderTop: '1px solid #8080802b',
                     display: 'flex'
                 }}>
+                    <Tooltip title={isPostOwner ? `Can't toot your own post!` : 'Toot this post! (-1 toots)'}>
+                    <span className='tt'>
                     <Button
                         disabled={isPostOwner}
                         onClick={() => onClick(postId, 1)}
                         sx={{
-                        width: '50%',
+                        width: '100%',
                         display: 'flex',
                         alignItems: 'center',
                         gap: '.5em'
@@ -145,16 +148,22 @@ const Post = ({
                         }}/>
 
                     </Button>
+                    </span>
+
+                    </Tooltip>
+
                     <Divider
                         sx={{
                         height: '40px'
                     }}
                         orientation={'vertical'}/>
+                    <Tooltip title={isPostOwner ? `Can't toot your own post!` : 'Toot this post! (-5 toots)'}>
+                    <span className='tt'>
                     <Button
                         onClick={() => onClick(postId, 5)}
                         disabled={isPostOwner}
                         sx={{
-                        width: '50%',
+                        width: '100%',
                         display: 'flex',
                         alignItems: 'center',
                         gap: '.5em'
@@ -175,6 +184,10 @@ const Post = ({
                         }}/>
 
                     </Button>
+                    </span>
+
+                    </Tooltip>
+
                 </Box>
             </Box>
 

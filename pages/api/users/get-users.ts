@@ -4,7 +4,6 @@
 import type {NextApiRequest, NextApiResponse}
 from 'next'
 import fetchTopTooters from '../../../src/Functions/fetchTopTooters';
-const {MongoClient} = require('mongodb');
 
 type Data = {
     name: string;

@@ -35,8 +35,9 @@ export type User = {
     email?: string,
     toots: number,
     bio?: string;
-    tootsGive:number;
+    tootsGiven:number;
     img?:string;
+    _id: string
 
 };
 export interface IMethod {
