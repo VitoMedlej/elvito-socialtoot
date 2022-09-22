@@ -6,6 +6,7 @@ import Img from "../../Img/Img"
 const TopTooter = ({
     width,
     user,
+    rank,
 } : ITopTooter) => {
     return (
         
@@ -31,13 +32,13 @@ const TopTooter = ({
             <Box>
 
                 <Typography color='#424242' fontWeight='400'>
-                   {user?.name}
+                   {user?.name} {`#${rank + 2}`}
                 </Typography>
                 <Typography color='#424242' fontWeight='300'>
                    {user?.bio}
                 </Typography>
                 <Typography color='#808080ab' fontSize='.9em' fontWeight='300'>
-                    {user?.toots} toots donated
+                    {user?.tootsGiven} toots donated
                 </Typography>
             </Box>
         </Box>

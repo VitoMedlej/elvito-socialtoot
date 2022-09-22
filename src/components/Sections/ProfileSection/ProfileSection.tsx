@@ -39,7 +39,7 @@ const ProfileSection = () => {
                 xs: "97%",
                 sm: '90%'
             },
-            minheight: '440px',
+            height:'fit-content',
             borderRadius: '6px',
             justifyContent: 'center',
             alignItems: 'center'

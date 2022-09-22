@@ -25,10 +25,12 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
         const post_Id = new ObjectId(postId)
         let num = Number(nb)
 
-        const a = await client
-            .db('SocialToot')
-            .collection('Users')
-            .update({
+
+  
+          const updated = await client
+          .db('SocialToot')
+          .collection('Users')
+          .findOneAndUpdate({
                 _id
             }, {
                 $inc: {
@@ -36,10 +38,11 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
                     'tootsGiven': num
                 }
             })
+            console.log('updated: ', updated);
         await client
             .db('SocialToot')
             .collection('Posts')
-            .update({
+        .update({
                 _id: post_Id
             }, {
                 $inc: {
@@ -49,7 +52,7 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
 
         return res
             .status(200)
-            .json({message: 'Success'})
+            .json({message:'success'})
 
     } catch (e) {
         console.log(e)

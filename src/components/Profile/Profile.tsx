@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { IMethod } from '../../Types'
 import Img from '../Img/Img'
 
-const Profile = ({user,setUser,isSameUser,topTooter} : IMethod) => {
+const Profile = ({user,setUser,rank,isSameUser,topTooter} : IMethod) => {
   
   return (
     <>
@@ -46,18 +46,19 @@ const Profile = ({user,setUser,isSameUser,topTooter} : IMethod) => {
                         }}>
 
                             <Typography fontSize='1.5em' fontWeight='600'>
-                               {user?.name || 'Default User'}
+                               {user?.name || 'Default User'} {`#${rank ? rank  : ''}`}
                             </Typography>
-                            {user?.toots && <Typography fontSize='1.1em'>
-                               {user?.tootsGiven || 0} Toots Given 
+                            {user?.tootsGiven && <Typography fontSize='1.1em'>
+                               {user?.tootsGiven} Toots Given 
                             </Typography>}
-                            {user?.toots && isSameUser && <Typography fontSize='1.1em'>
-                               {user?.toots || 0} Toots owned 
-                            </Typography>}
+                            {user?.toots && isSameUser ? <Typography fontSize='1.1em'>
+                               {user?.toots } Toots owned 
+                            </Typography> : ''}
                       
                             <Typography sx={{pt:'.25em'}} color='#555555'>
                             {!user &&  <>Login to earn toots and share them with the world! {' '} <Link href='/account/login'>Login</Link></>}
                             {user && !user.bio ? `This is my boring bio, Im new and have'nt edited my profile yet!` : user?.bio}
+                            
                             </Typography>
                         </Box>
                 </Box>

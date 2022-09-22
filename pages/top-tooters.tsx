@@ -22,7 +22,7 @@ const Index = ({users} : any) => {
                 minWidth: '300px'
             }}
                 maxWidth='lg'>
-                <Profile topTooter={true} user={data[0]}/>
+                <Profile rank={1} topTooter={true} user={data[0]}/>
                 <Divider></Divider>
 
                 <Box
@@ -53,6 +53,7 @@ const Index = ({users} : any) => {
                             .map((tooter : ITooter,index:number) => {
 
                                 return <TopTooter
+                                rank={index}
                                 key={tooter?._id || index}
                                     user={tooter}
                                     width={{

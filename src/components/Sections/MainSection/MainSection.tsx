@@ -66,11 +66,11 @@ const MainSection = () => {
  
     useEffect(() => {
         if (socket) {
-           
-
+ 
             socket.on('db change', (data : any) => {
                 if (!data) 
-                    return
+                    {return}
+                    console.log('posts: ', posts);
                     
                 setPosts((oldArray : any) => [
                     data, ...oldArray
@@ -79,22 +79,20 @@ const MainSection = () => {
          
             socket.on('toot change', (data : any) => {
 
-                if (!data.updatedToots || !data.documentKey || posts.length < 1) {
+                if (!data.updatedToots || !data.documentKey ) {
                     console.log('return because of posts  ');
-                    console.log('posts: ', posts);
                     return
                 }
-                const newPosts = posts && posts.map((post:any) => {
-                    // 👇️ if id equals 2, update country property
-                    if (post._id === data.documentKey) {
-                      return {...post, toots: data.updatedToots};
-                    }
               
-                    // 👇️ otherwise return object as is
-                    return post;
-                  });
-              
-                  setPosts(newPosts);
+                      setPosts((oldArray : any) => [
+                         ...oldArray.map((post:any)=>{
+                            if (post._id === data.documentKey) {
+                                return {...post, toots: data.updatedToots};
+                              }
+                              return post;
+                        })
+                ]);
+                  
                
 
             })

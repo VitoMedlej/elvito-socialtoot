@@ -56,6 +56,7 @@ export interface IPost {
 }
 export interface IMethod {
     user ?: User | null;
+    rank ?: number,
     topTooter?:boolean;
     isSameUser ?: boolean;
     setUser ?: Dispatch < SetStateAction < User | null >> | null
@@ -69,6 +70,7 @@ export interface ITooter {
     name: string,
     _id: string,
     toots: number,
+    tootsGiven : number,
     img: string,
     bio?: string
 }
@@ -77,6 +79,7 @@ width?: string | {
     xs: string,
     sm?: string
 };
+rank : number
 user : ITooter
 }
 
