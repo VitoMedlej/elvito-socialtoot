@@ -70,7 +70,6 @@ const MainSection = () => {
             socket.on('db change', (data : any) => {
                 if (!data) 
                     {return}
-                    console.log('posts: ', posts);
                     
                 setPosts((oldArray : any) => [
                     data, ...oldArray
@@ -80,7 +79,6 @@ const MainSection = () => {
             socket.on('toot change', (data : any) => {
 
                 if (!data.updatedToots || !data.documentKey ) {
-                    console.log('return because of posts  ');
                     return
                 }
               

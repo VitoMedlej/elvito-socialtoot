@@ -30,7 +30,6 @@ const ioHandler = async(req : any, res : any) => {
             });
             // whenever a change accures, emit the changed data in realtime and update it on client side
             changeStream.on('change', (next : any) => {
-                console.log('change: ');
                 
                 if (next?.operationType === 'update') {
                     // get the new number of toots and the post id
@@ -38,7 +37,6 @@ const ioHandler = async(req : any, res : any) => {
                     const documentKey = next.documentKey._id
                     if (updatedToots && documentKey) {
                        
-                    console.log('{updatedToots,documentKey }: ')
                     io.emit('toot change',{updatedToots,documentKey });
 
                     }
@@ -48,7 +46,6 @@ const ioHandler = async(req : any, res : any) => {
                 
                 if (doc
                     ?.text) 
-                    console.log('text added faisfasf ');
                     io.emit('db change', doc);
                     
                 }

@@ -2,6 +2,7 @@ import {Box, Button, Container, Divider, Typography} from '@mui/material'
 import React, {useContext} from 'react'
 import Post from '../../../src/components/Posts/Post'
 import Profile from '../../../src/components/Profile/Profile'
+import ProfileEditModal from '../../../src/components/Profile/ProfileEditModal/ProfileEditModal'
 import Layout from '../../../src/Layout/Layout'
 import { IPost, User } from '../../../src/Types'
 import {UserContext} from '../../_app'
@@ -14,22 +15,18 @@ const index = ({viewedUser ,userPosts}:any) => {
     const posts : IPost[] | null = userPosts ? JSON.parse(userPosts) : null
     const currentUser = viewedUser && JSON.parse(viewedUser) 
     const {user, setUser} = useContext(UserContext);
-    console.log('user: ', user);
-    console.log('currentUser: ', currentUser);
     const isSameUser = currentUser?._id === user?._id
-    console.log('isSameUser: ', isSameUser);
   
     return (
         <Layout title='' description=''>
             <Container>
 
                 <Profile setUser={setUser} isSameUser={isSameUser} user={currentUser}/>
-             {isSameUser &&   <Button
+           
 
-                    sx={{
-                    color: '#00951c',
-                    width: '100%'
-                }}>Edit Profile</Button>}
+            { isSameUser && 
+                <ProfileEditModal />
+            }
                 <Divider/>
                 <Box
                     sx={{
@@ -89,7 +86,6 @@ export const getServerSideProps = async({query} : any) => {
         
         
         const {name,bio,_id,img,toots,tootsGiven} = user;
-        console.log(' user: ',  user);
         return {
             props: {
                 viewedUser : JSON.stringify({name,_id,bio,img,toots,tootsGiven}),
