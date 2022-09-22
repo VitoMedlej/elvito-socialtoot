@@ -1,18 +1,9 @@
 import {Box, Typography, Button, Divider, Tooltip} from '@mui/material'
-import React from 'react'
+import { useRouter } from 'next/router';
+import { IPost } from '../../Types';
 import Img from '../Img/Img'
 
-interface IPost {
-    text : string;
-    toots : boolean;
-    postImg : string;
-    postId : string;
-    userId : string;
-    userName : string
-    userImg : string;
-    currentUserId : string;
-    onClick : (postId : string, nb : number) => void;
-}
+
 const Post = ({
     text,
     postId,
@@ -24,9 +15,11 @@ const Post = ({
     userImg,
     userName
 } : IPost) => {
-    
+    const router = useRouter()
     const isPostOwner = currentUserId === userId
-    
+    const navigate = () => {
+        router.push(`/profile/${userId}/${userName}`)
+    }
     return (
 
         <Box
@@ -54,6 +47,7 @@ const Post = ({
                 alignItems: 'center'
             }}>
                 <Img
+                onClick={navigate}
                     className='cursor'
                     rounded={true}
                     borderRadius={'50%'}
@@ -65,6 +59,8 @@ const Post = ({
                 }}>
 
                     <Typography
+                onClick={navigate}
+
                         sx={{
                         fontSize: '.86em',
                         cursor: 'pointer',
@@ -124,8 +120,8 @@ const Post = ({
                     <Tooltip title={isPostOwner ? `Can't toot your own post!` : 'Toot this post! (-1 toots)'}>
                     <span className='tt'>
                     <Button
-                        disabled={isPostOwner}
-                        onClick={() => onClick(postId, 1)}
+                        disabled={isPostOwner || !onClick}
+                        onClick={() => onClick ? onClick(postId, 1) : null}
                         sx={{
                         width: '100%',
                         display: 'flex',
@@ -160,8 +156,8 @@ const Post = ({
                     <Tooltip title={isPostOwner ? `Can't toot your own post!` : 'Toot this post! (-5 toots)'}>
                     <span className='tt'>
                     <Button
-                        onClick={() => onClick(postId, 5)}
-                        disabled={isPostOwner}
+                         disabled={isPostOwner || !onClick}
+                         onClick={() => onClick ? onClick(postId, 1) : null}
                         sx={{
                         width: '100%',
                         display: 'flex',

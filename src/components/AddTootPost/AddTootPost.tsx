@@ -130,7 +130,6 @@ const AddTootPost = () => {
                 },
                 justifyContent: 'center',
                 width:'100%',
-                cursor: 'pointer'
             }}>
             {user &&    <Tooltip title='Add Image'>
                  {/* <AddImage/> */}

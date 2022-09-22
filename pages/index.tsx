@@ -24,7 +24,7 @@ const index = () => {
             const data = await req.json()
             if (data) {
                 setData(data)
-                
+
             }
         }
     

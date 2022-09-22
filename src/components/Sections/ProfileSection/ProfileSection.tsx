@@ -39,7 +39,7 @@ const ProfileSection = () => {
                 xs: "97%",
                 sm: '90%'
             },
-            height: '400px',
+            minheight: '440px',
             borderRadius: '6px',
             justifyContent: 'center',
             alignItems: 'center'
@@ -66,11 +66,11 @@ const ProfileSection = () => {
                 src={user?.img || 'https://www.svgrepo.com/show/7892/user.svg' }/>
             <Box
                 sx={{
-                transform: 'translateY(-50%)',
+                transform: 'translateY(-45%)',
                 textAlign: 'center',
                 px: '.5em'
             }}>
-                <Typography sx={{cursor:'pointer'}} onClick={()=>navigate()} fontSize='1.4em' fontWeight='400'>
+                <Typography sx={{cursor:'pointer'}} onClick={()=>navigate()} fontSize='1.5em' fontWeight='400'>
                   {user?.name || 'Default User'}
                 </Typography>
                 <Typography fontSize='1em' fontWeight='300'>

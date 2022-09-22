@@ -19,7 +19,8 @@ export interface IImg {
     } | string,
     maxHeight?: string,
     src : string,
-    borderRadius?: string | number
+    borderRadius?: string | number,
+    onClick ?: () => void
 }
 export interface IMenuLinks {
     title : string;
@@ -40,9 +41,23 @@ export type User = {
     _id: string
 
 };
+export interface IPost {
+    text : string;
+    toots : string | number;
+    postImg : string;
+    postId : string;
+    userId : string;
+    _id ?: string
+    
+    userName : string
+    userImg : string;
+    currentUserId : string;
+    onClick ?: (postId : string, nb : number) => void;
+}
 export interface IMethod {
     user ?: User | null;
     topTooter?:boolean;
+    isSameUser ?: boolean;
     setUser ?: Dispatch < SetStateAction < User | null >> | null
 }
 export interface INavbar {

@@ -5,6 +5,15 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
+p, h1, h2, h3 {
+  font-family: "Roboto", sans-serif !important;
+}
+
+button:disabled,
+button[disabled] {
+  opacity: 0.5 !important;
+}
+
 .bg {
   background: #fbfbfb;
 }

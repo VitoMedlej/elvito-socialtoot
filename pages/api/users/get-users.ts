@@ -36,8 +36,8 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
 
     
 
-    } catch (e) {
-        console.log(e)
+    } catch (err) {
+        console.log(err)
         return res
             .status(400)
             .json({message: 'Something went wrong'})

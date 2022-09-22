@@ -3,7 +3,8 @@ import Link from 'next/link'
 import { IMethod } from '../../Types'
 import Img from '../Img/Img'
 
-const Profile = ({user,setUser,topTooter} : IMethod) => {
+const Profile = ({user,setUser,isSameUser,topTooter} : IMethod) => {
+  
   return (
     <>
        <Img
@@ -48,7 +49,10 @@ const Profile = ({user,setUser,topTooter} : IMethod) => {
                                {user?.name || 'Default User'}
                             </Typography>
                             {user?.toots && <Typography fontSize='1.1em'>
-                               {user?.toots} Toots Given!
+                               {user?.tootsGiven || 0} Toots Given 
+                            </Typography>}
+                            {user?.toots && isSameUser && <Typography fontSize='1.1em'>
+                               {user?.toots || 0} Toots owned 
                             </Typography>}
                       
                             <Typography sx={{pt:'.25em'}} color='#555555'>

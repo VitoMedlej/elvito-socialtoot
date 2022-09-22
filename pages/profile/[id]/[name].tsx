@@ -3,23 +3,29 @@ import React, {useContext} from 'react'
 import Post from '../../../src/components/Posts/Post'
 import Profile from '../../../src/components/Profile/Profile'
 import Layout from '../../../src/Layout/Layout'
+import { IPost, User } from '../../../src/Types'
 import {UserContext} from '../../_app'
 
 const userDetails = {
     img: 'https://res.cloudinary.com/dwcu3wcol/image/upload/v1660988199/pexels-photo-48639' +
             '68_pjkfbj.jpg'
 }
-const index = ({currentUser}:any) => {
-
+const index = ({viewedUser ,userPosts}:any) => {
+    const posts : IPost[] | null = userPosts ? JSON.parse(userPosts) : null
+    const currentUser = viewedUser && JSON.parse(viewedUser) 
     const {user, setUser} = useContext(UserContext);
-    const isSameUser = currentUser?.id === user?._id
+    console.log('user: ', user);
+    console.log('currentUser: ', currentUser);
+    const isSameUser = currentUser?._id === user?._id
+    console.log('isSameUser: ', isSameUser);
   
     return (
         <Layout title='' description=''>
             <Container>
 
-                <Profile setUser={setUser} user={currentUser}/>
+                <Profile setUser={setUser} isSameUser={isSameUser} user={currentUser}/>
              {isSameUser &&   <Button
+
                     sx={{
                     color: '#00951c',
                     width: '100%'
@@ -27,17 +33,32 @@ const index = ({currentUser}:any) => {
                 <Divider/>
                 <Box
                     sx={{
-                    pt: '1em',
-                    px: '1em'
+                    pt: '2em',
+                    px: '.5em'
                 }}>
                     <Typography fontSize='1.2em'>
-                        Your Posts
+                        {`${currentUser.name }'s Posts `}
                     </Typography>
-                    {/* <Box>
-                        <Post/>
-                        <Post/>
-                        <Post/>
-                    </Box> */}
+                    <Box sx={{maxWidth:'md',margin:'0 auto'}}>
+
+                    {posts && posts.map((post :IPost)=>{
+                        return    <Post 
+                        key={post._id}
+                                    currentUserId={currentUser?._id}
+                                    postId={post._id || ''}
+                                    userImg={currentUser?.img}
+
+                                    postImg={post.postImg}
+                                    toots={post.toots}
+                                    text={post.text}
+
+                                    userName={currentUser.name}
+                                    userId={post.userId}
+
+                     />
+                    })}
+                    </Box>
+
                 </Box>
             </Container>
         </Layout>
@@ -51,7 +72,7 @@ export const getServerSideProps = async({query} : any) => {
         const {id} = query
         if (!id)   throw 'Invalid Id'
         const {MongoClient ,ObjectId} = require('mongodb')
-        const _id = new ObjectId(id)
+        const user_id = new ObjectId(id)
         const url = process.env.URI;
 
         const client = new MongoClient(url);
@@ -59,14 +80,20 @@ export const getServerSideProps = async({query} : any) => {
         const user = await client
         .db("SocialToot")
         .collection("Users")
-        .findOne({_id});
+        .findOne({_id:user_id});
         if (!user) {
             throw 'Invalid Id'
         }
-        const {name,email,bio,img,toots} = user;
+        const userPosts = await client.db('SocialToot').collection('Posts')
+        .find({'userId':`${user_id}`}).limit(20).sort({$natural:-1}).toArray()
+        
+        
+        const {name,bio,_id,img,toots,tootsGiven} = user;
+        console.log(' user: ',  user);
         return {
             props: {
-                currentUser : {name,email,img,id,bio,toots} 
+                viewedUser : JSON.stringify({name,_id,bio,img,toots,tootsGiven}),
+                userPosts : JSON.stringify(userPosts) 
             }
         }
     } catch (err) {

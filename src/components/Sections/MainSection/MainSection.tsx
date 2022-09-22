@@ -1,5 +1,5 @@
 import {Box, Button, Divider, Typography} from '@mui/material'
-import React, {useContext, useEffect, useState} from 'react'
+import React, {useCallback, useContext, useEffect, useState} from 'react'
 import {UserContext} from '../../../../pages/_app'
 import AddTootPost from '../../AddTootPost/AddTootPost'
 
@@ -16,32 +16,29 @@ const MainSection = () => {
     const TootPost = async(postId : string, nb : number) => {
         try {
 
-       
-        if (user?.toots == 0 ||  user
-            ?.toots < nb) {
-            alert('You dont have enough toots!')
-            return
-        }
-        if (!user || !user?._id) 
-                       {
-                console.log('user: ', user);
+            if (user
+                ?.toots == 0 || user
+                    ?.toots < nb) {
+                alert('You dont have enough toots!')
+                return
+            }
+            if (!user || !user
+                ?._id) {
                 return;
             }
-        const req = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/posts/like-post?nb=${nb}&userId=${user._id}&postId=${postId} `)
-        const res = await req.json()
-        console.log('res: ', res);
-        const newUser = {
-            ...user,
-            toots : user.toots - nb,
-            tootsGiven: user.tootsGiven + nb,
+            await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/posts/like-post?nb=${nb}&userId=${user._id}&postId=${postId} `)
+
+            const newUser = {
+                ...user,
+                toots: user.toots - nb,
+                tootsGiven: user.tootsGiven + nb
+            }
+            setUser(newUser)
+            localStorage.setItem('LocalUser', JSON.stringify(newUser))
+        } catch (e) {
+            console.log('e: ', e);
+
         }
-        setUser(newUser)
-        localStorage.setItem('LocalUser', JSON.stringify(newUser))
-    }
-    catch(e){
-        console.log('e: ', e);
-        
-    }
     }
     const GetPosts = async() => {
         setLoading(true);
@@ -53,57 +50,7 @@ const MainSection = () => {
         setLoading(false)
 
     }
-
-    const socket = useSocket('/api/socket');
-
-    useEffect(() => {
-        if (socket) {
-            socket.emit('toot change',null)
-         
-
-            socket.on('db change', (data : any) => {
-                if (!data)  return
-
-                setPosts((oldArray : any) => [
-                    data, ...oldArray
-                ]);
-            });
-            socket.on('toot change', (data : any) => {
-               
-                
-                if (!data.updatedToots || !data.documentKey) {
-                    return
-                    }
-              
-                    let newArr = [...posts]
-                    let postIndex = newArr.findIndex((post:any)=>post._id == data.documentKey)  
-                    if (postIndex === -1) return;
-                    newArr[postIndex].toots = data.updatedToots;
-                    setPosts([...newArr])
-
-            })
-            socket.on('user toot change', (data : any) => {
-                
-                const {toots, _id} = data
-                console.log('data: ', data);
-                if (toots && _id && _id === user
-                    ?._id) {
-
-                    const newUser = {
-                        ...user,
-                        toots,
-                       
-                    }
-                    setUser(newUser)
-                    localStorage.setItem('LocalUser', JSON.stringify(newUser))
-
-                }
-
-            });
-
-        }
-    }, [socket]);
-
+  
     useEffect(() => {
         if (!isLoading) {
 
@@ -115,6 +62,68 @@ const MainSection = () => {
             setLoading(false)
         }
     }, [])
+    const socket = useSocket('/api/socket');
+ 
+    useEffect(() => {
+        if (socket) {
+           
+
+            socket.on('db change', (data : any) => {
+                if (!data) 
+                    return
+                    
+                setPosts((oldArray : any) => [
+                    data, ...oldArray
+                ]);
+            });
+         
+            socket.on('toot change', (data : any) => {
+
+                if (!data.updatedToots || !data.documentKey || posts.length < 1) {
+                    console.log('return because of posts  ');
+                    console.log('posts: ', posts);
+                    return
+                }
+                const newPosts = posts && posts.map((post:any) => {
+                    // 👇️ if id equals 2, update country property
+                    if (post._id === data.documentKey) {
+                      return {...post, toots: data.updatedToots};
+                    }
+              
+                    // 👇️ otherwise return object as is
+                    return post;
+                  });
+              
+                  setPosts(newPosts);
+               
+
+            })
+            socket.on('user toot change', (data : any) => {
+
+                const {toots, _id} = data
+
+                if (toots && _id && _id === user
+                    ?._id) {
+
+                    const newUser = {
+                        ...user,
+                        toots
+                    }
+                    setUser(newUser)
+                    localStorage.setItem('LocalUser', JSON.stringify(newUser))
+
+                }
+
+            });
+
+        }
+         return () => {
+            if (socket) socket.disconnect();
+         }
+    }, [socket]);
+
+  
+
     return (
         <Box
             className='bg'

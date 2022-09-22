@@ -1,3 +1,4 @@
+import NextNodeServer from 'next/dist/server/next-server';
 import {Server} from 'socket.io';
 const {MongoClient} = require('mongodb');
 
@@ -26,45 +27,48 @@ const ioHandler = async(req : any, res : any) => {
                 .broadcast
                 .emit('a user connected');
                 
-                // whenever a change accures, emit the changed data in realtime and update it on client side
-                changeStream.on('change',async (next : any) => {
-                    
-                    if (next?.operationType === 'update') {
-                        // get the new number of toots and the post id
-                        const updatedToots = next.updateDescription.updatedFields.toots;
-                        const documentKey = next.documentKey._id
-                        if (updatedToots && documentKey) {
-                           
-                        socket.emit('toot change',{updatedToots,documentKey });
-    
-                        }
+            });
+            // whenever a change accures, emit the changed data in realtime and update it on client side
+            changeStream.on('change', (next : any) => {
+                console.log('change: ');
+                
+                if (next?.operationType === 'update') {
+                    // get the new number of toots and the post id
+                    const updatedToots = next.updateDescription.updatedFields.toots;
+                    const documentKey = next.documentKey._id
+                    if (updatedToots && documentKey) {
+                       
+                    console.log('{updatedToots,documentKey }: ')
+                    io.emit('toot change',{updatedToots,documentKey });
+
                     }
-                    const doc = next
-                    ?.fullDocument
+                }
+                const doc = next
+                ?.fullDocument
+                
+                if (doc
+                    ?.text) 
+                    console.log('text added faisfasf ');
+                    io.emit('db change', doc);
                     
-                    if (doc
-                        ?.text) 
-                        socket.emit('db change', doc);
-                        
-                    }
-                    
-                    
-                );
-                usersChangeStream.on('change', (next : any) => {
-    
-                    // const doc = next
-                    // ?.fullDocument
-                    const toots =  next.updateDescription.updatedFields.toots;
-                    const _id = next.documentKey._id
-                  
-                    if (
-                        toots) 
-                        socket.emit('user toot change', {toots,_id});
-                    }
-                    
-                    
-                );
-        });
+                }
+                
+                
+            );
+            usersChangeStream.on('change', (next : any) => {
+
+                // const doc = next
+                // ?.fullDocument
+                const toots =  next.updateDescription.updatedFields.toots;
+                const _id = next.documentKey._id
+              
+                if (
+                    toots) 
+                    io.emit('user toot change', {toots,_id});
+                }
+                
+                
+            );
         io.on('disconnect', (soc) => {
             console.log('soc')
         })
