@@ -1,4 +1,5 @@
 import {Box, Typography} from "@mui/material"
+import { useRouter } from "next/router";
 import { ITopTooter } from "../../../Types"
 import Img from "../../Img/Img"
 
@@ -8,9 +9,12 @@ const TopTooter = ({
     user,
     rank,
 } : ITopTooter) => {
+    const router = useRouter();
+    
     return (
         
         <Box
+        onClick={() => router.push(`/profile/${user._id}/${user.name}`)}
         className='rounded'
         id={user?._id}
             sx={{

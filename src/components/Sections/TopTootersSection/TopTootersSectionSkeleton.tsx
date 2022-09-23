@@ -4,11 +4,12 @@ import React from 'react'
 const TopTootersSectionSkeleton = () => {
     return (
         <Box
-            className='sk'
+            className='sk bg'
             sx={{
             height: '100%',
             maxWidth: '400px',
             borderRadius: '6px',
+            display:{xs:'none',lg:'block'},
             mt: '2em',
             padding: '1em',
             width: {

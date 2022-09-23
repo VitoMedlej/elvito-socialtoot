@@ -36,7 +36,7 @@ const MainSection = () => {
             setLoading(false)
         }
     }, [])
-    const socket = useSocket('/api/socket');
+    const socket = useSocket(`${process.env.NEXT_PUBLIC_SITE_URL}/api/socket`);
 
     useEffect(() => {
         if (socket) {
