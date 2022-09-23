@@ -18,12 +18,12 @@ import {
     FormControl
 } from '@mui/material';
 import Link from 'next/link'
-import {ChangeEvent, FormEvent, useEffect, useContext, useState} from 'react';
+import {ChangeEvent, FormEvent, useState} from 'react';
 import {VisibilityOff, Visibility} from '@mui/icons-material';
-import {handleSubmit} from './RegisterForm';
 
 import { IMethod } from '../../Types';
 import Validate from '../../Functions/Validate';
+import { handleSubmit } from '../../Functions/handleSubmit';
 
 export function Copyright(props : any) {
     return (
@@ -63,16 +63,17 @@ const LoginForm = ({setUser}:IMethod) => {
     }
     const Submit = async(e : FormEvent < HTMLFormElement >) => {
         e.preventDefault()
+      
         if (userData.email && userData.password) {
-            const loggedUser = await handleSubmit(e, 'http://localhost:3000/api/auth/login', {
+            const loggedUser = await handleSubmit(e, `${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/login`, {
                 email: userData.email,
                 password: userData.password
             })
-
+            
             if (loggedUser && loggedUser
                 ?.email && setUser) {
                 resetForm()
-
+                 localStorage.setItem('LocalUser',JSON.stringify(loggedUser))
                 await setUser(loggedUser) 
             }
         }
@@ -127,7 +128,7 @@ const LoginForm = ({setUser}:IMethod) => {
                     </Typography>
                     <Box
                         component="form"
-                        onSubmit={(e) => Submit(e)}
+                        onSubmit={(e:any) => Submit(e)}
                         sx={{
                         mt: 1
                     }}>

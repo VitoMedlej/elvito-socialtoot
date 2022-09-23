@@ -1,13 +1,21 @@
 import {Box, Typography, Button} from '@mui/material'
 import Link from 'next/link'
-import React from 'react'
-import { User } from '../../../Types'
+import { useRouter } from 'next/router'
+import  { useContext } from 'react'
+import { UserContext } from '../../../../pages/_app'
 import Img from '../../Img/Img'
 
 
 
-const ProfileSection = ({user}:{user:User}) => (
-    <Box
+const ProfileSection = () => {
+    const {user} = useContext(UserContext);
+    const router = useRouter()
+    const navigate = () => {
+        if (user && user._id) {
+            router.push(`/profile/${user._id}/${user.name}`)
+        }
+    }
+  return  (<Box
         className='bg'
         sx={{
         display: {
@@ -31,7 +39,7 @@ const ProfileSection = ({user}:{user:User}) => (
                 xs: "97%",
                 sm: '90%'
             },
-            height: '400px',
+            height:'fit-content',
             borderRadius: '6px',
             justifyContent: 'center',
             alignItems: 'center'
@@ -55,18 +63,21 @@ const ProfileSection = ({user}:{user:User}) => (
                 width='120px'
                 height='120px'
                 rounded={true}
-                src={'https://www.svgrepo.com/show/7892/user.svg' }/>
+                src={user?.img || 'https://www.svgrepo.com/show/7892/user.svg' }/>
             <Box
                 sx={{
-                transform: 'translateY(-50%)',
+                transform: 'translateY(-45%)',
                 textAlign: 'center',
                 px: '.5em'
             }}>
-                <Typography fontSize='1.4em' fontWeight='400'>
-                  {user?.name}
+                <Typography sx={{cursor:'pointer'}} onClick={()=>navigate()} fontSize='1.5em' fontWeight='400'>
+                  {user?.name || 'Default User'}
                 </Typography>
                 <Typography fontSize='1em' fontWeight='300'>
-                {user?.toots} toots
+                {user?.toots || 0} toots owned
+                </Typography>
+                <Typography fontSize='1em' fontWeight='300'>
+                {user?.tootsGiven || 0} toots given
                 </Typography>
                 <Typography
                     sx={{
@@ -75,17 +86,19 @@ const ProfileSection = ({user}:{user:User}) => (
                     color='#707070'
                     fontSize='.8em'
                     fontWeight='300'>
-                   {user?.bio || <>Login to earn toots and share them with the world! {' '} <Link href='/account/login'>Login</Link></>}
+                   {!user &&  !user?.bio && <>Login to earn toots and share them with the world! {' '} <Link href='/account/login'>Login</Link></>}
+                    {user && !user?.bio ? `This is my boring bio, Im new and have'nt edited my profile yet!` : user?.bio}
                 </Typography>
             </Box>
             <Button
-            disabled={true}
+            onClick={()=>navigate()}
+            disabled={!user || !user?._id}
                 sx={{
                 color: '#00951c',
                 width: '100%'
             }}>Edit Profile</Button>
         </Box>
-    </Box>
-)
+    </Box>)
+}
 
 export default ProfileSection

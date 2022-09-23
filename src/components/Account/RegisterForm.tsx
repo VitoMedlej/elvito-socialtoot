@@ -15,29 +15,10 @@ import {Copyright} from './LoginForm';
 import {ChangeEvent, FormEvent, useState} from 'react';
 import { IMethod } from '../../Types';
 import Validate from '../../Functions/Validate';
+import { handleSubmit } from '../../Functions/handleSubmit';
 
 const theme = createTheme();
-export const handleSubmit = async(e : FormEvent < HTMLFormElement >, url : string, body : {
-    name?: string,
-    email: string,
-    password: string
-}) => {
-    e.preventDefault()
-    try {
-        const req = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body)
-        })
-        const res = await req.json()
-        if (res) return res
-    } catch (e) {
-        console.log('Error:', e)
-    }
-}
+
 
 
 const RegisterFrom = ({setUser}:IMethod) => {
@@ -55,18 +36,21 @@ const RegisterFrom = ({setUser}:IMethod) => {
     }
     const Submit = async (e:FormEvent < HTMLFormElement >) =>{
         e.preventDefault();
-     const loggedUser = await  handleSubmit(e, 'http://localhost:3000/api/auth/register', {
+     const loggedUser = await  handleSubmit(e, `${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/register`, {
             name: userData.name,
             email: userData.email,
             password: userData.password
         });
         
         
-        if (loggedUser && loggedUser?.email && setUser ) {
+        if (loggedUser && loggedUser?.email && loggedUser._id && setUser ) {
+            localStorage.setItem('LocalUser',JSON.stringify(loggedUser))
+
             await setUser(loggedUser)
             resetForm()
 
         }
+        resetForm()
        
     }
     return (
@@ -111,7 +95,7 @@ const RegisterFrom = ({setUser}:IMethod) => {
                     </Typography>
                     <Box
                         component="form"
-                        onSubmit={(e) => Submit(e) }
+                        onSubmit={(e:any) => Submit(e) }
                         sx={{
                         mt: 3
                     }}>

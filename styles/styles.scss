@@ -3,6 +3,17 @@ body {
     margin: 0;
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
+
+}
+p,h1,h2,h3 {
+    font-family: 'Roboto', sans-serif  !important;
+}
+
+button:disabled,
+button[disabled] {
+    opacity:.5  !important;
+
+
 }
 .bg {
     background: #fbfbfb;
@@ -45,9 +56,14 @@ body {
     border-radius: 50%;
 
 }
+.tt {
+    display:flex;
+    justify-content: center;
+    width:50%;
+}
 .sk {
     background: #e6e6e6;
-    animation: gradient 1.s ease infinite;
+    animation: gradient 1s ease infinite;
 }
 
 @keyframes gradient {

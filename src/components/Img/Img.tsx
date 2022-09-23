@@ -5,6 +5,7 @@ import { IImg } from '../../Types';
 
 
 const Img = ({
+    onClick,
     width,
     maxHeight,
     rounded,
@@ -16,6 +17,7 @@ const Img = ({
 } : IImg) => {
     return (
         <Box
+            onClick={()=> onClick ? onClick() : ''}
             className={className}
             sx={{
             maxHeight: maxHeight,

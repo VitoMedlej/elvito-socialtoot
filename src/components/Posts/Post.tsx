@@ -1,112 +1,139 @@
-import { Box, Typography, Button, Divider } from '@mui/material'
-import React from 'react'
+import {Box, Typography, Button, Divider, Tooltip} from '@mui/material'
+import {useRouter} from 'next/router';
+import {IPost} from '../../Types';
 import Img from '../Img/Img'
 
-const Post = ({img}:any) => {
-  return (
-      <Box
-                    sx={{
-                    flexDirection: 'column',
-                    display: 'flex',
-                    margin: '0 auto',
-                    width: {
-                        xs: '97%',
-                        sm: '90%'
-                    },
-                    my: '1em',
-                    background: 'white',
-                    borderRadius: "6px",
-                    boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
-                    justifyContent: 'center'
+const Post = ({
+    isLiking,
+    text,
+    postId,
+    toots,
+    postImg,
+    onClick,
+    currentUserId,
+    userId,
+    userImg,
+    userName
+} : IPost) => {
+    const router = useRouter()
+    const isPostOwner = currentUserId === userId
+    const navigate = () => {
+        router.push(`/profile/${userId}/${userName}`)
+    }
+    return (
+
+        <Box
+            id={userId}
+            sx={{
+            flexDirection: 'column',
+            display: 'flex',
+            margin: '0 auto',
+            width: {
+                xs: '97%',
+                sm: '90%'
+            },
+            my: '1em',
+            background: 'white',
+            borderRadius: "6px",
+            boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
+            justifyContent: 'center'
+        }}>
+            <Box
+                sx={{
+                display: 'flex',
+                px: '1em',
+                pt: '1em',
+                gap: '.65em',
+                alignItems: 'center'
+            }}>
+                <Img
+                    onClick={navigate}
+                    className='cursor'
+                    rounded={true}
+                    borderRadius={'50%'}
+                    src={`${userImg || 'https://res.cloudinary.com/dwcu3wcol/image/upload/v1661603093/cld-sample-3.jpg'}`}
+                    width='40px'
+                    height='40px'/>
+                <Box sx={{
+                    width: '100%'
                 }}>
-                    <Box
-                        sx={{
-                        display: 'flex',
-                        px: '1em',
-                        pt: '1em',
-                        gap: '.65em',
-                        alignItems: 'center'
-                    }}>
-                        <Img
-                        
-                            className='cursor'
-                            rounded={true}
-                            borderRadius={'50%'}
-                            src={'https://res.cloudinary.com/dwcu3wcol/image/upload/v1661603093/cld-sample-3.jpg'}
-                            width='40px'
-                            height='40px'/>
-                        <Box
-                            sx={{
-                            // borderBottom: '1px solid #8080802b',
-                            width: '100%'
-                        }}>
 
-                            <Typography
-                                sx={{
-                                fontSize: '.86em',
-                                cursor: 'pointer',
-                                fontWeight: '600',
-                                pt: '.25em',
-                                color: 'black'
-                            }}>
-                                FOOER BOOER
-                            </Typography>
-                       
-                            <Typography
-                                sx={{
-                                fontSize: '.79em',
-                                fontWeight: '300',
-                                color: 'gray',
-                                pb: '.15em'
-                            }}>
-                                2022/18/fo
-                            </Typography>
-                        </Box>
-                    </Box>
-                    <Box>
-                        <Typography
-                            sx={{
-                            fontSize: '.9em',
-                            color: '#272727',
-                            py: "1.5em",
-                            px: '.85em'
-                        }}>
-                            agas asf asfwq qwrqwr
-                        </Typography>
-                    </Box>
-
-              {img &&      <img
-                        className='img'
-                        src={'https://res.cloudinary.com/dwcu3wcol/image/upload/v1661165870/Stocksy_txp25ffb26beKO300_Medium_2508530_wdzz1m.jpg'}/>}
-                    <Box
+                    <Typography
+                        onClick={navigate}
                         sx={{
-                        background: 'white',
-                        position: 'relative'
+                        fontSize: '.86em',
+                        cursor: 'pointer',
+                        fontWeight: '600',
+                        pt: '.25em',
+                        color: 'black'
                     }}>
-                        <Typography
-                            sx={{
-                            fontSize: '.75em',
-                            fontWeight: '300',
-                            color: '#555555',
-                            py: ".75em",
-                            px: '.85em'
-                        }}>
-                            0 Toots
-                        </Typography>
-                        <Box
-                            sx={{
-                            borderTop: '1px solid #8080802b',
-                            display: 'flex'
-                        }}>
+                        {userName}
+                    </Typography>
+
+                    <Typography
+                        sx={{
+                        fontSize: '.79em',
+                        fontWeight: '300',
+                        color: 'gray',
+                        pb: '.15em'
+                    }}>
+                        2022/18/fo
+                    </Typography>
+                </Box>
+            </Box>
+            <Box>
+                <Typography
+                    sx={{
+                    fontSize: '.9em',
+                    color: '#272727',
+                    py: "1.5em",
+                    px: '.85em'
+                }}>
+                    {text}
+                </Typography>
+            </Box>
+
+            {postImg && <img className='img' src={`${postImg}`}/>}
+            <Box
+                sx={{
+                background: 'white',
+                position: 'relative'
+            }}>
+                <Typography
+                    sx={{
+                    fontSize: '.75em',
+                    fontWeight: '300',
+                    color: '#555555',
+                    py: ".75em",
+                    px: '.85em'
+                }}>
+                    {toots}
+                    {' '}
+                    Toots
+                </Typography>
+                <Box
+                    sx={{
+                    borderTop: '1px solid #8080802b',
+                    display: 'flex'
+                }}>
+                    <Tooltip
+                        title={isPostOwner
+                        ? `Can't toot your own post!`
+                        : 'Toot this post! (-1 toots)'}>
+                        <span className='tt'>
                             <Button
+                                disabled={isPostOwner || !onClick || isLiking}
+                                onClick={() => onClick
+                                ? onClick(userId, postId, 1)
+                                : null}
                                 sx={{
-                                width: '50%',
+                                width: '100%',
                                 display: 'flex',
                                 alignItems: 'center',
                                 gap: '.5em'
                             }}>
                                 <Typography color='black'>
-                                    Toot 
+                                    Toot
                                 </Typography>
                                 <Img
                                     className='cursor'
@@ -121,10 +148,27 @@ const Post = ({img}:any) => {
                                 }}/>
 
                             </Button>
-                            <Divider sx={{height:'40px'}} orientation={'vertical'} />
+                        </span>
+
+                    </Tooltip>
+
+                    <Divider
+                        sx={{
+                        height: '40px'
+                    }}
+                        orientation={'vertical'}/>
+                    <Tooltip
+                        title={isPostOwner
+                        ? `Can't toot your own post!`
+                        : 'Toot this post! (-5 toots)'}>
+                        <span className='tt'>
                             <Button
+                                disabled={isPostOwner || !onClick || isLiking}
+                                onClick={() => onClick
+                                ? onClick(userId, postId, 5)
+                                : null}
                                 sx={{
-                                width: '50%',
+                                width: '100%',
                                 display: 'flex',
                                 alignItems: 'center',
                                 gap: '.5em'
@@ -145,11 +189,15 @@ const Post = ({img}:any) => {
                                 }}/>
 
                             </Button>
-                        </Box>
-                    </Box>
+                        </span>
+
+                    </Tooltip>
 
                 </Box>
-  )
+            </Box>
+
+        </Box>
+    )
 }
 
 export default Post

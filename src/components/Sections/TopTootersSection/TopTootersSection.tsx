@@ -1,10 +1,11 @@
 import {Box, Divider,Button, Typography} from '@mui/material'
 import { useRouter } from 'next/router'
+import { ITooter } from '../../../Types'
 
 import TopTooter from './TopTooter'
 
-const TopTootersSection = () => {
-    const router = useRouter()
+const TopTootersSection = ({data} : {data:ITooter[]}) => {
+    const router = useRouter();
     return (
     <Box
         className='bg'
@@ -38,9 +39,11 @@ const TopTootersSection = () => {
         <Box sx={{
             pt: '.5em'
         }}>
-            <TopTooter/>
-            <TopTooter/>
-            <TopTooter/>
+          {data && data.map((tooter : ITooter)=>{
+
+return   <TopTooter key={tooter._id} user={tooter}/>
+            })
+              }
         </Box>
         <Button
         onClick={()=>router.push('/top-tooters')}

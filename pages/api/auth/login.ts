@@ -2,15 +2,17 @@
 import type {NextApiRequest, NextApiResponse}
 from 'next'
 import bcrypt from 'bcrypt';
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 const {MongoClient} = require('mongodb');
 
-type Data = {
+export type Data = {
     name: string;
     email: string;
+    tootsGiven: number;
     toots?: number;
-    img ?: string;
+    img?: string;
     bio?: string;
+    _id ?: string;
 }
 type Error = {
     message: string
@@ -31,6 +33,7 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
                 .json({message: 'Invalid or missing parameters'})
         }
         const url = process.env.URI;
+
         const client = new MongoClient(url);
 
         const user = await client
@@ -41,6 +44,7 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
             throw 'Invalid email or password'
 
         }
+        
         const isValid = await bcrypt.compare(password, user.password)
         if (!isValid) {
             throw 'Invalid email or password'
@@ -48,7 +52,15 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
 
         return res
             .status(200)
-            .json({email, name: user.name, img:user.img, toots: user.toots})
+            .json({
+                email,
+                _id: user._id,
+                name: user.name,
+                bio: user.bio,
+                img: user.img,
+                tootsGiven : user?.tootsGiven || 0,
+                toots: user.toots
+            })
 
     } catch (e) {
         console.log(e)

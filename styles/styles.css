@@ -5,6 +5,15 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
+p, h1, h2, h3 {
+  font-family: "Roboto", sans-serif !important;
+}
+
+button:disabled,
+button[disabled] {
+  opacity: 0.5 !important;
+}
+
 .bg {
   background: #fbfbfb;
 }
@@ -48,11 +57,16 @@ body {
   border-radius: 50%;
 }
 
+.tt {
+  display: flex;
+  justify-content: center;
+  width: 50%;
+}
+
 .sk {
   background: #e6e6e6;
-  -webkit-animation: gradient 2s ease infinite;
-          animation: gradient 2s ease infinite;
-  transition: all 2s ease;
+  -webkit-animation: gradient 1s ease infinite;
+          animation: gradient 1s ease infinite;
 }
 
 @-webkit-keyframes gradient {
@@ -60,7 +74,7 @@ body {
     background: #e6e6e6;
   }
   50% {
-    background: #e4e4e4;
+    background: #dbdbdb;
   }
   100% {
     background: #e6e6e6;
@@ -72,7 +86,7 @@ body {
     background: #e6e6e6;
   }
   50% {
-    background: #e4e4e4;
+    background: #dbdbdb;
   }
   100% {
     background: #e6e6e6;

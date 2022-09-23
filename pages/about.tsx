@@ -4,13 +4,15 @@ import Layout from '../src/Layout/Layout'
 
 const Index = () => {
     return (
-        <Layout title='' description=''>
+        <Layout title='About Social-Toot By Elvito' description='Each user starts with 20 toot points, you get them either by posting content for +1 toots, or by earning them through other users dontations'>
+
             <Container
                 sx={{
                 textAlign: 'center',
                 maxWidth: '750px',
                 margin: '4em auto'
             }}>
+                
                 <Typography
                     sx={{
                     fontSize: {
@@ -41,7 +43,7 @@ const Index = () => {
 
                     <a target='_black' href='https://elvito.netlify.app/'>Vito Medlej</a>{' '}
                     builds all kinds of projects under the Elvito name, This is not a real social
-                    media application but rather it is a personal project
+                    media application rather it is a personal project
                 </Typography>
                 <Typography
                     sx={{
@@ -50,9 +52,9 @@ const Index = () => {
                 }}
                     fontSize='.9em'
                     color='#575757'>
-                    Please do not use and real, or personal information as I take no responsibility
-                    for anything that happenes within the application since it is not monitored nor
-                    maintained.
+                        Each user starts with 20 toot points, you get them either by posting content for +1 toots,
+                        or by earning them through other user's dontations, your goal is to donate as much as possible to 
+                        be featured on the top tooters list. So, give as many toots as you can!
                 </Typography>
             </Container>
         </Layout>
