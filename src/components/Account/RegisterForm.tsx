@@ -36,7 +36,7 @@ const RegisterFrom = ({setUser}:IMethod) => {
     }
     const Submit = async (e:FormEvent < HTMLFormElement >) =>{
         e.preventDefault();
-     const loggedUser = await  handleSubmit(e, 'http://localhost:3000/api/auth/register', {
+     const loggedUser = await  handleSubmit(e, `${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/register`, {
             name: userData.name,
             email: userData.email,
             password: userData.password

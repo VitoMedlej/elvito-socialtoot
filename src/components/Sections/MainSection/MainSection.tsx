@@ -16,7 +16,7 @@ const MainSection = () => {
 
     const GetPosts = async() => {
         setLoading(true);
-        const req = await fetch('http://localhost:3000/api/posts/get-posts')
+        const req = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/posts/get-posts`)
         const res = await req.json()
         if (res) {
             setPosts(res)

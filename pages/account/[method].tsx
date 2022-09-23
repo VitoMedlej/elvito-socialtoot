@@ -35,8 +35,8 @@ const Index = () => {
             Links={!isLogged
             ? Links
             : undefined}
-            title=''
-            description=''>
+            title='Join SocialToot Today and Share Toots With hundreds of Tooters!'
+            description='create an account or login into socialtoot to earn and spend toots on posts for a chance to get featured on socialtoot | start with free 20 toos | SocialToot by Elvito'>
             { <Box className='bg' sx={{
                 position: 'relative'
             }}>

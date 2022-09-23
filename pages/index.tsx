@@ -33,7 +33,7 @@ const index = () => {
     },[])
     
     return (
-        <Layout title='' description=''>
+        <Layout title='SocialToot by elvito | Earn and give toots!' description='Socialtoot is a social media app where you share your toots with the world while scrolling your feed and view other tooters'>
             <Popup/>
             <Box
                 className='bg'

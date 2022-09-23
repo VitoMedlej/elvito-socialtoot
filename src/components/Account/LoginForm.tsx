@@ -65,7 +65,7 @@ const LoginForm = ({setUser}:IMethod) => {
         e.preventDefault()
       
         if (userData.email && userData.password) {
-            const loggedUser = await handleSubmit(e, 'http://localhost:3000/api/auth/login', {
+            const loggedUser = await handleSubmit(e, `${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/login`, {
                 email: userData.email,
                 password: userData.password
             })

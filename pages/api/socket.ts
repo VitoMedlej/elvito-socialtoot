@@ -1,4 +1,3 @@
-import NextNodeServer from 'next/dist/server/next-server';
 import {Server} from 'socket.io';
 const {MongoClient} = require('mongodb');
 
@@ -54,8 +53,7 @@ const ioHandler = async(req : any, res : any) => {
             );
             usersChangeStream.on('change', (next : any) => {
 
-                // const doc = next
-                // ?.fullDocument
+               
                 const toots =  next.updateDescription.updatedFields.toots;
                 const _id = next.documentKey._id
               
@@ -67,7 +65,7 @@ const ioHandler = async(req : any, res : any) => {
                 
             );
         io.on('disconnect', (soc) => {
-            console.log('soc')
+            console.log('disconnected')
         })
 
         res.socket.server.io = io;

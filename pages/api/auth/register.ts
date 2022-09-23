@@ -46,7 +46,6 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
                 .json({message: 'Missing parameters'})
         }
         const salt = await bcrypt.genSalt(6);
-        // const secret = process.env.SECRET
         const url = process.env.URI
         const hashedPassword = await bcrypt.hash(password, salt);
         const client = new MongoClient(url);

@@ -10,7 +10,7 @@ const Index = ({users} : any) => {
     let data = users && JSON.parse(users)
 
     return (
-        <Layout title='' description=''>
+        <Layout title={`Top 10 Tooters on SocialToot | Most Toot Givers `} description='A top 10 list of most toot givers on socialtoot by elvito | Use your toots for a chance to be featured on the application'>
 
             <Container
                 sx={{

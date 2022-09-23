@@ -48,7 +48,7 @@ const AddTootPost = () => {
         if (post
             ?.userId && !isLoading) 
             setLoading(true)
-           { await handleSubmit(null, 'http://localhost:3000/api/posts/send-post', {
+           { await handleSubmit(null, `${process.env.NEXT_PUBLIC_SITE_URL}/api/posts/send-post`, {
                 ...post
             })
             const newUser = {

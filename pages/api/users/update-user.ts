@@ -37,7 +37,6 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
                     bio
                 }
             })
-        console.log('updatedres: ', updatedres);
 
         if (updatedres
             ?.modifiedCount == 0) 
