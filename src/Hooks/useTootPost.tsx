@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 import { UserContext } from '../../pages/_app';
 
-const tootPost = () => {
+const useTootPost = () => {
     const [isLiking,setLiking] = useState(false);
     const {user, setUser} = useContext(UserContext);
 
@@ -40,4 +40,4 @@ const tootPost = () => {
     return {tootPost, isLiking}
 }
 
-export default tootPost
+export default useTootPost

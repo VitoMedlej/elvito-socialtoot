@@ -11,7 +11,7 @@ import { ITooter } from "../src/Types"
 
 
 
-const index = () => {
+const Index = () => {
     const [data,setData] = useState<ITooter[] | null>(null)
     const [isLoading,setLoading] = useState(false)
 
@@ -60,4 +60,4 @@ const index = () => {
     )
 }
 
-export default index
+export default Index

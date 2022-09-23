@@ -8,7 +8,7 @@ import { IPost, User } from '../../../src/Types'
 import {UserContext} from '../../_app'
 
 
-const index = ({viewedUser ,userPosts}:any) => {
+const Index = ({viewedUser ,userPosts}:any) => {
     const posts : IPost[] | null = userPosts ? JSON.parse(userPosts) : null
     const currentUser = viewedUser && JSON.parse(viewedUser) 
     const {user, setUser} = useContext(UserContext);
@@ -20,7 +20,7 @@ const index = ({viewedUser ,userPosts}:any) => {
         localStorage.setItem('LocalUser',JSON.stringify(currentUser))
 
     }
-   },[isSameUser])
+   },[isSameUser, currentUser])
     return (
         <Layout title={`View ${currentUser.name}'s profile and posts! | SocialToot`} description={`${currentUser.name} gave ${currentUser.tootsGiven} toots! share your toots with the world for a chance to be a top tooter on socialtoot! `}>
             <Container>
@@ -48,7 +48,7 @@ const index = ({viewedUser ,userPosts}:any) => {
                                     currentUserId={currentUser?._id}
                                     postId={post._id || ''}
                                     userImg={currentUser?.img}
-
+                                    date={post.date}
                                     postImg={post.postImg}
                                     toots={post.toots}
                                     text={post.text}
@@ -66,7 +66,7 @@ const index = ({viewedUser ,userPosts}:any) => {
     )
 }
 
-export default index
+export default Index
 
 export const getServerSideProps = async({query} : any) => {
     try {

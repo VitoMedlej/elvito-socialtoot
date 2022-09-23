@@ -7,6 +7,6 @@ export const fetchPosts = async(url : string) => {
             : null
        
     } catch (e) {
-        console.log('Error:', e)
+        console.log('Error o1:', e)
     }
 }

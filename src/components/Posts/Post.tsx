@@ -22,12 +22,7 @@ const Post = ({
     const navigate = () => {
         router.push(`/profile/${userId}/${userName}`)
     }
-    // useEffect( () => {
-
-        
-    // },[])
-    // const TimeFromNow = date ? dayjs(`${date}`).fromNow() : 'Some time ago' 
-    // console.log('TimeFromNow: ', dayjs);
+  
     return (
 
         <Box
@@ -102,7 +97,7 @@ const Post = ({
                 </Typography>
             </Box>
 
-            {postImg && <img className='img' src={`${postImg}`}/>}
+            {postImg && <img alt='img' className='img' src={`${postImg}`}/>}
             <Box
                 sx={{
                 background: 'white',

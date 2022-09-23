@@ -14,7 +14,7 @@ const Layout = ({children, title, description, Links, hideProfile} : ILayout) =>
                     href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap"/>
                 <style
                     data-href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap">
-                    font-family: 'Roboto', sans-serif;
+                    font-family: &apos;Roboto&apos;, sans-serif;
                 </style>
        
 {/* <script dangerouslySetInnerHTML={{ __html: `UPLOADCARE_PUBLIC_KEY =  ${process.env.NEXT_PUBLIC_API_KEY}` }} /> */}

@@ -19,7 +19,9 @@ import {
 } from '@mui/material';
 import Link from 'next/link'
 import {ChangeEvent, FormEvent, useState} from 'react';
-import {VisibilityOff, Visibility} from '@mui/icons-material';
+import  Visibility from '@mui/icons-material/Visibility';
+import  VisibilityOff from '@mui/icons-material/VisibilityOff';
+
 
 import { IMethod } from '../../Types';
 import Validate from '../../Functions/Validate';

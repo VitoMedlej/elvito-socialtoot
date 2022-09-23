@@ -53,7 +53,7 @@ const Index = () => {
                     fontSize='.9em'
                     color='#575757'>
                         Each user starts with 20 toot points, you get them either by posting content for +1 toots,
-                        or by earning them through other user's dontations, your goal is to donate as much as possible to 
+                        or by earning them through other user&apos;s dontations, your goal is to donate as much as possible to 
                         be featured on the top tooters list. So, give as many toots as you can!
                 </Typography>
             </Container>
