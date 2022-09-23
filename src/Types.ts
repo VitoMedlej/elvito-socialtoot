@@ -48,11 +48,11 @@ export interface IPost {
     postId : string;
     userId : string;
     _id ?: string
-    
+    isLiking ?: boolean;
     userName : string
     userImg : string;
     currentUserId : string;
-    onClick ?: (postId : string, nb : number) => void;
+    onClick ?: (userId:string,postId : string, nb : number) => void;
 }
 export interface IMethod {
     user ?: User | null;

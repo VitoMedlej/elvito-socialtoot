@@ -17,20 +17,20 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
                 .json({message: 'Method Not Allowed'})
         }
 
-        const {userId, nb, postId} = req.query
+        const {userId, nb,posterId, postId} = req.query
 
-        if (!userId || !nb || !postId) 
+        if (!userId || !nb || !postId || !posterId) 
            { throw 'Invalid Id'}
         const _id = new ObjectId(userId)
         const post_Id = new ObjectId(postId)
+        const post_owner_Id = new ObjectId(posterId)
+
         let num = Number(nb)
 
-
-  
-          const updated = await client
+          await client
           .db('SocialToot')
           .collection('Users')
-          .findOneAndUpdate({
+          .updateOne({
                 _id
             }, {
                 $inc: {
@@ -38,11 +38,12 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
                     'tootsGiven': num
                 }
             })
-            console.log('updated: ', updated);
+           
+        await client.db('SocialToot').collection('Users').updateOne({_id:post_owner_Id},{$inc:{'toots':num}})
         await client
             .db('SocialToot')
             .collection('Posts')
-        .update({
+        .updateOne({
                 _id: post_Id
             }, {
                 $inc: {

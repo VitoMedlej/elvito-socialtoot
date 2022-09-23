@@ -1,3 +1,4 @@
+import useTootPost from "../../../Hooks/useTootPost";
 import { User } from "../../../Types";
 import Post from "../../Posts/Post";
 import PostSkeleton from "../../Posts/PostSkeleton";
@@ -6,11 +7,11 @@ import PostSkeleton from "../../Posts/PostSkeleton";
     isLoading: boolean;
     posts: any[];
     user : User ;
-    TootPost : (postId : string, nb : number) => void
- }
-const PostsSection = ({isLoading ,TootPost ,posts,user}:IPostsSection) => {
     
-
+ }
+const PostsSection = ({isLoading  ,posts,user}:IPostsSection) => {
+    
+const {tootPost, isLiking} = useTootPost()
 const arrayUniqueByKey = [...new Map(posts.map((item) =>
     [item['_id'], item])).values()];
     
@@ -25,8 +26,9 @@ const arrayUniqueByKey = [...new Map(posts.map((item) =>
                         postId={post._id}
                         currentUserId={user
                         ?._id}
+                        isLiking={isLiking}
                         userId={post.userId}
-                        onClick={TootPost}
+                        onClick={tootPost}
                         userName={post.userName}
                         userImg={post.userImg}
                         postImg={post.postImg}

@@ -1,5 +1,5 @@
 import {Box, Button, Container, Divider, Typography} from '@mui/material'
-import React, {useContext} from 'react'
+import React, {useContext, useEffect} from 'react'
 import Post from '../../../src/components/Posts/Post'
 import Profile from '../../../src/components/Profile/Profile'
 import ProfileEditModal from '../../../src/components/Profile/ProfileEditModal/ProfileEditModal'
@@ -16,7 +16,14 @@ const index = ({viewedUser ,userPosts}:any) => {
     const currentUser = viewedUser && JSON.parse(viewedUser) 
     const {user, setUser} = useContext(UserContext);
     const isSameUser = currentUser?._id === user?._id
-  
+    
+   useEffect(() => {
+    if (isSameUser && currentUser) {
+        setUser(currentUser)
+        localStorage.setItem('LocalUser',JSON.stringify(currentUser))
+
+    }
+   },[isSameUser])
     return (
         <Layout title='' description=''>
             <Container>

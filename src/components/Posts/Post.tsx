@@ -1,10 +1,10 @@
 import {Box, Typography, Button, Divider, Tooltip} from '@mui/material'
-import { useRouter } from 'next/router';
-import { IPost } from '../../Types';
+import {useRouter} from 'next/router';
+import {IPost} from '../../Types';
 import Img from '../Img/Img'
 
-
 const Post = ({
+    isLiking,
     text,
     postId,
     toots,
@@ -47,7 +47,7 @@ const Post = ({
                 alignItems: 'center'
             }}>
                 <Img
-                onClick={navigate}
+                    onClick={navigate}
                     className='cursor'
                     rounded={true}
                     borderRadius={'50%'}
@@ -59,8 +59,7 @@ const Post = ({
                 }}>
 
                     <Typography
-                onClick={navigate}
-
+                        onClick={navigate}
                         sx={{
                         fontSize: '.86em',
                         cursor: 'pointer',
@@ -117,34 +116,39 @@ const Post = ({
                     borderTop: '1px solid #8080802b',
                     display: 'flex'
                 }}>
-                    <Tooltip title={isPostOwner ? `Can't toot your own post!` : 'Toot this post! (-1 toots)'}>
-                    <span className='tt'>
-                    <Button
-                        disabled={isPostOwner || !onClick}
-                        onClick={() => onClick ? onClick(postId, 1) : null}
-                        sx={{
-                        width: '100%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '.5em'
-                    }}>
-                        <Typography color='black'>
-                            Toot
-                        </Typography>
-                        <Img
-                            className='cursor'
-                            src={'https://www.svgrepo.com/show/22959/air-horn.svg'}
-                            width={{
-                            xs: '20px',
-                            sm: '30px'
-                        }}
-                            height={{
-                            xs: '20px',
-                            sm: '30px'
-                        }}/>
+                    <Tooltip
+                        title={isPostOwner
+                        ? `Can't toot your own post!`
+                        : 'Toot this post! (-1 toots)'}>
+                        <span className='tt'>
+                            <Button
+                                disabled={isPostOwner || !onClick || isLiking}
+                                onClick={() => onClick
+                                ? onClick(userId, postId, 1)
+                                : null}
+                                sx={{
+                                width: '100%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '.5em'
+                            }}>
+                                <Typography color='black'>
+                                    Toot
+                                </Typography>
+                                <Img
+                                    className='cursor'
+                                    src={'https://www.svgrepo.com/show/22959/air-horn.svg'}
+                                    width={{
+                                    xs: '20px',
+                                    sm: '30px'
+                                }}
+                                    height={{
+                                    xs: '20px',
+                                    sm: '30px'
+                                }}/>
 
-                    </Button>
-                    </span>
+                            </Button>
+                        </span>
 
                     </Tooltip>
 
@@ -153,34 +157,39 @@ const Post = ({
                         height: '40px'
                     }}
                         orientation={'vertical'}/>
-                    <Tooltip title={isPostOwner ? `Can't toot your own post!` : 'Toot this post! (-5 toots)'}>
-                    <span className='tt'>
-                    <Button
-                         disabled={isPostOwner || !onClick}
-                         onClick={() => onClick ? onClick(postId, 1) : null}
-                        sx={{
-                        width: '100%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '.5em'
-                    }}>
-                        <Typography color='black'>
-                            5 TOOTS
-                        </Typography>
-                        <Img
-                            className='cursor'
-                            src={'https://www.svgrepo.com/show/166910/french-horn.svg'}
-                            width={{
-                            xs: '20px',
-                            sm: '30px'
-                        }}
-                            height={{
-                            xs: '20px',
-                            sm: '30px'
-                        }}/>
+                    <Tooltip
+                        title={isPostOwner
+                        ? `Can't toot your own post!`
+                        : 'Toot this post! (-5 toots)'}>
+                        <span className='tt'>
+                            <Button
+                                disabled={isPostOwner || !onClick || isLiking}
+                                onClick={() => onClick
+                                ? onClick(userId, postId, 5)
+                                : null}
+                                sx={{
+                                width: '100%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '.5em'
+                            }}>
+                                <Typography color='black'>
+                                    5 TOOTS
+                                </Typography>
+                                <Img
+                                    className='cursor'
+                                    src={'https://www.svgrepo.com/show/166910/french-horn.svg'}
+                                    width={{
+                                    xs: '20px',
+                                    sm: '30px'
+                                }}
+                                    height={{
+                                    xs: '20px',
+                                    sm: '30px'
+                                }}/>
 
-                    </Button>
-                    </span>
+                            </Button>
+                        </span>
 
                     </Tooltip>
 

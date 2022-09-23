@@ -1,5 +1,5 @@
-import {Box, Button, Divider, Typography} from '@mui/material'
-import React, {useCallback, useContext, useEffect, useState} from 'react'
+import {Box} from '@mui/material'
+import React, {useContext, useEffect, useState} from 'react'
 import {UserContext} from '../../../../pages/_app'
 import AddTootPost from '../../AddTootPost/AddTootPost'
 
@@ -13,33 +13,7 @@ const MainSection = () => {
         setPosts] = useState < any > ([])
     const [isLoading,
         setLoading] = useState(false)
-    const TootPost = async(postId : string, nb : number) => {
-        try {
 
-            if (user
-                ?.toots == 0 || user
-                    ?.toots < nb) {
-                alert('You dont have enough toots!')
-                return
-            }
-            if (!user || !user
-                ?._id) {
-                return;
-            }
-            await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/posts/like-post?nb=${nb}&userId=${user._id}&postId=${postId} `)
-
-            const newUser = {
-                ...user,
-                toots: user.toots - nb,
-                tootsGiven: user.tootsGiven + nb
-            }
-            setUser(newUser)
-            localStorage.setItem('LocalUser', JSON.stringify(newUser))
-        } catch (e) {
-            console.log('e: ', e);
-
-        }
-    }
     const GetPosts = async() => {
         setLoading(true);
         const req = await fetch('http://localhost:3000/api/posts/get-posts')
@@ -50,7 +24,7 @@ const MainSection = () => {
         setLoading(false)
 
     }
-  
+
     useEffect(() => {
         if (!isLoading) {
 
@@ -63,35 +37,35 @@ const MainSection = () => {
         }
     }, [])
     const socket = useSocket('/api/socket');
- 
+
     useEffect(() => {
         if (socket) {
- 
+
             socket.on('db change', (data : any) => {
-                if (!data) 
-                    {return}
-                    
+                if (!data) {
+                    return
+                }
+
                 setPosts((oldArray : any) => [
                     data, ...oldArray
                 ]);
             });
-         
+
             socket.on('toot change', (data : any) => {
 
-                if (!data.updatedToots || !data.documentKey ) {
+                if (!data.updatedToots || !data.documentKey) {
                     return
                 }
-              
-                      setPosts((oldArray : any) => [
-                         ...oldArray.map((post:any)=>{
-                            if (post._id === data.documentKey) {
-                                return {...post, toots: data.updatedToots};
-                              }
-                              return post;
-                        })
-                ]);
-                  
-               
+
+                setPosts((oldArray : any) => [...oldArray.map((post : any) => {
+                        if (post._id === data.documentKey) {
+                            return {
+                                ...post,
+                                toots: data.updatedToots
+                            };
+                        }
+                        return post;
+                    })]);
 
             })
             socket.on('user toot change', (data : any) => {
@@ -113,12 +87,11 @@ const MainSection = () => {
             });
 
         }
-         return () => {
-            if (socket) socket.disconnect();
-         }
-    }, [socket]);
-
-  
+        return () => {
+            if (socket) 
+                socket.disconnect();
+            }
+        }, [socket]);
 
     return (
         <Box
@@ -139,11 +112,7 @@ const MainSection = () => {
                 justifyContent: 'center'
             }}>
 
-                <PostsSection
-                    isLoading={isLoading}
-                    TootPost={TootPost}
-                    user={user}
-                    posts={posts}/>
+                <PostsSection isLoading={isLoading} user={user} posts={posts}/>
 
             </Box>
 
