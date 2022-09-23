@@ -2,7 +2,7 @@ import {Box} from '@mui/material'
 import React, {useContext, useEffect, useState} from 'react'
 import {UserContext} from '../../../../pages/_app'
 import AddTootPost from '../../AddTootPost/AddTootPost'
-
+import Pusher from 'pusher-js';
 import {useSocket} from '../../../Hooks/useSocket'
 import PostsSection from '../PostsSection/PostsSection'
 
@@ -36,22 +36,52 @@ const MainSection = () => {
             setLoading(false)
         }
     }, [])
-    const socket = useSocket('/api/socket');
+    const pusherInstance = useSocket(`${process.env.NEXT_PUBLIC_SITE_URL}/api/test`);
 
-    useEffect(() => {
-        if (socket) {
 
-            socket.on('db change', (data : any) => {
-                if (!data) {
+
+
+
+    useEffect( () => {
+
+
+        if (pusherInstance){ 
+
+          let channel = pusherInstance.subscribe('my-channel');
+        
+          
+            console.log(pusherInstance.allChannels())
+
+            channel.bind('user toot change', (data : any) => {
+
+                const {toots, _id} = data
+
+                if (toots && _id && _id === user
+                    ?._id) {
+
+                    const newUser = {
+                        ...user,
+                        toots
+                    }
+                    setUser(newUser)
+                    localStorage.setItem('LocalUser', JSON.stringify(newUser))
+
+                }
+
+            });
+
+
+            channel.bind('db change', ({doc} : any) => {
+                if (!doc) {
                     return
                 }
 
                 setPosts((oldArray : any) => [
-                    data, ...oldArray
+                    doc, ...oldArray
                 ]);
             });
 
-            socket.on('toot change', (data : any) => {
+            channel.bind('toot change', (data : any) => {
 
                 if (!data.updatedToots || !data.documentKey) {
                     return
@@ -68,7 +98,7 @@ const MainSection = () => {
                     })]);
 
             })
-            socket.on('user toot change', (data : any) => {
+            channel.bind('user toot change', (data : any) => {
 
                 const {toots, _id} = data
 
@@ -87,11 +117,10 @@ const MainSection = () => {
             });
 
         }
-        return () => {
-            if (socket) 
-                socket.disconnect();
-            }
-        }, [socket]);
+
+            return () => pusherInstance && pusherInstance.disconnect();
+           
+    },[pusherInstance])
 
     return (
         <Box
