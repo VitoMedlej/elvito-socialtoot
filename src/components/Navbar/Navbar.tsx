@@ -13,17 +13,13 @@ import {
 } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
 import MenuIcon from '@mui/icons-material/Menu';
-import {useContext, useEffect, useState} from 'react';
+import {useContext, useState} from 'react';
 import Img from '../Img/Img';
 import {IMenuLinks, INavbar} from '../../Types';
 import {useRouter} from 'next/router';
-
 import Typography from '@mui/material/Typography';
-
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import InfoIcon from '@mui/icons-material/Info';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { UserContext } from '../../../pages/_app';
 import logout from '../../Functions/logout';
@@ -140,7 +136,7 @@ const Navbar = ({Links, hideProfile} : INavbar) => {
                                     <ListItemIcon>
                                          <SettingsIcon fontSize='small'/>
                                     </ListItemIcon>
-                                    <ListItemText>Proflie</ListItemText>
+                                    <ListItemText>Profile</ListItemText>
                                   
                                 </MenuItem>
                           

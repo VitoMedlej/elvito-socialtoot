@@ -32,14 +32,13 @@ const Index = () => {
     }
     }
    
-    
-    const send = async () => {
-           await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/test`)
-        }
+    useEffect(() => {
+        getData()
+    },[])
+ 
     return (
         <Layout title='SocialToot by elvito | Earn and give toots!' description='Socialtoot is a social media app where you share your toots with the world while scrolling your feed and view other tooters'>
             <Popup/>
-            <Button onClick={send}>send</Button>
             <Box
                 className='bg'
                 sx={{

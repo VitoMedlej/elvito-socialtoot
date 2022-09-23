@@ -10,6 +10,7 @@ const TopTootersSectionSkeleton = () => {
             maxWidth: '400px',
             borderRadius: '6px',
             mt: '2em',
+            display : {xs:'none',lg:'block'},
             padding: '1em',
             width: {
                 xs: '0%',
@@ -45,6 +46,13 @@ const TopTootersSectionSkeleton = () => {
             background: '#c7c7c7'
         }}/>
             <Box
+                sx={{
+                width: '220px',
+                my: "1em",
+                height: '35px',
+                background: '#c7c7c7'
+            }}/>
+              <Box
                 sx={{
                 width: '220px',
                 my: "1em",

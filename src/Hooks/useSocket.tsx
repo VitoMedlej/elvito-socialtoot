@@ -5,15 +5,16 @@ import Pusher from 'pusher-js';
 export function useSocket(url : string) {
     const [pusherInstance,
         setPusherInstance] = useState < any > (null);
-    useEffect(() => {
+        const key = process.env.PUSHER_APP_KEY;
+        useEffect(() => {
+        if (!key) return
         fetch(url). finally(() => {
-            console.log('I ran in usesocket')
-            let pusher = new Pusher('1df8d9942a0582f59729', {
+            let pusher = new Pusher(key, {
                 cluster: 'eu'
               });
 
               pusher.connection.bind('connected', ()=>{
-                alert('I connected')
+                console.log('connected')
               });
 
               pusher.connection.bind('disconnected', () => {
