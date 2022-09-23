@@ -34,7 +34,7 @@ const TopTooter = ({
                 <Typography color='#424242' fontWeight='400'>
                    {user?.name} {`#${rank + 2}`}
                 </Typography>
-                <Typography color='#424242' fontWeight='300'>
+                <Typography className='limit' color='#717171' fontWeight='300'>
                    {user?.bio}
                 </Typography>
                 <Typography color='#808080ab' fontSize='.9em' fontWeight='300'>

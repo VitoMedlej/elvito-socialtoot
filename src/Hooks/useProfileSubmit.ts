@@ -1,10 +1,12 @@
+import { FileInfo } from '@uploadcare/react-widget';
 import React, {FormEvent, useContext, useEffect} from 'react'
 import {ChangeEvent} from 'react';
 import {UserContext} from '../../pages/_app';
 
 const defaultValues = {
     name: '',
-    bio: ''
+    bio: '',
+    img : '',
 }
 const useProfileSubmit = () => {
     const {user, setUser} = useContext(UserContext);
@@ -19,20 +21,17 @@ const useProfileSubmit = () => {
             [e.target.name]: e.target.value
         })
     }
-    useEffect(() => {
-
-        if (warning) {
-          setTimeout(() => {
-              setWarning('')
-          }, 2000);
+    const handleImage= (fileInfo : FileInfo) => {
+        if (fileInfo && fileInfo.isImage && fileInfo.cdnUrl) {
+            setValue({...value,img:fileInfo.cdnUrl})
         }
+    }
   
-      },[warning])
     const handleProfileSubmit = async(e:FormEvent<HTMLInputElement>) => {
         e.preventDefault()
         try {
 
-            let {name, bio} = value
+            let {name, bio,img} = value
             if (name.length !== 0 && name.length < 4) {
                 setWarning('Your name should be taller than your height (+3 letters)')
                 return
@@ -47,13 +46,16 @@ const useProfileSubmit = () => {
             const updatedName = name.length > 3
                 ? name
                 : user.bio;
+            const updatedImg = img.length > 5
+            ? img
+            : user.img;
 
            const req= await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/users/update-user`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({name: updatedName, bio: updatedBio, _id: user._id})
+                body: JSON.stringify({name: updatedName,img : updatedImg, bio: updatedBio, _id: user._id})
             })
             const res = await req.json()
             
@@ -65,8 +67,10 @@ const useProfileSubmit = () => {
             const newUser = {
                 ...user,
                 bio: updatedBio,
-                name: updatedName
+                name: updatedName,
+                img : updatedImg
             }
+            console.log('newUser: ', newUser);
             setUser(newUser)
             localStorage.setItem('LocalUser', JSON.stringify(newUser))
             setValue(defaultValues)
@@ -76,7 +80,7 @@ const useProfileSubmit = () => {
         }
     }
 
-    return {handleProfileSubmit, warning, value, handleChange}
+    return {handleProfileSubmit, handleImage,warning, value, handleChange}
 }
 
 export default useProfileSubmit

@@ -42,6 +42,7 @@ export type User = {
 
 };
 export interface IPost {
+    date: string;
     text : string;
     toots : string | number;
     postImg : string;

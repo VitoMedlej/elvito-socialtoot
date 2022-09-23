@@ -2,11 +2,13 @@ import {Box, Typography, Button, Divider, Tooltip} from '@mui/material'
 import {useRouter} from 'next/router';
 import {IPost} from '../../Types';
 import Img from '../Img/Img'
+import Moment from 'react-moment';
 
 const Post = ({
     isLiking,
     text,
     postId,
+    date,
     toots,
     postImg,
     onClick,
@@ -20,6 +22,7 @@ const Post = ({
     const navigate = () => {
         router.push(`/profile/${userId}/${userName}`)
     }
+  
     return (
 
         <Box
@@ -65,7 +68,8 @@ const Post = ({
                         cursor: 'pointer',
                         fontWeight: '600',
                         pt: '.25em',
-                        color: 'black'
+                        color: 'black',
+                        width:'fit-content'
                     }}>
                         {userName}
                     </Typography>
@@ -77,7 +81,7 @@ const Post = ({
                         color: 'gray',
                         pb: '.15em'
                     }}>
-                        2022/18/fo
+                     {  date ? <Moment fromNow>{date }</Moment> : '46 years ago lol'}
                     </Typography>
                 </Box>
             </Box>
@@ -93,7 +97,7 @@ const Post = ({
                 </Typography>
             </Box>
 
-            {postImg && <img className='img' src={`${postImg}`}/>}
+            {postImg && <img alt='img' className='img' src={`${postImg}`}/>}
             <Box
                 sx={{
                 background: 'white',

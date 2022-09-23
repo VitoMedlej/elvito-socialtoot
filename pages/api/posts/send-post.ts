@@ -31,11 +31,11 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
         if (!userId)   throw 'Invalid Id'
         const _id = new ObjectId(userId)
 
-        
+        const currentDate = new Date() 
         await client
         .db("SocialToot")
         .collection("Posts")
-        .insertOne(req.body)
+        .insertOne({...req.body,date:currentDate})
         await  client.db('SocialToot').collection('Users').update({_id},{$inc:{'toots':1}})
       
     return  res.status(200).json({ message: 'Posted!' })
