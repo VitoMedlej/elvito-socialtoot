@@ -1,10 +1,10 @@
-import {Box, TextField, Typography, Tooltip, AlertColor} from "@mui/material"
+import {Box, TextField, Tooltip, AlertColor} from "@mui/material"
 import Img from "../Img/Img";
-import {useContext, useEffect, useRef, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {handleSubmit} from "../../Functions/handleSubmit";
 import {UserContext} from "../../../pages/_app";
 import SnackBar from "../SnackBar/SnackBar";
-import { FileInfo, Widget } from "@uploadcare/react-widget";
+import {  Widget } from "@uploadcare/react-widget";
 import { handleImgChange } from "../../Functions/handleImgChange";
 
 
@@ -132,7 +132,6 @@ const AddTootPost = () => {
                 width:'100%',
             }}>
             {user &&    <Tooltip title='Add Image'>
-                 {/* <AddImage/> */}
                     <>
                     <Widget 
                     onChange={(fileInfo)=>handleImgChange(fileInfo,post,setPost)} 
@@ -150,14 +149,14 @@ const AddTootPost = () => {
                         <Img
                             className='cursor'
                             src={'https://www.svgrepo.com/show/42563/horn.svg'}
-                            width={{
-                            xs: '25px',
-                            md: '45px'
-                        }}
-                            height={{
-                            xs: '25px',
-                            md: '45px'
-                        }}/>
+                            width={
+                            
+                            '45px'
+                       }
+                            height={
+                           
+                             '45px'
+                        }/>
                     </Box>
 
                 </Tooltip>
