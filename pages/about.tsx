@@ -4,9 +4,7 @@ import Layout from '../src/Layout/Layout'
 
 const Index = () => {
     return (
-        <Layout title='' description=''>
-
-        
+        <Layout title='About Social-Toot By Elvito' description='Each user starts with 20 toot points, you get them either by posting content for +1 toots, or by earning them through other users dontations'>
 
             <Container
                 sx={{

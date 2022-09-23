@@ -1,4 +1,4 @@
-import {Box, Button, Container, Divider, Typography} from '@mui/material'
+import {Box, Container, Divider, Typography} from '@mui/material'
 import React, {useContext, useEffect} from 'react'
 import Post from '../../../src/components/Posts/Post'
 import Profile from '../../../src/components/Profile/Profile'
@@ -7,10 +7,7 @@ import Layout from '../../../src/Layout/Layout'
 import { IPost, User } from '../../../src/Types'
 import {UserContext} from '../../_app'
 
-const userDetails = {
-    img: 'https://res.cloudinary.com/dwcu3wcol/image/upload/v1660988199/pexels-photo-48639' +
-            '68_pjkfbj.jpg'
-}
+
 const index = ({viewedUser ,userPosts}:any) => {
     const posts : IPost[] | null = userPosts ? JSON.parse(userPosts) : null
     const currentUser = viewedUser && JSON.parse(viewedUser) 
@@ -25,7 +22,7 @@ const index = ({viewedUser ,userPosts}:any) => {
     }
    },[isSameUser])
     return (
-        <Layout title='' description=''>
+        <Layout title={`View ${currentUser.name}'s profile and posts! | SocialToot`} description={`${currentUser.name} gave ${currentUser.tootsGiven} toots! share your toots with the world for a chance to be a top tooter on socialtoot! `}>
             <Container>
 
                 <Profile setUser={setUser} isSameUser={isSameUser} user={currentUser}/>
