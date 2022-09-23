@@ -1,4 +1,4 @@
-import {Box} from "@mui/material"
+import {Box, Button} from "@mui/material"
 import { useEffect, useState} from "react"
 import MainSection from "../src/components/Sections/MainSection/MainSection"
 import ProfileSection from "../src/components/Sections/ProfileSection/ProfileSection"
@@ -7,7 +7,6 @@ import TopTootersSectionSkeleton from "../src/components/Sections/TopTootersSect
 import Layout from "../src/Layout/Layout"
 import Popup from "../src/components/Popup/Popup"
 import { ITooter } from "../src/Types"
-
 
 
 
@@ -32,15 +31,15 @@ const Index = () => {
 
     }
     }
-    useEffect( () => {
+   
     
-        getData()
-        
-    },[])
-    
+    const send = async () => {
+           await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/test`)
+        }
     return (
         <Layout title='SocialToot by elvito | Earn and give toots!' description='Socialtoot is a social media app where you share your toots with the world while scrolling your feed and view other tooters'>
             <Popup/>
+            <Button onClick={send}>send</Button>
             <Box
                 className='bg'
                 sx={{
