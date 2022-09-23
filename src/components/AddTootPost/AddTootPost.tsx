@@ -6,6 +6,7 @@ import {UserContext} from "../../../pages/_app";
 import SnackBar from "../SnackBar/SnackBar";
 import {  Widget } from "@uploadcare/react-widget";
 import { handleImgChange } from "../../Functions/handleImgChange";
+import { useRouter } from "next/router";
 
 
 
@@ -22,7 +23,7 @@ const AddTootPost = () => {
         setSnack] = useState<Snack>({severity:'warning',title:'Hi there, im just a useless warning!'});
     const [isOpen,setOpen] = useState(false)
     const [isLoading,setLoading] = useState(false)
-
+    const router = useRouter()
     const [post,
         setPost] = useState({
             text: '',
@@ -101,6 +102,7 @@ const AddTootPost = () => {
                 severity={snack.severity}
                 title={snack.title}/>
             <Img
+            onClick={()=>router.push(`/profile/${user._id}/${user.name}`)}
                 className='cursor'
                 rounded={true}
                 borderRadius={'50%'}
@@ -123,11 +125,11 @@ const AddTootPost = () => {
                 sx={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: {
-                    xs: '.1em',
-                    sm: '.5em',
-                    md: '1em'
-                },
+                gap: 
+                   
+                   
+                    '1em'
+                ,
                 justifyContent: 'center',
                 width:'100%',
             }}>

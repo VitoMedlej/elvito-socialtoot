@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import {TextField} from '@mui/material';
 import useProfileSubmit from '../../../Hooks/useProfileSubmit';
+import {Widget} from '@uploadcare/react-widget';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -23,13 +24,12 @@ const style = {
 export default function ProfileEditModal() {
     const [open,
         setOpen] = React.useState(false);
-   
-   
+
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-  
-    const {handleProfileSubmit,warning,value, handleChange}= useProfileSubmit()
-  
+
+    const {handleProfileSubmit, warning, value, handleChange, handleImage} = useProfileSubmit()
+
     return (
         <Box sx={{
             margin: '0 auto'
@@ -56,10 +56,17 @@ export default function ProfileEditModal() {
                         <Typography id="transition-modal-title" variant="h6" component="h2">
                             Edit Profile
                         </Typography>
-                        {warning && <Typography id="transition-modal-title" sx={{padding:'.25em',fontSize:'.75em',color:'red',background:'pink'}} >
+                        {warning && <Typography
+                            id="transition-modal-title"
+                            sx={{
+                            padding: '.25em',
+                            fontSize: '.75em',
+                            color: 'red',
+                            background: 'pink'
+                        }}>
                             {warning}
                         </Typography>}
-                        
+
                         <Box
                             onSubmit={handleProfileSubmit}
                             component='form'
@@ -72,7 +79,7 @@ export default function ProfileEditModal() {
                                 fullWidth
                                 id="outlined-basic"
                                 inputProps={{
-                                maxLength: 20
+                                maxLength: 18
                             }}
                                 name='name'
                                 label="Name"
@@ -80,9 +87,9 @@ export default function ProfileEditModal() {
                             <TextField
                                 multiline
                                 rows={3}
-                                helperText='Max 120 letters, this aint your life story'
+                                helperText='Max 110 letters, this aint your life story'
                                 inputProps={{
-                                maxLength: 120
+                                maxLength: 110
                             }}
                                 value={value.bio}
                                 onChange={handleChange}
@@ -94,8 +101,18 @@ export default function ProfileEditModal() {
                                 name='bio'
                                 label="Bio"
                                 variant="outlined"/>
+                                <Box sx={{mt:'.25em',mb:'.5em'}}>
+
+                            <Widget
+                                onChange={(fileInfo) => handleImage(fileInfo)}
+                                publicKey={`${process.env.NEXT_PUBLIC_API_KEY}`}/>
+                                </Box>
                             <Button type='submit'>Update</Button>
-                            <Button onClick={handleClose} sx={{color:'red'}}>Cancel</Button>
+                            <Button
+                                onClick={handleClose}
+                                sx={{
+                                color: 'red'
+                            }}>Cancel</Button>
                         </Box>
                     </Box>
                 </Fade>

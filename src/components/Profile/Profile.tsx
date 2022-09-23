@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { IMethod } from '../../Types'
 import Img from '../Img/Img'
 
-const Profile = ({user,setUser,rank,isSameUser,topTooter} : IMethod) => {
+const Profile = ({user,rank,isSameUser,topTooter} : IMethod) => {
   
   return (
     <>
@@ -40,13 +40,14 @@ const Profile = ({user,setUser,rank,isSameUser,topTooter} : IMethod) => {
                           transform: {xs:'translateY(-30%)',sm:'translateY(0%)'},
                             display: 'flex',
                             flexDirection: 'column',
-                            pt: '.75em',
-                            pl: '1em',
-                            pb: '.5em'
+                            py: '.75em',
+                            width:{xs:'100%',sm:'auto'},
+                            px:'1em',
+                            pb: '.5em',
                         }}>
 
                             <Typography fontSize='1.5em' fontWeight='600'>
-                               {user?.name || 'Default User'} {`#${rank ? rank  : ''}`}
+                               {user?.name || 'Default User'} {rank ? `#${rank}`  : ''}
                             </Typography>
                             {user?.tootsGiven && <Typography fontSize='1.1em'>
                                {user?.tootsGiven} Toots Given 

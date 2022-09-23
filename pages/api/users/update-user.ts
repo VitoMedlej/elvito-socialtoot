@@ -21,10 +21,10 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
                 .json({message: 'Method Not Allowed'})
         }
 
-        const {name, bio, _id} = req.body
+        const {name, bio, img,_id} = req.body
         const id = new ObjectId(_id)
 
-        if (!name || !bio || !_id) 
+        if (!name || !bio || !_id  ) 
             throw 'Invalid or missing parameters'
         const updatedres = await client
             .db('SocialToot')
@@ -34,7 +34,8 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
             }, {
                 $set: {
                     name,
-                    bio
+                    bio,
+                    img
                 }
             })
 

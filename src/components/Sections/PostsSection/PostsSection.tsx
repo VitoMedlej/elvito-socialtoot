@@ -23,6 +23,7 @@ const arrayUniqueByKey = [...new Map(posts.map((item) =>
             {!isLoading && posts
                 ?.length > 0 && arrayUniqueByKey.map((post : any, i : number) => {
                     return <Post
+                        date={post.date}
                         postId={post._id}
                         currentUserId={user
                         ?._id}
