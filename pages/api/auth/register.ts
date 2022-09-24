@@ -3,7 +3,7 @@ import type {NextApiRequest, NextApiResponse}
 from 'next'
 import bcrypt from 'bcrypt';
 import { Data } from './login';
-const jwt = require('jsonwebtoken');
+
 const {MongoClient} = require('mongodb');
 
 

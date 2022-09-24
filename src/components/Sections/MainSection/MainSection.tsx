@@ -21,11 +21,11 @@ const MainSection = () => {
         setLoading] = useState(false)
     const [sortMethod,
         setSortMethod] = useState('Most Recent');
-
+    const [pendingPosts,setPeningPosts] = useState<any>([])
     const GetPosts = async(method : string) => {
         setLoading(true);
         const byToots = method === 'Most Tooted'
-        console.log('byToots: ', byToots);
+        
         const req = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/posts/get-posts?sortByToots=${byToots}`)
         const res = await req.json()
         if (res) {
@@ -34,6 +34,13 @@ const MainSection = () => {
         setLoading(false)
 
     }
+    useEffect(()=>{
+        if (pendingPosts.length > 0) {
+            setPosts((oldArray : any) => [     
+                ...pendingPosts, ...oldArray
+            ]);
+        }
+    },[pendingPosts])
 
     useEffect(() => {
         if (!isLoading) {
@@ -74,13 +81,19 @@ const MainSection = () => {
 
             channel.bind('db change', (doc : any) => {
 
-                // if (!doc     ?.test) {     console.log('return: ', true);     return }
+            
+                if (posts) {
 
-                setPosts((oldArray : any) => [
-
-                    doc, ...oldArray
-                ]);
-
+                    setPosts((oldArray : any) => [
+                        
+                        doc, ...oldArray
+                    ]);
+                    
+                }
+                else {
+                    setPeningPosts([doc,...pendingPosts])
+                }
+                    
             });
 
             channel.bind('post toot change', (data : any) => {

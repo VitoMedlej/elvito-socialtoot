@@ -2,7 +2,7 @@
 import type {NextApiRequest, NextApiResponse}
 from 'next'
 import bcrypt from 'bcrypt';
-// const jwt = require('jsonwebtoken');
+
 const {MongoClient} = require('mongodb');
 
 export type Data = {

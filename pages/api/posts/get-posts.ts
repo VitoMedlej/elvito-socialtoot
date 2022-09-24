@@ -26,7 +26,6 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
                 .json({message: 'Method Not Allowed'})
         }
 
-        console.log('req?.query?.sortByToots: ', req?.query?.sortByToots);
         if (req?.query?.sortByToots === 'true') {
 
         const posts = await client
