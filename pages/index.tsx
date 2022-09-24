@@ -1,4 +1,4 @@
-import {Box, Button} from "@mui/material"
+import {Box} from "@mui/material"
 import {useContext, useEffect, useState} from "react"
 import MainSection from "../src/components/Sections/MainSection/MainSection"
 import ProfileSection from "../src/components/Sections/ProfileSection/ProfileSection"

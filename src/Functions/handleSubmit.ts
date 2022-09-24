@@ -16,7 +16,7 @@ export const handleSubmit = async(e : FormEvent < HTMLFormElement > | null , url
             body: JSON.stringify(body)
         })
         const res = await req.json()
-        if (res) return res
+       return res
     } catch (e) {
         console.log('Error o2:', e)
     }

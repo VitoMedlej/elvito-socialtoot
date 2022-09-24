@@ -12,8 +12,9 @@ const TopTootersSection = ({isLoading,data,refresh} : {
     const router = useRouter();
     return (
         <Box
-            className='bg'
+           
             sx={{
+                
             boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
             background: 'white',
             display: {
@@ -34,6 +35,7 @@ const TopTootersSection = ({isLoading,data,refresh} : {
             <Box
                 sx={{
                 pb: '.5em',
+                background:'white',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between'

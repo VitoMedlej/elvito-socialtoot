@@ -1,10 +1,9 @@
 import {Box} from '@mui/material'
 import React, {useContext, useEffect, useState} from 'react'
 import {UserContext} from '../../../../pages/_app'
-import AddTootPost from '../../AddTootPost/AddTootPost'
-import Pusher from 'pusher-js';
-import {useSocket} from '../../../Hooks/useSocket'
-import PostsSection from '../PostsSection/PostsSection'
+import AddTootPost from '../../AddTootPost/AddTootPost';
+import {useSocket} from '../../../Hooks/useSocket';
+import PostsSection from '../PostsSection/PostsSection';
 
 const MainSection = () => {
 
@@ -36,18 +35,13 @@ const MainSection = () => {
             setLoading(false)
         }
     }, [])
-    const pusherInstance = useSocket(`${process.env.NEXT_PUBLIC_SITE_URL}/api/test`);
-    
+    const pusherInstance = useSocket();
 
+    useEffect(() => {
 
+        if (pusherInstance) {
 
-    useEffect( () => {
-
-
-        if (pusherInstance){ 
-
-          let channel = pusherInstance.subscribe('my-channel');
-        
+            let channel = pusherInstance.subscribe('my-channel');
 
             channel.bind('user toot change', (data : any) => {
 
@@ -67,18 +61,22 @@ const MainSection = () => {
 
             });
 
+            channel.bind('db change', (doc : any) => {
 
-            channel.bind('db change', ({doc} : any) => {
-                if (!doc) {
-                    return
-                }
+                // if (!doc
+                //     ?.test) {
+                //     console.log('return: ', true);
+                //     return
+                // }
 
                 setPosts((oldArray : any) => [
+
                     doc, ...oldArray
                 ]);
+
             });
 
-            channel.bind('toot change', (data : any) => {
+            channel.bind('post toot change', (data : any) => {
 
                 if (!data.updatedToots || !data.documentKey) {
                     return
@@ -88,16 +86,17 @@ const MainSection = () => {
                         if (post._id === data.documentKey) {
                             return {
                                 ...post,
-                                toots: data.updatedToots
+                                toots: post.toots + data.updatedToots
                             };
                         }
                         return post;
                     })]);
 
             })
+
             channel.bind('user toot change', (data : any) => {
 
-                const {toots,tootsGiven, _id} = data
+                const {toots, tootsGiven, _id} = data
 
                 if (toots && tootsGiven && _id && _id === user
                     ?._id) {
@@ -116,9 +115,9 @@ const MainSection = () => {
 
         }
 
-            return () => pusherInstance && pusherInstance.disconnect();
-           
-    },[pusherInstance])
+        return () => pusherInstance && pusherInstance.disconnect();
+
+    }, [pusherInstance])
 
     return (
         <Box

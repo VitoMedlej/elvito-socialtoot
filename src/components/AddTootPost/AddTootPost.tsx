@@ -4,80 +4,99 @@ import {useContext, useEffect, useState} from "react";
 import {handleSubmit} from "../../Functions/handleSubmit";
 import {UserContext} from "../../../pages/_app";
 import SnackBar from "../SnackBar/SnackBar";
-import {  Widget } from "@uploadcare/react-widget";
-import { handleImgChange } from "../../Functions/handleImgChange";
-import { useRouter } from "next/router";
-
-
+import {Widget} from "@uploadcare/react-widget";
+import {handleImgChange} from "../../Functions/handleImgChange";
+import {useRouter} from "next/router";
 
 type Snack = {
-    severity:AlertColor,
-    title:string
+    severity: AlertColor,
+    title: string
 }
 
 const AddTootPost = () => {
-   
+
     const {user, setUser} = useContext(UserContext);
-   
+
     const [snack,
-        setSnack] = useState<Snack>({severity:'warning',title:'Hi there, im just a useless warning!'});
-    const [isOpen,setOpen] = useState(false)
-    const [isLoading,setLoading] = useState(false)
+        setSnack] = useState < Snack > ({severity: 'warning', title: 'Hi there, im just a useless warning!'});
+    const [isOpen,
+        setOpen] = useState(false)
+    const [isLoading,
+        setLoading] = useState(false)
     const router = useRouter()
     const [post,
         setPost] = useState({
-            text: '',
-            userName : '',
-            userId: '',
-            userImg:'',
-            toots: 0,
-            postImg : '',
-        
+        text: '',
+        userName: user?.name,
+        userId: user?._id,
+        userImg: user?.img,
+        toots: 0,
+        postImg: ''
     })
 
     const onSubmit = async() => {
-        if (!user || !user._id) {
-            setOpen(true)
-            setSnack({severity:'error',title:'You must be logged to do that! '})
-            return
-        }
-        if (post.text.length < 2) {
-            setOpen(true)
-            setSnack({severity:'error',title:'Add some text bruh! '})
-            return
-        }
-        if (post
-            ?.userId && !isLoading) 
-            { 
-            setLoading(true)
-            await handleSubmit(null, `${process.env.NEXT_PUBLIC_SITE_URL}/api/posts/send-post`, {
-                ...post
-            })
-            const newUser = {
-                ...user,
-                toots : user.toots + 1,
-               
+        try {
+            if (!user && !user?._id) {
+                setOpen(true)
+                setSnack({severity: 'error', title: 'You must be logged to do that! '})
+                return
             }
-            localStorage.setItem('LocalUser', JSON.stringify(newUser))
-            setUser(newUser)
-            setPost({...post,text:'',postImg:''})
-            setOpen(true)
+            if (!post.userId || !post?.userImg || !post?.userName ) {
+                await setPost({
+                    ...post,
+                    userName: user
+                        ?.name,
+                    userId: user
+                        ?._id,
+                    userImg: user
+                        ?.img
+                })
+               
+                
+            }
+            if (post.text.length < 2) {
+                setOpen(true)
+                setSnack({severity: 'error', title: 'Add some text bruh! '})
+                return
+            }
+            if (post
+                ?.userId && !isLoading) {
+                setLoading(true)
+                const req = await handleSubmit(null, `${process.env.NEXT_PUBLIC_SITE_URL}/api/posts/send-post`, {
+                    ...post
+                })
+
+                // const newUser = {     ...user,     // toots : user.toots + 1, }
+                // localStorage.setItem('LocalUser', JSON.stringify(newUser)) setUser(newUser)
+                setPost({
+                    ...post,
+                    text: '',
+                    postImg: ''
+                })
+                setLoading(false)
+                setOpen(true)
+                setSnack({severity: 'success', title: 'Post Added! +1 Toot points '})
+                return
+            }
+        } catch (E) {
+            console.log('E: ', E);
             setLoading(false)
 
-        setSnack({severity:'success',title:'Post Added! +1 Toot points '})
-        return
-
-    } 
-
+        }
     }
+
     useEffect(() => {
-        setPost({...post, 
-            userName : user?.name,
-            userId: user?._id,
-            userImg:user?.img,
-            })
-    }, [])
-    
+        setPost({
+            ...post,
+            userName: user
+                ?.name,
+            userId: user
+                ?._id,
+            userImg: user
+                ?.img
+        })
+    }, [user])
+
     return (
         <Box
             sx={{
@@ -94,7 +113,7 @@ const AddTootPost = () => {
             width: {
                 xs: '97%',
                 sm: '90%'
-            },
+            }
         }}>
             <SnackBar
                 setOpen={setOpen}
@@ -102,11 +121,17 @@ const AddTootPost = () => {
                 severity={snack.severity}
                 title={snack.title}/>
             <Img
-            onClick={()=>user?._id ? router.push(`/profile/${user?._id}/${user?.name}`) : router.push('/account/login')}
+                onClick={() => user
+                ?._id
+                    ? router.push(`/profile/${user
+                        ?._id}/${user
+                            ?.name}`)
+                    : router.push('/account/login')}
                 className='cursor'
                 rounded={true}
                 borderRadius={'50%'}
-                src={`${user?.img || 'https://www.svgrepo.com/show/7892/user.svg'}`}
+                src={`${user
+                ?.img || 'https://www.svgrepo.com/show/7892/user.svg'}`}
                 width='45px'
                 height='45px'/>
             <TextField
@@ -125,41 +150,30 @@ const AddTootPost = () => {
                 sx={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: 
-                   
-                   
-                    '1em'
-                ,
+                gap: '1em',
                 justifyContent: 'center',
-                width:'100%',
+                width: '100%'
             }}>
-            {user &&    <Tooltip title='Add Image'>
+                {user && <Tooltip title='Add Image'>
                     <>
-                    <Widget
-                    clearable 
-                    onChange={(fileInfo)=>handleImgChange(fileInfo,post,setPost)} 
-                    publicKey={`${process.env.NEXT_PUBLIC_API_KEY}`} />
-                    
-                    </> 
+                        <Widget
+                        clearable
+                        onChange={(fileInfo) => handleImgChange(fileInfo, post, setPost)}
+                        publicKey={`${process.env.NEXT_PUBLIC_API_KEY}`}/>
 
-                </Tooltip>}
+                </>
+
+            </Tooltip>}
                 <Tooltip title='Toot this mf (Post)'>
-                    <Box
-                        onClick={() => {
+                    <Box onClick={() => {
                         onSubmit()
                     }}>
 
                         <Img
                             className='cursor'
                             src={'https://www.svgrepo.com/show/42563/horn.svg'}
-                            width={
-                            
-                            '45px'
-                       }
-                            height={
-                           
-                             '45px'
-                        }/>
+                            width={'45px'}
+                            height={'45px'}/>
                     </Box>
 
                 </Tooltip>
