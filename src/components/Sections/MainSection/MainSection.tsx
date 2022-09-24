@@ -1,4 +1,11 @@
-import {Box} from '@mui/material'
+import {
+    Box,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Select,
+    SelectChangeEvent
+} from '@mui/material'
 import React, {useContext, useEffect, useState} from 'react'
 import {UserContext} from '../../../../pages/_app'
 import AddTootPost from '../../AddTootPost/AddTootPost';
@@ -12,10 +19,14 @@ const MainSection = () => {
         setPosts] = useState < any > ([])
     const [isLoading,
         setLoading] = useState(false)
+    const [sortMethod,
+        setSortMethod] = useState('Most Recent');
 
-    const GetPosts = async() => {
+    const GetPosts = async(method : string) => {
         setLoading(true);
-        const req = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/posts/get-posts`)
+        const byToots = method === 'Most Tooted'
+        console.log('byToots: ', byToots);
+        const req = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/posts/get-posts?sortByToots=${byToots}`)
         const res = await req.json()
         if (res) {
             setPosts(res)
@@ -26,15 +37,15 @@ const MainSection = () => {
 
     useEffect(() => {
         if (!isLoading) {
-
             setLoading(true)
-            GetPosts()
+            GetPosts(sortMethod)
         }
 
         return () => {
             setLoading(false)
         }
-    }, [])
+    }, [sortMethod])
+
     const pusherInstance = useSocket();
 
     useEffect(() => {
@@ -63,11 +74,7 @@ const MainSection = () => {
 
             channel.bind('db change', (doc : any) => {
 
-                // if (!doc
-                //     ?.test) {
-                //     console.log('return: ', true);
-                //     return
-                // }
+                // if (!doc     ?.test) {     console.log('return: ', true);     return }
 
                 setPosts((oldArray : any) => [
 
@@ -119,6 +126,13 @@ const MainSection = () => {
 
     }, [pusherInstance])
 
+    const handleChange = (event : SelectChangeEvent) => {
+        const method = event.target.value as string
+
+        setSortMethod(method);
+
+    };
+
     return (
         <Box
             className='bg'
@@ -134,9 +148,25 @@ const MainSection = () => {
                 sx={{
                 flexDirection: 'column',
                 display: 'flex',
-                margin: '0 auto',
+                margin: '1em auto 0',
                 justifyContent: 'center'
             }}>
+                <Box sx={{width:{xs:'97%',sm:'90%'},display:'flex',alignItems:'end',justifyContent:'end'}}>
+
+                <FormControl  size="small" >
+                    <InputLabel id="demo-simple-select-label">Sort By</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={sortMethod}
+                        label="Sort By"
+                        onChange={handleChange}>
+                        <MenuItem value={'Most Recent'}>Most Recent</MenuItem>
+                        <MenuItem value={'Most Tooted'}>Highest Toots</MenuItem>
+
+                    </Select>
+                </FormControl>
+                </Box>
 
                 <PostsSection isLoading={isLoading} user={user} posts={posts}/>
 

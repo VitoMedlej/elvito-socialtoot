@@ -26,15 +26,38 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
                 .json({message: 'Method Not Allowed'})
         }
 
-        
+        console.log('req?.query?.sortByToots: ', req?.query?.sortByToots);
+        if (req?.query?.sortByToots === 'true') {
+
         const posts = await client
         .db("SocialToot")
-        .collection("Posts").find().limit(20).sort({$natural:-1}).toArray()
+        .collection("Posts").aggregate([
+            {
+                $sort: {
+                    "toots": -1
+                }
+            }
+        ,{
+            $limit : 20
+
+        }
+        ])
+        .toArray()
         
+      
        return res.status(200).json(posts)
  
- 
+    }
 
+   
+    const posts = await client
+    .db("SocialToot")
+    .collection("Posts").find()
+    .limit(20)
+    .sort({$natural:-1})
+    .toArray()
+
+    return res.status(200).json(posts)
     
 
     } catch (e) {

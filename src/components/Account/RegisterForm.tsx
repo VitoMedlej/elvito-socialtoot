@@ -56,6 +56,7 @@ const RegisterFrom = ({setUser}:IMethod) => {
     return (
         <ThemeProvider theme={theme}>
             <Container
+             className='animated'
                 sx={{
                 borderRadius: '6px'
             }}

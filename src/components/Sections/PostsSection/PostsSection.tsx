@@ -17,9 +17,10 @@ const arrayUniqueByKey = [...new Map(posts.map((item) =>
     
     return (
         <div>
-            {isLoading && posts.length === 0 && [1, 2, 3, 4].map(nb => {
+            {isLoading &&  [1, 2, 3, 4].map(nb => {
                 return <PostSkeleton key={nb}/>
             })}
+            
             {!isLoading && posts
                 ?.length > 0 && arrayUniqueByKey.map((post : any, i : number) => {
                     return <Post

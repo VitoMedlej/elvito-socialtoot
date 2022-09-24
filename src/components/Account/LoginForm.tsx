@@ -92,6 +92,7 @@ const LoginForm = ({setUser}:IMethod) => {
     return (
         <ThemeProvider theme={theme}>
             <Container
+             className='animated'
                 component="main"
                 sx={{
                 width: '100%',

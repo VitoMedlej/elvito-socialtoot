@@ -6,6 +6,7 @@ import {createTheme, CssBaseline} from '@mui/material';
 import {createContext,useEffect, useState} from 'react';
 import { User} from '../src/Types';
 import SyncUser from '../src/Functions/SyncUser';
+// import NextNProgress from "nextjs-progressbar";
 
 const theme = createTheme({
     typography: {
@@ -30,6 +31,7 @@ function MyApp({Component, pageProps} : AppProps) {
 
         <ThemeProvider theme={theme}>
             <CssBaseline/>
+             {/* <NextNProgress /> */}
             <Component {...pageProps}/>
         </ThemeProvider>
     </UserContext.Provider>

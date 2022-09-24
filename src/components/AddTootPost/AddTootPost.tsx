@@ -157,6 +157,7 @@ const AddTootPost = () => {
                 {user && <Tooltip title='Add Image'>
                     <>
                         <Widget
+                        imagesOnly
                         clearable
                         onChange={(fileInfo) => handleImgChange(fileInfo, post, setPost)}
                         publicKey={`${process.env.NEXT_PUBLIC_API_KEY}`}/>

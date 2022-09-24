@@ -92,7 +92,7 @@ const ProfileSection = () => {
                 textAlign: 'center',
                 px: '.5em'
             }}>
-                <Typography sx={{cursor:'pointer'}} onClick={()=>navigate()} fontSize='1.5em' fontWeight='600'>
+                <Typography sx={{cursor:'pointer'}} onClick={()=>navigate()} fontSize='1.35em' fontWeight='600'>
                   {user?.name || 'Default User'}
                 </Typography>
              
