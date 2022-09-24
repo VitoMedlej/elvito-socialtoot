@@ -5,10 +5,14 @@ import Pusher from 'pusher-js';
 export function useSocket(url : string) {
     const [pusherInstance,
         setPusherInstance] = useState < any > (null);
-        const key = process.env.PUSHER_APP_KEY;
+        
         useEffect(() => {
+            const key = process.env.NEXT_PUBLIC_PUSHER_APP_KEY;
         if (!key) return
-        fetch(url). finally(() => {
+        fetch(url).finally(() => {
+            try {
+
+            
             let pusher = new Pusher(key, {
                 cluster: 'eu'
               });
@@ -22,6 +26,11 @@ export function useSocket(url : string) {
             });
 
             setPusherInstance(pusher);
+        }
+        catch(errors) {
+            console.log('errors: ', errors);
+
+        }
         });
         function cleanup() {
             pusherInstance && pusherInstance.disconnect();

@@ -37,7 +37,7 @@ let pages : IMenuLinks[] = [
 ];
 
 
-const Navbar = ({Links, hideProfile} : INavbar) => {
+const Navbar = ({ hideProfile} : INavbar) => {
     const router = useRouter()
     const [anchorElNav,
         setAnchorElNav] = useState < null | HTMLElement > (null);
@@ -59,8 +59,6 @@ const Navbar = ({Links, hideProfile} : INavbar) => {
     const {user,setUser} = useContext(UserContext);
     
    
-
-
 
 
     return (
@@ -132,7 +130,7 @@ const Navbar = ({Links, hideProfile} : INavbar) => {
                                 },
                              
                             }}>
-                               <MenuItem sx={{minWidth:'220px'}} onClick={()=> router.push(`/profile/${user._id}/${user.name}`)} >
+                               <MenuItem sx={{minWidth:'220px'}} onClick={()=> user?._id  ? router.push(`/profile/${user._id}/${user.name}`) : router.push('/account/login')} >
                                     <ListItemIcon>
                                          <SettingsIcon fontSize='small'/>
                                     </ListItemIcon>
@@ -152,11 +150,11 @@ const Navbar = ({Links, hideProfile} : INavbar) => {
                                 </MenuItem>
                               
                             })}
-                                  <MenuItem sx={{minWidth:'220px'}} onClick={()=> user?.email ? logout(setUser) : router.push('/account/login')} >
+                                  <MenuItem sx={{minWidth:'220px'}} onClick={()=> user?._id ? logout(setUser) : router.push('/account/login')} >
                                     <ListItemIcon>
                                          <SettingsIcon fontSize='small'/>
                                     </ListItemIcon>
-                                    <ListItemText>{user?.email ? 'Login' : ' Logout'}</ListItemText>
+                                    <ListItemText>{user?._id ? 'Logout' : '  Login'}</ListItemText>
                                   
                                 </MenuItem>
                            

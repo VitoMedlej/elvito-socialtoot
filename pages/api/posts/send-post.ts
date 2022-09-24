@@ -36,7 +36,7 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
         .db("SocialToot")
         .collection("Posts")
         .insertOne({...req.body,date:currentDate})
-        await  client.db('SocialToot').collection('Users').update({_id},{$inc:{'toots':1}})
+        await  client.db('SocialToot').collection('Users').updateOne({_id},{$inc:{'toots':1}})
       
     return  res.status(200).json({ message: 'Posted!' })
        

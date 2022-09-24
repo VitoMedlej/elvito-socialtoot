@@ -3,9 +3,9 @@ const Pusher = require("pusher");
 
 const Handler = async(req : any, res : any) => {
     try {
-        const appId = process.env.PUSHER_APP_ID;
-        const key = process.env.PUSHER_APP_KEY;
-        const secret = process.env.PUSHER_APP_SECRET;
+        const appId = process.env.NEXT_PUBLIC_PUSHER_APP_ID;
+        const key = process.env.NEXT_PUBLIC_PUSHER_APP_KEY;
+        const secret = process.env.NEXT_PUBLIC_PUSHER_APP_SECRET;
 
 
         
@@ -32,11 +32,11 @@ const Handler = async(req : any, res : any) => {
         changeStream.on('change', (next : any) => {
 
             if (next
-
                 ?.operationType === 'update') {
                 const updatedToots = next.updateDescription.updatedFields.toots;
                 const documentKey = next.documentKey._id
                 if (updatedToots && documentKey) {
+                 
 
                     pusher.trigger("my-channel", "toot change", {updatedToots, documentKey});
                 }

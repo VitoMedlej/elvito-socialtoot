@@ -37,8 +37,7 @@ const MainSection = () => {
         }
     }, [])
     const pusherInstance = useSocket(`${process.env.NEXT_PUBLIC_SITE_URL}/api/test`);
-
-
+    
 
 
 
@@ -49,8 +48,6 @@ const MainSection = () => {
 
           let channel = pusherInstance.subscribe('my-channel');
         
-          
-            console.log(pusherInstance.allChannels())
 
             channel.bind('user toot change', (data : any) => {
 
@@ -82,6 +79,7 @@ const MainSection = () => {
             });
 
             channel.bind('toot change', (data : any) => {
+                console.log('data: ', data);
 
                 if (!data.updatedToots || !data.documentKey) {
                     return

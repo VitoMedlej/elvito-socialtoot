@@ -70,7 +70,7 @@ const useProfileSubmit = () => {
                 name: updatedName,
                 img : updatedImg
             }
-            console.log('newUser: ', newUser);
+           
             setUser(newUser)
             localStorage.setItem('LocalUser', JSON.stringify(newUser))
             setValue(defaultValues)
