@@ -4,7 +4,7 @@ import Post from '../../../src/components/Posts/Post'
 import Profile from '../../../src/components/Profile/Profile'
 import ProfileEditModal from '../../../src/components/Profile/ProfileEditModal/ProfileEditModal'
 import Layout from '../../../src/Layout/Layout'
-import { IPost, User } from '../../../src/Types'
+import { IPost } from '../../../src/Types'
 import {UserContext} from '../../_app'
 
 
@@ -18,14 +18,13 @@ const Index = ({viewedUser ,userPosts}:any) => {
     if (isSameUser && currentUser) {
         setUser(currentUser)
         localStorage.setItem('LocalUser',JSON.stringify(currentUser))
-
     }
-   },[isSameUser, currentUser])
+   },[])
     return (
         <Layout title={`View ${currentUser.name}'s profile and posts! | SocialToot`} description={`${currentUser.name} gave ${currentUser.tootsGiven} toots! share your toots with the world for a chance to be a top tooter on socialtoot! `}>
             <Container>
 
-                <Profile setUser={setUser} isSameUser={isSameUser} user={currentUser}/>
+                <Profile setUser={setUser} isSameUser={isSameUser} user={isSameUser ? user : currentUser}/>
            
 
             { isSameUser && 
@@ -34,8 +33,8 @@ const Index = ({viewedUser ,userPosts}:any) => {
                 <Divider/>
                 <Box
                     sx={{
-                    pt: '2em',
-                    px: '.5em'
+                    pt: '2.5em',
+                  
                 }}>
                     <Typography fontSize='1.2em'>
                         {`${currentUser.name }'s Posts `}

@@ -11,7 +11,7 @@ const Profile = ({user,rank,isSameUser,topTooter} : IMethod) => {
                     borderRadius='6px'
                     className='br6'
                     width='100%'
-                    height='350px'
+                    height={{xs:'300px',sm:'350px'}}
                     src={topTooter ? 'https://res.cloudinary.com/dwcu3wcol/image/upload/v1663506183/winner_u62hhe_gcilvj.png' :  'https://res.cloudinary.com/dwcu3wcol/image/upload/v1660988199/pexels-photo-4863968_pjkfbj.jpg'}/>
                 <Box sx={{
                     display: 'flex',

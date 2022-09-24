@@ -48,8 +48,9 @@ const AddTootPost = () => {
         }
         if (post
             ?.userId && !isLoading) 
+            { 
             setLoading(true)
-           { await handleSubmit(null, `${process.env.NEXT_PUBLIC_SITE_URL}/api/posts/send-post`, {
+            await handleSubmit(null, `${process.env.NEXT_PUBLIC_SITE_URL}/api/posts/send-post`, {
                 ...post
             })
             const newUser = {
@@ -57,8 +58,8 @@ const AddTootPost = () => {
                 toots : user.toots + 1,
                
             }
-            setUser(newUser)
             localStorage.setItem('LocalUser', JSON.stringify(newUser))
+            setUser(newUser)
             setPost({...post,text:'',postImg:''})
             setOpen(true)
             setLoading(false)
@@ -70,13 +71,12 @@ const AddTootPost = () => {
 
     }
     useEffect(() => {
-        setPost({...post, userName : user?.name,
-            userId: user
-                ?._id,
-
-                userImg:user?.img,
+        setPost({...post, 
+            userName : user?.name,
+            userId: user?._id,
+            userImg:user?.img,
             })
-    }, [user])
+    }, [])
     
     return (
         <Box
@@ -102,7 +102,7 @@ const AddTootPost = () => {
                 severity={snack.severity}
                 title={snack.title}/>
             <Img
-            onClick={()=>router.push(`/profile/${user._id}/${user.name}`)}
+            onClick={()=>user?._id ? router.push(`/profile/${user?._id}/${user?.name}`) : router.push('/account/login')}
                 className='cursor'
                 rounded={true}
                 borderRadius={'50%'}
@@ -135,7 +135,8 @@ const AddTootPost = () => {
             }}>
             {user &&    <Tooltip title='Add Image'>
                     <>
-                    <Widget 
+                    <Widget
+                    clearable 
                     onChange={(fileInfo)=>handleImgChange(fileInfo,post,setPost)} 
                     publicKey={`${process.env.NEXT_PUBLIC_API_KEY}`} />
                     

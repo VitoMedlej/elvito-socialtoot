@@ -37,14 +37,13 @@ const Handler = async(req : any, res : any) => {
                 const documentKey = next.documentKey._id
                 if (updatedToots && documentKey) {
                  
-
                     pusher.trigger("my-channel", "toot change", {updatedToots, documentKey});
                 }
             }
 
             const doc = next
-                ?.fullDocument
-
+            ?.fullDocument
+            
             if (doc
                 ?.text) 
                 pusher.trigger("my-channel", "db change", {doc});
@@ -52,12 +51,14 @@ const Handler = async(req : any, res : any) => {
         );
         usersChangeStream.on('change', (next : any) => {
 
+            
             const toots = next?.updateDescription?.updatedFields?.toots;
-            const _id = next?.documentKey?._id
+            const _id = next?.documentKey?._id;
+            const tootsGiven = next?.updateDescription.updatedFields.tootsGiven
 
-            if (_id && toots) {
+            if (_id && toots &&tootsGiven) {
 
-                pusher.trigger("my-channel", "user toot change", {toots, _id});
+                pusher.trigger("my-channel", "user toot change", {toots, _id,tootsGiven});
             }
         });
 

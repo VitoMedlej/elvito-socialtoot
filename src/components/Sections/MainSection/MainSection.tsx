@@ -79,7 +79,6 @@ const MainSection = () => {
             });
 
             channel.bind('toot change', (data : any) => {
-                console.log('data: ', data);
 
                 if (!data.updatedToots || !data.documentKey) {
                     return
@@ -98,14 +97,15 @@ const MainSection = () => {
             })
             channel.bind('user toot change', (data : any) => {
 
-                const {toots, _id} = data
+                const {toots,tootsGiven, _id} = data
 
-                if (toots && _id && _id === user
+                if (toots && tootsGiven && _id && _id === user
                     ?._id) {
 
                     const newUser = {
                         ...user,
-                        toots
+                        toots,
+                        tootsGiven
                     }
                     setUser(newUser)
                     localStorage.setItem('LocalUser', JSON.stringify(newUser))

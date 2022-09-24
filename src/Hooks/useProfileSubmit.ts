@@ -1,5 +1,5 @@
 import { FileInfo } from '@uploadcare/react-widget';
-import React, {FormEvent, useContext, useEffect} from 'react'
+import React, {FormEvent, useContext} from 'react'
 import {ChangeEvent} from 'react';
 import {UserContext} from '../../pages/_app';
 
@@ -42,10 +42,10 @@ const useProfileSubmit = () => {
             }
             const updatedBio = bio.length > 10
                 ? bio
-                : user.bio;
+                : user.bio || 'This is my boring bio, Im new and havent edited my profile yet!';
             const updatedName = name.length > 3
                 ? name
-                : user.bio;
+                : user.name;
             const updatedImg = img.length > 5
             ? img
             : user.img;
@@ -71,12 +71,14 @@ const useProfileSubmit = () => {
                 img : updatedImg
             }
            
-            setUser(newUser)
             localStorage.setItem('LocalUser', JSON.stringify(newUser))
+            setUser(newUser)
             setValue(defaultValues)
             setWarning('Profile Updated, I look like an error coz the dev is lazy, just close this modal')
-            } catch (err) {
+            return
+        } catch (err) {
             console.log(err)
+            return
         }
     }
 

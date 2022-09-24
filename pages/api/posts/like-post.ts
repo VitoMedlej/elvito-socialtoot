@@ -27,7 +27,8 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
 
         let num = Number(nb)
 
-          await client
+         await client
+         
           .db('SocialToot')
           .collection('Users')
           .updateOne({
@@ -35,10 +36,8 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
             }, {
                 $inc: {
                     'toots': -num,
-                    'tootsGiven': num
-                }
+                    'tootsGiven': num                }
             })
-           
         await client.db('SocialToot').collection('Users').updateOne({_id:post_owner_Id},{$inc:{'toots':num}})
         await client
             .db('SocialToot')

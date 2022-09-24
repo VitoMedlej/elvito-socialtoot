@@ -3,12 +3,13 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import  { useContext } from 'react'
 import { UserContext } from '../../../../pages/_app'
+import { refreshUser } from '../../../Functions/refreshUser'
 import Img from '../../Img/Img'
 
 
 
 const ProfileSection = () => {
-    const {user} = useContext(UserContext);
+    const {user,setUser} = useContext(UserContext);
     const router = useRouter()
     const navigate = () => {
         if (user && user._id) {
@@ -74,14 +75,15 @@ const ProfileSection = () => {
                   {user?.name || 'Default User'}
                 </Typography>
                 <Typography fontSize='1em' fontWeight='300'>
-                {user?.toots || 0} toots owned
+                {user?.toots || 0} toots owned 
                 </Typography>
                 <Typography fontSize='1em' fontWeight='300'>
                 {user?.tootsGiven || 0} toots given
                 </Typography>
                 <Typography
                     sx={{
-                    padding: '.5em'
+                    padding: '.5em',
+                    pt:'.7em',
                 }}
                     color='#707070'
                     fontSize='.8em'
@@ -90,6 +92,10 @@ const ProfileSection = () => {
                     {user && !user?.bio ? `This is my boring bio, Im new and have'nt edited my profile yet!` : user?.bio}
                 </Typography>
             </Box>
+            <Button 
+            onClick={async ()=> await refreshUser(user,setUser)}
+            sx={{width:'100%',fontSize:".65em",cursor:'pointer',color:'blue'}}>refresh</Button>
+
             <Button
             onClick={()=>navigate()}
             disabled={!user || !user?._id}
