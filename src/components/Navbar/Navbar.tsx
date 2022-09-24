@@ -197,7 +197,9 @@ const Navbar = ({ hideProfile} : INavbar) => {
                                     }}
                                         sx={{
                                         my: 2,
-                                        color: '#000000ab',
+                                        fontWeight:'600',
+
+                                        color: '#7f7f7fe6',
                                         display: 'block'
                                     }}>
                                         {page.title}
@@ -211,8 +213,10 @@ const Navbar = ({ hideProfile} : INavbar) => {
                                     }}
                                         sx={{
                                         my: 2,
-                                        color: '#000000ab',
-                                        display: 'block'
+                                        color: '#7f7f7fe6',
+                                        display: 'block',
+                                        fontWeight:'600',
+
                                     }}>
                                       Profile
                                     </Button>}
@@ -224,7 +228,8 @@ const Navbar = ({ hideProfile} : INavbar) => {
                                     }}
                                         sx={{
                                         my: 2,
-                                        color: '#000000ab',
+                                        fontWeight:'600',
+                                        color: '#7f7f7fe6',
                                         display: 'block'
                                     }}>
                                        {user ? 'Logout' : 'Login'}
@@ -247,14 +252,16 @@ const Navbar = ({ hideProfile} : INavbar) => {
                                 alignItems: 'center',
                                 gap: '.25em'
                             }}>
-                                <Typography color='#00951c' fontWeight='400'>
+                                <Typography color='#696969' fontWeight='400'>
                                     {user?.toots || 0} toots
                                 </Typography>
                                 <Tooltip title="Open Profile">
                                     <IconButton
                                         onClick={handleOpenUserMenu}
                                         sx={{
-                                        p: 0
+                                        p: 0,
+                                        border:' 2px solid #25aa04a1',
+                                        padding: '0.02em'
                                     }}>
                                         <Img
                                             sx={{
