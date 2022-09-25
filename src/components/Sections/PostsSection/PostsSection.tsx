@@ -21,14 +21,14 @@ const arrayUniqueByKey = [...new Map(posts.map((item) =>
                 return <PostSkeleton key={nb}/>
             })}
             
-            {!isLoading && posts
+            {!isLoading && arrayUniqueByKey
                 ?.length > 0 && arrayUniqueByKey.map((post : any, i : number) => {
                     if (!post._id) return '';
                     return <Post
                         date={post.date}
                         postId={post._id}
-                        currentUserId={user
-                        ?._id}
+                        currentUser={user
+                        }
                         
                         isLiking={isLiking}
                         posterId={post.userId}

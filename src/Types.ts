@@ -52,7 +52,7 @@ export interface IPost {
     isLiking ?: boolean;
     userName : string
     userImg : string;
-    currentUserId : string;
+    currentUser: User;
     onClick ?: (userId:string,postId : string, nb : number) => void;
 }
 export interface IMethod {

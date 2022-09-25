@@ -13,12 +13,12 @@ const Post = ({
     postImg,
     onClick,
     posterId,
-    currentUserId,
+    currentUser,
     userImg,
     userName
 } : IPost) => {
     const router = useRouter()
-    const isPostOwner = currentUserId === posterId
+    const isPostOwner = currentUser  && currentUser?._id === posterId
     const navigate = () => {
         router.push(`/profile/${posterId}/${userName}`)
     }
@@ -54,7 +54,7 @@ const Post = ({
                     className='cursor'
                     rounded={true}
                     borderRadius={'50%'}
-                    src={`${userImg || 'https://res.cloudinary.com/dwcu3wcol/image/upload/v1661603093/cld-sample-3.jpg'}`}
+                    src={`${isPostOwner ? currentUser?.img : userImg || 'https://res.cloudinary.com/dwcu3wcol/image/upload/v1661603093/cld-sample-3.jpg'}`}
                     width='40px'
                     height='40px'/>
                 <Box sx={{
@@ -71,7 +71,7 @@ const Post = ({
                         color: 'black',
                         width:'fit-content'
                     }}>
-                        {userName}
+                        {isPostOwner ? currentUser?.name : userName }
                     </Typography>
 
                     <Typography

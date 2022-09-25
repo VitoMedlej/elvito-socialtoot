@@ -172,7 +172,7 @@ const AddTootPost = () => {
 
                         <Img
                             className='cursor'
-                            src={'https://www.svgrepo.com/show/42563/horn.svg'}
+                            src={'https://www.svgrepo.com/show/112273/horn.svg'}
                             width={'45px'}
                             height={'45px'}/>
                     </Box>
