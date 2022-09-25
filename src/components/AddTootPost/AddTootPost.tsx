@@ -15,7 +15,7 @@ type Snack = {
 
 const AddTootPost = () => {
 
-    const {user, setUser} = useContext(UserContext);
+    const {user} = useContext(UserContext);
 
     const [snack,
         setSnack] = useState < Snack > ({severity: 'warning', title: 'Hi there, im just a useless warning!'});

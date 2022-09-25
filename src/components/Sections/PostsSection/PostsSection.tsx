@@ -14,7 +14,6 @@ const PostsSection = ({isLoading  ,posts,user}:IPostsSection) => {
 const {tootPost, isLiking} = useTootPost()
 const arrayUniqueByKey = [...new Map(posts.map((item) =>
     [item['_id'], item])).values()];
-    console.log('arrayUniqueByKey: ', arrayUniqueByKey);
     
     return (
         <div>

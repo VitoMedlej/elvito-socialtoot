@@ -82,13 +82,14 @@ const MainSection = () => {
             channel.bind('db change', (doc : any) => {
 
             
-                console.log('doc: ', doc);
-           
+                if (doc) {
+
                     setPosts((oldArray : any) => [
                         
                         doc, ...oldArray
                     ]);
                     
+                }
                 
              
                     
@@ -162,7 +163,7 @@ const MainSection = () => {
                 margin: '1em auto 0',
                 justifyContent: 'center'
             }}>
-                <Box sx={{width:{xs:'97%',sm:'90%'},display:'flex',alignItems:'end',justifyContent:'end'}}>
+                <Box sx={{width:{xs:'97%',sm:'90%'},display:'flex',alignItems:'end',justifyContent:'flex-end'}}>
 
                 <FormControl  size="small" >
                     <InputLabel id="demo-simple-select-label">Sort By</InputLabel>
