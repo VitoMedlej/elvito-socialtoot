@@ -44,16 +44,15 @@ const Index = ({viewedUser ,userPosts}:any) => {
                     {posts && posts.map((post :IPost)=>{
                         return    <Post 
                         key={post._id}
-                                    currentUserId={currentUser?._id}
-                                    postId={post._id || ''}
+                                    currentUser={user}
+                                    postId={`${post._id}` }
                                     userImg={currentUser?.img}
                                     date={post.date}
                                     postImg={post.postImg}
                                     toots={post.toots}
                                     text={post.text}
-
                                     userName={currentUser.name}
-                                    userId={post.userId}
+                                    posterId={post.posterId}
 
                      />
                     })}
