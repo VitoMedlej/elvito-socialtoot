@@ -19,8 +19,9 @@ const useTootPost = () => {
                 ?._id) {
                 return;
             }
+            if (!postId || !posterId)
             setLiking(true)
-       const req =     await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/posts/like-post?posterId=${posterId}&nb=${nb}&userId=${user._id}&postId=${postId} `)
+       const req =     await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/posts/like-post?posterId=${posterId}&nb=${nb}&userId=${user?._id}&postId=${postId} `)
         const res = await req.json()
             if (!res?.user) return
             const newUser = {

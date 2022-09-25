@@ -44,10 +44,10 @@ export type User = {
 export interface IPost {
     date: string;
     text : string;
+    posterId : string;
     toots : string | number;
     postImg : string;
     postId : string;
-    userId : string;
     _id ?: string
     isLiking ?: boolean;
     userName : string

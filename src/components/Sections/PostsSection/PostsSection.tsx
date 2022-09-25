@@ -14,6 +14,7 @@ const PostsSection = ({isLoading  ,posts,user}:IPostsSection) => {
 const {tootPost, isLiking} = useTootPost()
 const arrayUniqueByKey = [...new Map(posts.map((item) =>
     [item['_id'], item])).values()];
+    console.log('arrayUniqueByKey: ', arrayUniqueByKey);
     
     return (
         <div>
@@ -23,13 +24,15 @@ const arrayUniqueByKey = [...new Map(posts.map((item) =>
             
             {!isLoading && posts
                 ?.length > 0 && arrayUniqueByKey.map((post : any, i : number) => {
+                    if (!post._id) return '';
                     return <Post
                         date={post.date}
                         postId={post._id}
                         currentUserId={user
                         ?._id}
+                        
                         isLiking={isLiking}
-                        userId={post.userId}
+                        posterId={post.userId}
                         onClick={tootPost}
                         userName={post.userName}
                         userImg={post.userImg}

@@ -30,28 +30,35 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
         }
         
         const {userId} = req.body
+     
         if (!userId)   throw 'Invalid Id'
         const pusherInstance = pusherInit()
         const _id = new ObjectId(userId)
 
         const currentDate = new Date()
         const doc = {...req.body,date:currentDate} 
-        await client
-        .db("SocialToot")
-        .collection("Posts")
-        .insertOne({...doc})
+       const postedDoc =  await client
+       .db("SocialToot")
+       .collection("Posts")
+       .insertOne({...doc})
+        
+       if (!postedDoc?.acknowledged || !postedDoc?.insertedId) throw 'Failed to insert post into db';
         //give the post owner 1+ toot
         const user = await  client.db('SocialToot').collection('Users').findOneAndUpdate({_id},{$inc:{'toots':1}})
+      
+        
         
             
-        
+        if (!user.ok || !user?.value?.toots) throw 'Failed to add toots'
         // send the toots to the post owner in realtime 
-            pusherInstance.trigger("my-channel", "user toot change", {
-                toots: user.value.toots,
-                _id: user.value._id
+            await pusherInstance.trigger("my-channel", "user toot change", {
+                toots: user?.value?.toots,
+                _id: user?.value?._id
             });
+          
        
-        pusherInstance.trigger("my-channel", "db change", doc);
+        
+        pusherInstance.trigger("my-channel", "db change", {...doc,_id:postedDoc.insertedId});
         
         return  res.status(200).json({ message: 'Posted!' })
 

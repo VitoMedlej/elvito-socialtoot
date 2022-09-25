@@ -82,17 +82,15 @@ const MainSection = () => {
             channel.bind('db change', (doc : any) => {
 
             
-                if (posts) {
-
+                console.log('doc: ', doc);
+           
                     setPosts((oldArray : any) => [
                         
                         doc, ...oldArray
                     ]);
                     
-                }
-                else {
-                    setPeningPosts([doc,...pendingPosts])
-                }
+                
+             
                     
             });
 

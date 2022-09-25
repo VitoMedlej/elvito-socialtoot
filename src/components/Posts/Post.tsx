@@ -12,21 +12,21 @@ const Post = ({
     toots,
     postImg,
     onClick,
+    posterId,
     currentUserId,
-    userId,
     userImg,
     userName
 } : IPost) => {
     const router = useRouter()
-    const isPostOwner = currentUserId === userId
+    const isPostOwner = currentUserId === posterId
     const navigate = () => {
-        router.push(`/profile/${userId}/${userName}`)
+        router.push(`/profile/${posterId}/${userName}`)
     }
   
     return (
 
         <Box
-            id={userId}
+            id={postId}
             sx={{
             flexDirection: 'column',
             display: 'flex',
@@ -128,7 +128,7 @@ const Post = ({
                             <Button
                                 disabled={isPostOwner || !onClick || isLiking}
                                 onClick={() => onClick
-                                ? onClick(userId, postId, 1)
+                                ? onClick(posterId, postId, 1)
                                 : null}
                                 sx={{
                                 width: '100%',
@@ -169,7 +169,7 @@ const Post = ({
                             <Button
                                 disabled={isPostOwner || !onClick || isLiking}
                                 onClick={() => onClick
-                                ? onClick(userId, postId, 5)
+                                ? onClick(posterId, postId, 5)
                                 : null}
                                 sx={{
                                 width: '100%',
