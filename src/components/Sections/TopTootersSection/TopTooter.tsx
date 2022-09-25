@@ -31,7 +31,7 @@ const TopTooter = ({
                 height='50px'/>
             <Box>
 
-                <Typography color='#424242' fontWeight='400'>
+                <Typography color='#424242' fontWeight='500'>
                    {user?.name} {`#${rank + 2}`}
                 </Typography>
                 <Typography className='limit' color='#717171' fontWeight='300'>

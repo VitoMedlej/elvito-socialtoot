@@ -106,7 +106,7 @@ const Post = ({
                 <Typography
                     sx={{
                     fontSize: '.75em',
-                    fontWeight: '300',
+                    fontWeight: '500',
                     color: '#555555',
                     py: ".75em",
                     px: '.85em'

@@ -10,7 +10,7 @@ import SyncUser from '../src/Functions/SyncUser';
 
 const theme = createTheme({
     typography: {
-        fontFamily: 'Roboto, sans-serif'
+        fontFamily: 'Montserrat, sans-serif'
     }
 
 })

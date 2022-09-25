@@ -57,7 +57,7 @@ const ProfileSection = () => {
         
         sx={{display:'flex',px:'1em',alignItems:'center',textAlign:'center',transform: 'translateY(-50%)',}}>
         <Box
-       sx={{transform: 'translateY(70%)',color:'#848484',    fontSize: '.85em'}}
+       sx={{transform: 'translateY(70%)',color:'#848484',fontSize: '.85em'}}
          >
                   <Typography color='black' fontWeight='600'>
                   {user?.toots || 0}</Typography>  toots owned 
@@ -88,11 +88,11 @@ const ProfileSection = () => {
                 </Box>
             <Box
                 sx={{
-                transform: 'translateY(-55%)',
+                transform: 'translateY(-35%)',
                 textAlign: 'center',
                 px: '.5em'
             }}>
-                <Typography sx={{cursor:'pointer'}} onClick={()=>navigate()} fontSize='1.35em' fontWeight='600'>
+                <Typography sx={{cursor:'pointer'}} onClick={()=>navigate()} fontSize='1.25em' fontWeight='600'>
                   {user?.name || 'Default User'}
                 </Typography>
              
