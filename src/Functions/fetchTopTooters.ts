@@ -21,7 +21,7 @@ const fetchTopTooters = async (qty:number) => {
             .toArray();
 
         if (!users) {
-            throw 'Invalid Id'
+            throw 'No users found'
         }
         
 

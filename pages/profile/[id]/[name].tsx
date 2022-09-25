@@ -70,7 +70,7 @@ export default Index
 export const getServerSideProps = async({query} : any) => {
     try {
         const {id} = query
-        if (!id)   throw 'Invalid Id'
+        if (!id)   throw 'Invalid user Id'
         const {MongoClient ,ObjectId} = require('mongodb')
         const user_id = new ObjectId(id)
         const url = process.env.URI;
@@ -82,7 +82,7 @@ export const getServerSideProps = async({query} : any) => {
         .collection("Users")
         .findOne({_id:user_id});
         if (!user) {
-            throw 'Invalid Id'
+            throw 'user not found'
         }
         const userPosts = await client.db('SocialToot').collection('Posts')
         .find({'userId':`${user_id}`}).limit(20).sort({$natural:-1}).toArray()

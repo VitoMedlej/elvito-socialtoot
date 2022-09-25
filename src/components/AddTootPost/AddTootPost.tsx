@@ -41,17 +41,19 @@ const AddTootPost = () => {
                 setSnack({severity: 'error', title: 'You must be logged to do that! '})
                 return
             }
+             setPost({
+                ...post,
+                userName: user
+                    ?.name,
+                userId: user
+                    ?._id,
+                userImg: user
+                    ?.img
+            })
             if (!post.userId || !post?.userImg || !post?.userName ) {
-                await setPost({
-                    ...post,
-                    userName: user
-                        ?.name,
-                    userId: user
-                        ?._id,
-                    userImg: user
-                        ?.img
-                })
-               
+                
+                setOpen(true)
+                setSnack({severity: 'error', title: 'Some error happened while posting, maybe a refresh helps? '})
                 
             }
             if (post.text.length < 2) {

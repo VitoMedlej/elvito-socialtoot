@@ -30,7 +30,7 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
         }
         
         const {userId} = req.body
-        if (!userId)   throw 'Invalid Id'
+        if (!userId)   throw 'Invalid userId to send post'
         const pusherInstance = pusherInit()
         const _id = new ObjectId(userId)
 

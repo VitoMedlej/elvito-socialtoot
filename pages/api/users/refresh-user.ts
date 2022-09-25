@@ -22,7 +22,7 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
         const url = process.env.URI;
         const {userId} = req.query
         const client = new MongoClient(url);
-        if (!userId) throw 'Invalid Id'
+        if (!userId) throw 'Invalid user Id while refreshing user'
         const _id = new ObjectId(`${userId}`)
         const user = await client
         .db("SocialToot")

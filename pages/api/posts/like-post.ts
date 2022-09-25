@@ -24,7 +24,7 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
         const {userId, nb, posterId, postId} = req.query
 
         if (!userId || !nb || !postId || !posterId) {
-            throw 'Invalid Id'
+            throw 'Invalid parameters while liking post'
         }
         const user_Id = new ObjectId(userId)
         const post_Id = new ObjectId(postId)
