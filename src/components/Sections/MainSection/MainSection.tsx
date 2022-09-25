@@ -21,7 +21,6 @@ const MainSection = () => {
         setLoading] = useState(false)
     const [sortMethod,
         setSortMethod] = useState('Most Recent');
-    const [pendingPosts,setPeningPosts] = useState<any>([])
     const GetPosts = async(method : string) => {
         setLoading(true);
         const byToots = method === 'Most Tooted'
@@ -34,13 +33,7 @@ const MainSection = () => {
         setLoading(false)
 
     }
-    useEffect(()=>{
-        if (pendingPosts.length > 0) {
-            setPosts((oldArray : any) => [     
-                ...pendingPosts, ...oldArray
-            ]);
-        }
-    },[pendingPosts])
+    
 
     useEffect(() => {
         if (!isLoading) {
@@ -61,7 +54,7 @@ const MainSection = () => {
 
             let channel = pusherInstance.subscribe('my-channel');
 
-            channel.bind('user toot change', (data : any) => {
+            channel.bind('user toot change',  (data : any) => {
 
                 const {toots, _id} = data
 
@@ -79,20 +72,14 @@ const MainSection = () => {
 
             });
 
-            channel.bind('db change', (doc : any) => {
-
-            
-                if (doc) {
-
+            channel.bind('db change',async (doc : any) => {
+                console.log('doc: ', doc?._id);
+                if (!doc) {console.log('Pusher inserted doc success: ',false)}
                     setPosts((oldArray : any) => [
                         
-                        doc, ...oldArray
+                        {...doc}, ...oldArray
                     ]);
-                    
-                }
-                
              
-                    
             });
 
             channel.bind('post toot change', (data : any) => {
@@ -101,7 +88,7 @@ const MainSection = () => {
                     return
                 }
 
-                setPosts((oldArray : any) => [...oldArray.map((post : any) => {
+                 setPosts((oldArray : any) => [...oldArray.map((post : any) => {
                         if (post._id === data.documentKey) {
                             return {
                                 ...post,

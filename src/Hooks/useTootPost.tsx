@@ -17,19 +17,25 @@ const useTootPost = () => {
             }
             if (!user || !user
                 ?._id) {
+                alert('Are you even logged in mate?')
                 return;
             }
-            if (!postId || !posterId)
+            if (!postId || !posterId) {
+                return
+            }
             setLiking(true)
-       const req =     await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/posts/like-post?posterId=${posterId}&nb=${nb}&userId=${user?._id}&postId=${postId} `)
-        const res = await req.json()
-            if (!res?.user) return
+            const req = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/posts/like-post?posterId=${posterId}&nb=${nb}&userId=${user
+                ?._id}&postId=${postId} `)
+            const res = await req.json()
+            if (!res
+                ?.user)  return
+                
             const newUser = {
                 ...user,
                 toots: res.user.toots,
-                tootsGiven: res.user.tootsGiven 
+                tootsGiven: res.user.tootsGiven
             }
-          
+
             localStorage.setItem('LocalUser', JSON.stringify(newUser))
             setUser(newUser)
             setLiking(false)

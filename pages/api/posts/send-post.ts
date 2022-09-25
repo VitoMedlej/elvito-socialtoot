@@ -31,7 +31,7 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
         
         const {userId} = req.body
      
-        if (!userId)   throw 'Invalid Id'
+        if (!userId)   throw 'Invalid user Id to post'
         const pusherInstance = pusherInit()
         const _id = new ObjectId(userId)
 
@@ -58,7 +58,7 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
           
        
         
-        pusherInstance.trigger("my-channel", "db change", {...doc,_id:postedDoc.insertedId});
+        await pusherInstance.trigger("my-channel", "db change", {...doc,_id:postedDoc.insertedId});
         
         return  res.status(200).json({ message: 'Posted!' })
 

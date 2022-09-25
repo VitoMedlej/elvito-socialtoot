@@ -19,11 +19,7 @@ export function useSocket(url?: string) {
                     console.log('connected')
                 });
 
-            pusher
-                .connection
-                .bind('disconnected', () => {
-                    console.log('disconnected');
-                });
+       
 
             setPusherInstance(pusher);
         } catch (errors) {

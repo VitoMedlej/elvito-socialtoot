@@ -3,7 +3,6 @@ import type {NextApiRequest, NextApiResponse}
 from 'next'
 import pusherInit from '../pusherInit';
 const {MongoClient, ObjectId} = require('mongodb')
-const Pusher = require("pusher");
 
 type Error = {
     message: string
@@ -11,7 +10,7 @@ type Error = {
 
 export default async function handler(req : NextApiRequest, res : NextApiResponse < any | Error >) {
     const url = process.env.URI;
-    const pusherInstance = pusherInit()
+    const pusherInstance = await pusherInit()
 
     const client = new MongoClient(url);
     try {
@@ -24,7 +23,7 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
         const {userId, nb, posterId, postId} = req.query
 
         if (!userId || !nb || !postId || !posterId) {
-            throw 'Invalid Id'
+            throw 'Invalid parameters'
         }
         const user_Id = new ObjectId(userId)
         const post_Id = new ObjectId(postId)
@@ -45,9 +44,8 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
                 }
             })
 
-        const {toots, tootsGiven, _id} = updatedUser
-            ?.value
-        if (!updatedUser.ok || !toots || !tootsGiven || !_id) {
+        const {toots, tootsGiven, _id} = updatedUser?.value
+        if (!updatedUser.ok ) {
             throw 'failed to like post'
         }
         // get the latest amount of toots and tootsgiven for the user
@@ -79,7 +77,7 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
         }
 
         // send the toots to the post owner in realtime 
-        pusherInstance.trigger("my-channel", "user toot change", {
+        await pusherInstance.trigger("my-channel", "user toot change", {
             toots: tootsAdded.value.toots,
             _id: tootsAdded.value._id
         });
@@ -100,7 +98,7 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
         });
         
         // send the new number of toots in realtime
-        pusherInstance.trigger("my-channel", "post toot change", {
+        await pusherInstance.trigger("my-channel", "post toot change", {
             updatedToots: num,
             documentKey: post_Id
         });
